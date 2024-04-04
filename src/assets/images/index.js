@@ -1,0 +1,16 @@
+export default {
+  logo: require("./logo.png"),
+  logotext: require("./logo text.png"),
+  splashBg: require("./bg.png"),
+  logotextcolor: require("./logo color.png"),
+  onBoarding1: require("./Onboarding 01.png"),
+  onBoarding2: require("./Onboarding 02.png"),
+  onBoarding3: require("./Onboarding 03.png"),
+  emaillogo: require("./Email.png"),
+  uploadphoto: require("./Photo.png"),
+  terms: require("./Terms.png"),
+  close: require("./Close circle.png"),
+  icecream: require("./Ice Cream.png"),
+  google: require("./Google Logo.png"),
+  facebook: require("./Facebook Logo.png"),
+};
