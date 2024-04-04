@@ -20,4 +20,6 @@ export const colors = {
   gray: "#959996",
   otptext: "#505952",
   otpfocus: "#B5CAB6",
+  facebook: "#1877F2",
+  googleborder: "#EEEEEE",
 };

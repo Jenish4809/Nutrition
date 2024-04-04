@@ -5,21 +5,12 @@ import { moderateScale } from "../../common/constants";
 import { colors } from "../../themes/colors";
 import typography from "../../themes/typography";
 
-const CButton = ({
-  name,
-  extraSty,
-  extratext,
-  onPress,
-  LeftIcon,
-  viewstyle,
-}) => {
+const CButton = ({ name, extraSty, extratext, onPress, LeftIcon }) => {
   return (
-    <View style={viewstyle}>
+    <TouchableOpacity style={[localStyles.main, extraSty]} onPress={onPress}>
       {!!LeftIcon && <LeftIcon />}
-      <TouchableOpacity style={[localStyles.main, extraSty]} onPress={onPress}>
-        <Text style={[localStyles.btntitle, extratext]}>{name}</Text>
-      </TouchableOpacity>
-    </View>
+      <Text style={[localStyles.btntitle, extratext]}>{name}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -30,7 +21,7 @@ const localStyles = StyleSheet.create({
     height: moderateScale(72),
     width: moderateScale(295),
     backgroundColor: colors.green,
-    borderRadius: 25,
+    borderRadius: moderateScale(20),
     ...styles.selfCenter,
     ...styles.center,
   },

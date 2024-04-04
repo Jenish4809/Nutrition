@@ -13,4 +13,10 @@ export default {
   icecream: require("./Ice Cream.png"),
   google: require("./Google Logo.png"),
   facebook: require("./Facebook Logo.png"),
+  divider: require("./Divider.png"),
+  emailicon: require("./Email Icon.png"),
+  lockicon: require("./Lock Icon.png"),
+  usericon: require("./User.png"),
+  carrot1: require("./carrot 1.png"),
+  carrot2: require("./carrot 2.png"),
 };

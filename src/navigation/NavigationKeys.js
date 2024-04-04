@@ -5,10 +5,14 @@ export const StackNav = {
 };
 
 export const AuthNav = {
+  AuthNavigation: "AuthNavigation",
   SignUpScreen: "SignUpScreen",
   OtpVerificationScreen: "OtpVerificationScreen",
   UploadPhoto: "UploadPhoto",
   AllowNotification: "AllowNotification",
   TermsCondition: "TermsCondition",
   AllDone: "AllDone",
+  Login: "Login",
+  ForgotPassword: "ForgotPassword",
+  EmailSend: "EmailSend",
 };

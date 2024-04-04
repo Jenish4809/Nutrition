@@ -7,6 +7,9 @@ import UploadPhoto from "../containers/auth/UploadPhoto";
 import AllowNotification from "../containers/auth/AllowNotification";
 import TermsCondition from "../containers/auth/TermsCondition";
 import AllDone from "../containers/auth/AllDone";
+import Login from "../containers/auth/Login";
+import ForgotPassword from "../containers/auth/ForgotPassword";
+import EmailSend from "../containers/auth/EmailSend";
 export const StackRoute = {
   Splash,
   OnBoarding,
@@ -20,4 +23,7 @@ export const AuthRoute = {
   AllowNotification,
   TermsCondition,
   AllDone,
+  Login,
+  ForgotPassword,
+  EmailSend,
 };

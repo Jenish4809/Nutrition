@@ -33,6 +33,12 @@ export default function AuthNavigation() {
         component={AuthRoute.TermsCondition}
       />
       <Stack.Screen name={AuthNav.AllDone} component={AuthRoute.AllDone} />
+      <Stack.Screen name={AuthNav.Login} component={AuthRoute.Login} />
+      <Stack.Screen
+        name={AuthNav.ForgotPassword}
+        component={AuthRoute.ForgotPassword}
+      />
+      <Stack.Screen name={AuthNav.EmailSend} component={AuthRoute.EmailSend} />
     </Stack.Navigator>
   );
 }

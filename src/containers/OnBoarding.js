@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import { styles } from "../themes";
 import { colors } from "../themes/colors";
@@ -15,16 +14,40 @@ import { moderateScale, screenHeight, screenWidth } from "../common/constants";
 import typography from "../themes/typography";
 import CButton from "../components/common/CButton";
 import { StackNav } from "../navigation/NavigationKeys";
-
-export const LoginButton = ({ extratext }) => {
-  return (
-    <TouchableOpacity>
-      <Text style={[localStyles.logintext, extratext]}>Log In</Text>
-    </TouchableOpacity>
-  );
-};
+import { AuthNav } from "../navigation/NavigationKeys";
+import CText from "../components/common/CText";
+import { CommonString } from "../i18n/String";
+import { useRef, useCallback, useState } from "react";
+import { LoginButton } from "../components/common/CLoginButton";
 
 export default function OnBoarding({ navigation }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const slideRef = useRef(null);
+
+  const _onViewableItemsChanged = useCallback(({ viewableItems }) => {
+    setCurrentIndex(viewableItems[0]?.index);
+  }, []);
+  const _viewabilityConfig = { itemVisiblePercentThreshold: 50 };
+
+  const loginPage = () => {
+    navigation.navigate(AuthNav.AuthNavigation, {
+      screen: AuthNav.Login,
+    });
+  };
+  const OnPressStart = () => {
+    if (currentIndex === 2) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: StackNav.AuthNavigation }],
+      });
+    } else {
+      slideRef.current._listRef._scrollRef.scrollTo({
+        x: screenWidth * (currentIndex + 1),
+      });
+    }
+  };
+
   const renderOnBoardingIterm = ({ item }) => {
     return (
       <View style={localStyles.rendetItemConatiner}>
@@ -32,23 +55,35 @@ export default function OnBoarding({ navigation }) {
         <View>
           <Text style={localStyles.title}>{item.title}</Text>
           <Text style={localStyles.description}>{item.description}</Text>
+          <View style={localStyles.carrotview}>
+            {OnBoardingData.map((item, index) => (
+              <View key={index.toString()}>
+                <Image
+                  source={
+                    index !== currentIndex ? images.carrot2 : images.carrot1
+                  }
+                  style={localStyles.carrat}
+                />
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     );
   };
 
-  const OnPressStart = () => {
-    return navigation.navigate(StackNav.AuthNavigation);
-  };
   return (
     <View style={localStyles.main}>
       <Image source={images.logotextcolor} style={localStyles.titlesty} />
       <FlatList
         horizontal
         data={OnBoardingData}
+        ref={slideRef}
         key={(item) => item.id.toString()}
         renderItem={renderOnBoardingIterm}
         showsHorizontalScrollIndicator={false}
+        onViewableItemsChanged={_onViewableItemsChanged}
+        viewabilityConfig={_viewabilityConfig}
         bounces={false}
         pagingEnabled
       />
@@ -56,8 +91,10 @@ export default function OnBoarding({ navigation }) {
       <View style={localStyles.btnview}>
         <CButton name={"Get Started"} onPress={OnPressStart} />
         <View style={localStyles.loginview}>
-          <Text style={localStyles.alreadyac}>Already Have An Account?</Text>
-          <LoginButton />
+          <CText type={"E17"} color={colors.fontbody}>
+            {CommonString.already}
+          </CText>
+          <LoginButton onPress={loginPage} />
         </View>
       </View>
     </View>
@@ -92,6 +129,11 @@ const localStyles = StyleSheet.create({
     textAlign: "center",
     ...styles.mh20,
   },
+  bottomIndicatorStyle: {
+    height: moderateScale(10),
+    borderRadius: moderateScale(10),
+    ...styles.mh5,
+  },
   titlesty: {
     height: moderateScale(24),
     width: moderateScale(59),
@@ -102,16 +144,6 @@ const localStyles = StyleSheet.create({
     ...styles.flexRow,
     gap: 5,
   },
-  logintext: {
-    color: colors.green,
-    ...typography.fontSizes.f18,
-    ...typography.fontWeights.SemiBold,
-  },
-  alreadyac: {
-    color: colors.alreadyAc,
-    ...typography.fontSizes.f18,
-    ...typography.fontWeights.SemiBold,
-  },
   btnview: {
     ...styles.itemsCenter,
     gap: 20,
@@ -120,5 +152,13 @@ const localStyles = StyleSheet.create({
   imageStyle: {
     width: screenWidth - moderateScale(40),
     height: screenHeight * 0.55,
+  },
+  carrat: {
+    height: moderateScale(16),
+    width: moderateScale(16),
+  },
+  carrotview: {
+    ...styles.rowCenter,
+    ...styles.mt20,
   },
 });

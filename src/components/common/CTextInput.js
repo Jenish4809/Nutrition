@@ -22,6 +22,7 @@ const CTextInput = ({
   isSecure,
   errorStyle,
   errorText,
+  inputview,
 }) => {
   const [isSecurePass, setIsSecurePass] = useState(isSecure);
 
@@ -33,12 +34,12 @@ const CTextInput = ({
     <View style={styles.mt10}>
       {!!label && (
         <View style={[localStyles.labelcontainer, labelstyle]}>
-          <CText type={"S15"} color={colors.fontbody}>
+          <CText type={"E15"} color={colors.fontbody}>
             {label}
           </CText>
         </View>
       )}
-      <View style={localStyles.textview}>
+      <View style={[localStyles.textview, inputview]}>
         {!!LeftIcon && <LeftIcon />}
         <TextInput
           maxLength={maxLength}
@@ -88,7 +89,7 @@ const localStyles = StyleSheet.create({
   labelcontainer: {
     ...styles.mt10,
     ...styles.mb5,
-    ...styles.ml10,
+    ...styles.mh10,
   },
   textview: {
     ...styles.flexRow,
@@ -103,7 +104,7 @@ const localStyles = StyleSheet.create({
   },
   textinput: {
     ...typography.fontSizes.f16,
-    ...typography.fontWeights.SemiBold,
+    ...typography.fontWeights.ExtraBold,
     ...styles.flex,
   },
   errorText: {

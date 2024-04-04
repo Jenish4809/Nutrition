@@ -44,4 +44,20 @@ export const CommonString = {
   alldone: "All Done",
   alldonedesc:
     "Thanks for giving us your precious time. Now you are ready for a more healthier and productive life.",
+  facebookcontinue: "Continue with Facebook",
+  googlecontinue: "Continue with Google",
+  forgotpass: "Forgot Password?",
+  dontac: "Don't have an account?",
+  signup: "Sign up.",
+  forgotpass1: "Forgot Password!",
+  forgotpassdesc:
+    "Don’t worry! Enter your registered email below to reveive password reset instructions.",
+  rememberpass: "Remember Password?",
+  link: "Send Link",
+  backto: "Back to Login",
+  contact: "Contact Us",
+  notreceive: "Didn't Receive?",
+  resend: "Resend",
+  emailsend: "Email Sent!",
+  emailsentdesc: "We’ve sent a password reset link to sn***ri@gmail.com",
 };
