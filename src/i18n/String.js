@@ -1,0 +1,47 @@
+export const CommonString = {
+  theBasic: "The Basics",
+  start:
+    "Let’s start with the basics. Note: you cannot change these details later.",
+  enterName: "Enter Name",
+  fullname: "Full Name",
+  enteremail: "Enter Email Address",
+  emial: "Email Address",
+  enterpass: "Enter Password",
+  pass: "Password",
+  continue: "Continue",
+  already: "Already Have An Account?",
+  login: "Log In",
+  alertname: "Plaease Enter Name",
+  alertemail: "Please Enter Email",
+  alertpass: "Please Enter Password",
+  erremail: "Please Enter Valid Email",
+  errpass: "Please Enter Valid Password",
+  confirm: "Confirm",
+  confirmdesc:
+    "We have just send 4 magic digits to the given email, please enter those below:",
+  notreceive: "Didn’t Receive?",
+  resend: "Resend",
+  photoupload: "Upload Photo",
+  uploaddesc: "Add a profile photo so that your friends would know its you.",
+  skip: "Skip",
+  erruploadimg: "Error Uploading Image : ",
+  closedialog: "Close Dialog",
+  uploaded: "Photo Uploaded",
+  uploadeddesc: "Now you friends will definitely add you if they found you.",
+  allownotification: "Allow Notifications",
+  notificationdesc:
+    "Before we continue, please make sure you click ‘Allow Notifications’ so that you won’t miss any updates.",
+  sendnotification: "“Kcal” Would Like to Send You Notifications",
+  sendnotidesc: "We’ll tell you about important updates and events.",
+  terms: "Accept Terms",
+  termsdesc:
+    "Before we continue, please make sure you read and accept our terms of service and privacy policy.",
+  Accept: "Accept",
+  termsservice: "Terms of Service",
+  actionterms:
+    "These terms and conditions ('Agreement') set forth the general terms and conditions of your use of the 'kcal' mobile application ('Mobile Application' or 'Service') and any of its related products and services (collectively, 'Services'). This Agreement is legally binding between you ('User', 'you' or 'your') and this Mobile Application developer ('Operator', 'we', 'us' or 'our'). By accessing and using the Mobile Application and Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. If you are entering into this Agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this Agreement, in which case the terms 'User', 'you' or 'your' shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this ",
+  letsgo: "Let's Go",
+  alldone: "All Done",
+  alldonedesc:
+    "Thanks for giving us your precious time. Now you are ready for a more healthier and productive life.",
+};
