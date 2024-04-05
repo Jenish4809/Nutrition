@@ -15,8 +15,8 @@ import CText from "../../components/common/CText";
 import CTextInput from "../../components/common/CTextInput";
 import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
-import { LoginButton } from "../OnBoarding";
 import { AuthNav } from "../../navigation/NavigationKeys";
+import { LoginButton } from "../../components/common/CLoginButton";
 
 const SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState("");

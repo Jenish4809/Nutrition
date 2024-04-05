@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, FlatList, Image } from "react-native";
 import { styles } from "../themes";
 import { colors } from "../themes/colors";
 import { OnBoardingData } from "../api/constant";
@@ -19,6 +12,7 @@ import CText from "../components/common/CText";
 import { CommonString } from "../i18n/String";
 import { useRef, useCallback, useState } from "react";
 import { LoginButton } from "../components/common/CLoginButton";
+import { setOnBoarding } from "../utils/asyncstorage";
 
 export default function OnBoarding({ navigation }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,8 +29,9 @@ export default function OnBoarding({ navigation }) {
       screen: AuthNav.Login,
     });
   };
-  const OnPressStart = () => {
+  const OnPressStart = async () => {
     if (currentIndex === 2) {
+      await setOnBoarding(true);
       navigation.reset({
         index: 0,
         routes: [{ name: StackNav.AuthNavigation }],

@@ -5,13 +5,32 @@ import { colors } from "../themes/colors";
 import images from "../assets/images";
 import { moderateScale } from "../common/constants";
 import { StackNav } from "../navigation/NavigationKeys";
+import { initialStorageValueGet } from "../utils/asyncstorage";
 
 const Splash = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace(StackNav.OnBoarding);
+      asyncProcess();
     }, 2000);
   }, []);
+
+  const asyncProcess = async () => {
+    try {
+      let async = await initialStorageValueGet();
+      if (!!async) {
+        let { onBoardingValue, acessTokenValue } = async;
+        if (!!acessTokenValue) {
+          navigation.replace(StackNav.TabNavigation);
+        } else if (!!onBoardingValue) {
+          navigation.replace(StackNav.AuthNavigation);
+        } else {
+          navigation.replace(StackNav.OnBoarding);
+        }
+      }
+    } catch (e) {
+      console.log("error ", e);
+    }
+  };
   return (
     <View style={localStyles.main}>
       <Image source={images.splashBg} style={localStyles.imageStyle} />

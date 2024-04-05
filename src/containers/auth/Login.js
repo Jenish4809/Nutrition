@@ -8,7 +8,8 @@ import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import CTextInput from "../../components/common/CTextInput";
 import CText from "../../components/common/CText";
-import { AuthNav } from "../../navigation/NavigationKeys";
+import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
+import { setAuthToken } from "../../utils/asyncstorage";
 
 const Login = ({ navigation }) => {
   const onPressSignup = () => {
@@ -16,6 +17,14 @@ const Login = ({ navigation }) => {
   };
   const onPressForgotPass = () => {
     navigation.navigate(AuthNav.ForgotPassword);
+  };
+
+  const onPressLogin = async () => {
+    await setAuthToken(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: StackNav.TabNavigation }],
+    });
   };
   return (
     <View style={localStyles.main}>
@@ -72,7 +81,7 @@ const Login = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <View style={localStyles.acbtn}>
-          <CButton name={CommonString.login} />
+          <CButton name={CommonString.login} onPress={onPressLogin} />
           <View style={localStyles.signupac}>
             <CText type={"E17"} color={colors.alreadyAc}>
               {CommonString.dontac}
