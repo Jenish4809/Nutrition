@@ -7,8 +7,17 @@ import CText from "../../components/common/CText";
 import { CommonString } from "../../i18n/String";
 import CButton from "../../components/common/CButton";
 import Entypo from "react-native-vector-icons/Entypo";
+import { setAuthToken } from "../../utils/asyncstorage";
+import { StackNav } from "../../navigation/NavigationKeys";
 
-const AllDone = () => {
+const AllDone = ({ navigation }) => {
+  const onPressLogin = async () => {
+    await setAuthToken(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: StackNav.TabNavigation }],
+    });
+  };
   return (
     <View style={localStyles.main}>
       <View style={localStyles.innerview}>
@@ -30,7 +39,11 @@ const AllDone = () => {
         <View style={localStyles.pageview}>
           <Image source={images.icecream} style={localStyles.icecreamlogo} />
         </View>
-        <CButton name={CommonString.letsgo} extraSty={localStyles.btn} />
+        <CButton
+          name={CommonString.letsgo}
+          extraSty={localStyles.btn}
+          onPress={onPressLogin}
+        />
       </View>
     </View>
   );
