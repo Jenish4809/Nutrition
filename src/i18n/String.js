@@ -60,4 +60,13 @@ export const CommonString = {
   resend: "Resend",
   emailsend: "Email Sent!",
   emailsentdesc: "We’ve sent a password reset link to sn***ri@gmail.com",
+  afreen: "Hello Afreen",
+  homefeed: "Here’s your curated home feed",
+  trendingrecepie: "This Week’s \n\nTrending Recipes",
+  view: "View",
+  viewall: "View All",
+  foods: "Foods",
+  all: "All",
+  favourite: "Favourite",
+  trending: "Trending",
 };

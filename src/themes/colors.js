@@ -22,4 +22,7 @@ export const colors = {
   otpfocus: "#B5CAB6",
   facebook: "#1877F2",
   googleborder: "#EEEEEE",
+  recepie: "#FF806E",
+  recepiecard: "#FEF5E6",
+  posterborder: "#FCE2B3",
 };
