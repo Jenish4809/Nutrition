@@ -138,3 +138,33 @@ export const PosterAll = [
     minutes: "45 min",
   },
 ];
+
+export const PosterFavourite = [
+  {
+    id: 1,
+    name: "Mutton Kebab Nuggets",
+    description: "Crunchy Mutton Kebabs with hot chilly toppings and sauce.",
+    image: images.paneertikkaposter,
+    serve: "5 serve",
+    minutes: "45 min",
+  },
+  {
+    id: 2,
+    name: "Chicken Burger & Nuggets",
+    description: "Mouth watering burger with hottest french side toppings.",
+    image: images.burgerposter,
+    serve: "1 serve",
+    minutes: "15 min",
+  },
+];
+
+export const PosterTrending = [
+  {
+    id: 1,
+    name: "Chicken Burger & Nuggets",
+    description: "Mouth watering burger with hottest french side toppings.",
+    image: images.burgerposter,
+    serve: "1 serve",
+    minutes: "15 min",
+  },
+];

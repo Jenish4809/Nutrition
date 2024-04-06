@@ -40,4 +40,8 @@ export default {
   paneertikkaposter: require("./paneertikkaposter.png"),
   star: require("./Star.png"),
   starfilled: require("./Star Filled.png"),
+  timeicon: require("./Time.png"),
+  usericon: require("./Users.png"),
+  stars: require("./stars.png"),
+  ladyread: require("./ladyread.png"),
 };

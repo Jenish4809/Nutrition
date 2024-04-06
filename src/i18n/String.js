@@ -69,4 +69,7 @@ export const CommonString = {
   all: "All",
   favourite: "Favourite",
   trending: "Trending",
+  help: "24 x 7 Help Center",
+  query: "Have a query?",
+  chatus: "Chat with us.",
 };

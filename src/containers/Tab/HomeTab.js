@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  ImageBackground,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import CText from "../../components/common/CText";
@@ -16,17 +17,18 @@ import {
   Favourite,
   PizzaCard,
   PosterAll,
+  PosterFavourite,
+  PosterTrending,
   Treding,
 } from "../../api/constant";
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { LoginButton } from "../../components/common/CLoginButton";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import Feather from "react-native-vector-icons/Feather";
 
 const HomeTab = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedData, setSelectedData] = useState(All);
+  const [selectedPoster, setSelectedPoster] = useState(PosterAll);
 
   const _onViewableItemsChanged = useCallback(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0]?.index);
@@ -76,6 +78,10 @@ const HomeTab = () => {
     setSelectedData(data);
   };
 
+  const handleOnPress1 = (data) => {
+    setSelectedPoster(data);
+  };
+
   const onPressRenderBurger = ({ item }) => {
     return (
       <View style={localStyles.allrenderview}>
@@ -87,7 +93,14 @@ const HomeTab = () => {
     );
   };
 
-  const CommonTitle = ({ onPress1, onPress2, onPress3 }) => {
+  const CommonTitle = ({
+    onPress1,
+    onPress2,
+    onPress3,
+    color3,
+    color2,
+    color1,
+  }) => {
     return (
       <View>
         <View style={localStyles.foods}>
@@ -104,19 +117,19 @@ const HomeTab = () => {
           <LoginButton
             extratext={CommonString.all}
             type={"K17"}
-            color={colors.fontbody}
+            color={color1 || colors.fontbody}
             onPress={onPress1}
           />
           <LoginButton
             extratext={CommonString.favourite}
             type={"K17"}
-            color={colors.fontbody}
+            color={color2 || colors.fontbody}
             onPress={onPress2}
           />
           <LoginButton
             extratext={CommonString.trending}
             type={"K17"}
-            color={colors.fontbody}
+            color={color3 || colors.fontbody}
             onPress={onPress3}
           />
         </View>
@@ -128,33 +141,23 @@ const HomeTab = () => {
     return (
       <View style={localStyles.posterview}>
         <View>
-          <Image source={item.image} style={localStyles.posterimage} />
-          <View>
-            <Ionicons
-              name="time-outline"
-              color={colors.textbg}
-              style={localStyles.postericon1}
-            />
-            <CText
-              style={localStyles.postertext1}
-              type={"E15"}
-              color={colors.textbg}
-            >
-              {item.minutes}
-            </CText>
-            <Feather
-              name="users"
-              color={colors.textbg}
-              style={localStyles.postericon2}
-            />
-            <CText
-              style={localStyles.postertext2}
-              type={"E15"}
-              color={colors.textbg}
-            >
-              {item.serve}
-            </CText>
-          </View>
+          <ImageBackground source={item.image} style={localStyles.posterimage}>
+            <View style={localStyles.bgimagerow}>
+              <View style={localStyles.servetext}>
+                <Image source={images.timeicon} style={localStyles.timeicon} />
+                <CText type={"E15"} color={colors.textbg}>
+                  {item.minutes}
+                </CText>
+                <Image source={images.usericon} style={localStyles.timeicon} />
+                <CText type={"E15"} color={colors.textbg}>
+                  {item.serve}
+                </CText>
+              </View>
+              <View>
+                <Image source={images.stars} style={localStyles.starsicon} />
+              </View>
+            </View>
+          </ImageBackground>
         </View>
         <CText type={"C20"} color={colors.fonttile} align={"center"}>
           {item.name}
@@ -182,6 +185,7 @@ const HomeTab = () => {
           onViewableItemsChanged={_onViewableItemsChanged}
           viewabilityConfig={_viewabilityConfig}
           bounces={false}
+          keyExtractor={(item) => item.id}
         />
         <View style={localStyles.weekview}>
           <CText type={"C20"} color={colors.fontbody}>
@@ -197,6 +201,9 @@ const HomeTab = () => {
           onPress1={() => handleOnPress(All)}
           onPress2={() => handleOnPress(Favourite)}
           onPress3={() => handleOnPress(Treding)}
+          color1={selectedData === All ? colors.fontbody : colors.gray}
+          color2={selectedData === Favourite ? colors.fontbody : colors.gray}
+          color3={selectedData === Treding ? colors.fontbody : colors.gray}
         />
         <FlatList
           data={selectedData}
@@ -204,9 +211,49 @@ const HomeTab = () => {
           showsHorizontalScrollIndicator={false}
           numColumns={2}
           bounces={false}
+          scrollEnabled={false}
+          keyExtractor={(item) => item.id}
         />
-        <CommonTitle />
-        <FlatList data={PosterAll} renderItem={PosterRender} />
+        <CommonTitle
+          onPress1={() => handleOnPress1(PosterAll)}
+          onPress2={() => handleOnPress1(PosterFavourite)}
+          onPress3={() => handleOnPress1(PosterTrending)}
+          color1={selectedPoster === PosterAll ? colors.fontbody : colors.gray}
+          color2={
+            selectedPoster === PosterFavourite ? colors.fontbody : colors.gray
+          }
+          color3={
+            selectedPoster === PosterTrending ? colors.fontbody : colors.gray
+          }
+        />
+        <FlatList
+          data={selectedPoster}
+          renderItem={PosterRender}
+          scrollEnabled={false}
+          bounces={false}
+          keyExtractor={(item) => item.id}
+        />
+        <View style={localStyles.helpview}>
+          <View style={localStyles.contacttext}>
+            <CText type={"E13"} color={colors.recepie}>
+              {CommonString.help}
+            </CText>
+            <CText type={"C17"} color={colors.fontbody}>
+              {CommonString.query}
+            </CText>
+            <CText type={"C17"} color={colors.fontbody}>
+              {CommonString.chatus}
+            </CText>
+            <TouchableOpacity style={localStyles.contactbtn}>
+              <CText type={"K14"} color={colors.textbg}>
+                {CommonString.contact}
+              </CText>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Image source={images.ladyread} style={localStyles.ladyreadimg} />
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -316,25 +363,47 @@ const localStyles = StyleSheet.create({
     height: moderateScale(132),
     width: moderateScale(327),
     resizeMode: "contain",
+    ...styles.justifyEnd,
   },
-  postericon1: {
-    position: "absolute",
-    bottom: moderateScale(0),
-    left: moderateScale(10),
+  timeicon: {
+    height: moderateScale(16),
+    width: moderateScale(16),
   },
-  postertext1: {
-    position: "absolute",
-    bottom: moderateScale(0),
-    left: moderateScale(30),
+  bgimagerow: {
+    ...styles.rowCenter,
+    ...styles.justifyEvenly,
   },
-  postericon2: {
-    position: "absolute",
-    bottom: moderateScale(0),
-    left: moderateScale(85),
+  starsicon: {
+    height: moderateScale(12),
+    width: moderateScale(68),
+    resizeMode: "contain",
   },
-  postertext2: {
-    position: "absolute",
-    bottom: moderateScale(0),
-    left: moderateScale(100),
+  servetext: {
+    ...styles.flexRow,
+    gap: moderateScale(6),
+  },
+  helpview: {
+    height: moderateScale(160),
+    width: moderateScale(320),
+    backgroundColor: colors.btncolor,
+    borderRadius: moderateScale(16),
+    ...styles.selfCenter,
+    ...styles.m25,
+    ...styles.rowSpaceEvenly,
+  },
+  contactbtn: {
+    height: moderateScale(36),
+    width: moderateScale(140),
+    borderRadius: moderateScale(10),
+    backgroundColor: colors.red,
+    ...styles.center,
+  },
+  ladyreadimg: {
+    height: moderateScale(85),
+    width: moderateScale(77),
+    resizeMode: "contain",
+  },
+  contacttext: {
+    gap: moderateScale(3),
   },
 });
