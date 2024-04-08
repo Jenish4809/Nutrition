@@ -16,12 +16,24 @@ import LikeTab from "../containers/Tab/LikeTab";
 import ProfileTab from "../containers/Tab/ProfileTab";
 import SearchTab from "../containers/Tab/SearchTab";
 import CameraTab from "../containers/Tab/CameraTab";
+import EditProfile from "../components/ProfileComponent/EditProfile";
+import HelpCenter from "../components/ProfileComponent/HelpCenter";
+import LogOut from "../components/ProfileComponent/LogOut";
+import Settings from "../components/ProfileComponent/Settings";
+import Subscription from "../components/ProfileComponent/Subscription";
+import FaqsHelp from "../components/ProfileComponent/FaqsHelp";
 
 export const StackRoute = {
   Splash,
   OnBoarding,
   AuthNavigation,
   TabNavigation,
+  EditProfile,
+  HelpCenter,
+  LogOut,
+  Settings,
+  Subscription,
+  FaqsHelp,
 };
 
 export const AuthRoute = {

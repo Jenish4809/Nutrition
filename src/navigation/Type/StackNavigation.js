@@ -26,6 +26,21 @@ export default function StackNavigation() {
         name={StackNav.TabNavigation}
         component={StackRoute.TabNavigation}
       />
+      <Stack.Screen
+        name={StackNav.EditProfile}
+        component={StackRoute.EditProfile}
+      />
+      <Stack.Screen
+        name={StackNav.Subscription}
+        component={StackRoute.Subscription}
+      />
+      <Stack.Screen name={StackNav.Settings} component={StackRoute.Settings} />
+      <Stack.Screen
+        name={StackNav.HelpCenter}
+        component={StackRoute.HelpCenter}
+      />
+      <Stack.Screen name={StackNav.LogOut} component={StackRoute.LogOut} />
+      <Stack.Screen name={StackNav.FaqsHelp} component={StackRoute.FaqsHelp} />
     </Stack.Navigator>
   );
 }

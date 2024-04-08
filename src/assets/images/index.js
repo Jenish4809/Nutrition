@@ -44,4 +44,9 @@ export default {
   usericon: require("./Users.png"),
   stars: require("./stars.png"),
   ladyread: require("./ladyread.png"),
+  profileimg: require("./Profile Image.png"),
+  helpcneter: require("./Help Center.png"),
+  faqs: require("./FAQ.png"),
+  arrowup: require("./Arrow up.png"),
+  arrowdown: require("./Arrow down.png"),
 };

@@ -1,4 +1,13 @@
 import images from "../assets/images";
+import {
+  EditProfile,
+  Help,
+  LogOut,
+  Setting,
+  Subscription,
+} from "../assets/svg";
+import { CommonString } from "../i18n/String";
+import { StackNav } from "../navigation/NavigationKeys";
 
 export const OnBoardingData = [
   {
@@ -166,5 +175,69 @@ export const PosterTrending = [
     image: images.burgerposter,
     serve: "1 serve",
     minutes: "15 min",
+  },
+];
+
+export const ProfileData = [
+  {
+    id: 1,
+    title: CommonString.editProf,
+    svg: <EditProfile />,
+    route: StackNav.EditProfile,
+  },
+  {
+    id: 2,
+    title: CommonString.subscription,
+    svg: <Subscription />,
+    route: StackNav.Subscription,
+  },
+  {
+    id: 3,
+    title: CommonString.setting,
+    svg: <Setting />,
+    route: StackNav.Settings,
+  },
+  {
+    id: 4,
+    title: CommonString.HelpCenter,
+    svg: <Help />,
+    route: StackNav.HelpCenter,
+  },
+  {
+    id: 5,
+    title: CommonString.logout,
+    svg: <LogOut />,
+    route: StackNav.LogOut,
+  },
+];
+
+export const FAQs = [
+  {
+    id: 1,
+    title: CommonString.kcal,
+    desc: CommonString.kcaldesc,
+    img1: images.arrowup,
+    img2: images.arrowdown,
+  },
+  {
+    id: 2,
+    title: CommonString.needsubscription,
+    desc: CommonString.kcaldesc,
+    img1: images.arrowup,
+    img2: images.arrowdown,
+  },
+  {
+    id: 3,
+    title: CommonString.wantdelete,
+    desc: CommonString.kcaldesc,
+    img1: images.arrowup,
+    img2: images.arrowdown,
+  },
+  {
+    id: 4,
+    title: CommonString.scanavailable,
+    desc: CommonString.kcaldesc,
+    img1: images.arrowup,
+    img2: images.arrowdown,
   },
 ];

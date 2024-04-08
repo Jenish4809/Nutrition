@@ -3,6 +3,12 @@ export const StackNav = {
   OnBoarding: "OnBoarding",
   AuthNavigation: "AuthNavigation",
   TabNavigation: "TabNavigation",
+  EditProfile: "EditProfile",
+  HelpCenter: "HelpCenter",
+  LogOut: "LogOut",
+  Settings: "Settings",
+  Subscription: "Subscription",
+  FaqsHelp: "FaqsHelp",
 };
 
 export const AuthNav = {
