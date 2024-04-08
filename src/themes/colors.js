@@ -25,4 +25,6 @@ export const colors = {
   recepie: "#FF806E",
   recepiecard: "#FEF5E6",
   posterborder: "#FCE2B3",
+  nexticon: "#CBCDCB",
+  allhere: "#565B56",
 };

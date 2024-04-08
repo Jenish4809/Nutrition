@@ -73,6 +73,9 @@ export default StyleSheet.create({
   pr10: {
     paddingRight: moderateScale(10),
   },
+  pr15: {
+    paddingRight: moderateScale(15),
+  },
   pl25: {
     paddingLeft: moderateScale(25),
   },

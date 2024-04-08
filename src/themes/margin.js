@@ -107,6 +107,9 @@ export default StyleSheet.create({
   mr25: {
     marginRight: moderateScale(25),
   },
+  mr30: {
+    marginRight: moderateScale(30),
+  },
   mr5: {
     marginRight: moderateScale(5),
   },
