@@ -15,35 +15,45 @@ import { moderateScale } from "../../common/constants";
 import CText from "../common/CText";
 import { FAQs } from "../../api/constant";
 
-const FaqsHelp = () => {
+const QuestionItem = ({ title, desc, onPress, img1, img2 }) => {
   const [Show, setShow] = useState(false);
-
-  const openShow = (item) => {
-    setShow(item.id);
+  const toggleAnswer = () => {
+    setShow(!Show);
   };
 
+  return (
+    <View style={localStyles.renderview}>
+      <TouchableOpacity
+        style={localStyles.btnview}
+        onPress={() => {
+          onPress();
+          toggleAnswer();
+        }}
+      >
+        <CText type={"E17"} color={colors.fonttile}>
+          {title}
+        </CText>
+        <Image source={Show ? img1 : img2} style={localStyles.downicon} />
+      </TouchableOpacity>
+      {Show && (
+        <CText type={"E17"} color={colors.fonttile}>
+          {desc}
+        </CText>
+      )}
+      <View style={localStyles.divider}></View>
+    </View>
+  );
+};
+const FaqsHelp = () => {
   const renderDataQue = ({ item }) => {
     return (
-      <View style={localStyles.renderview}>
-        <TouchableOpacity
-          style={localStyles.btnview}
-          onPress={() => openShow(item)}
-        >
-          <CText type={"E17"} color={colors.fonttile}>
-            {item.title}
-          </CText>
-          <Image
-            source={!Show ? item.img1 : item.img2}
-            style={localStyles.downicon}
-          />
-        </TouchableOpacity>
-        {Show === item.id ? (
-          <CText type={"E17"} color={colors.fonttile}>
-            {item.desc}
-          </CText>
-        ) : null}
-        <View style={localStyles.divider}></View>
-      </View>
+      <QuestionItem
+        title={item.title}
+        desc={item.desc}
+        img1={item.img1}
+        img2={item.img2}
+        onPress={() => {}}
+      />
     );
   };
   return (
@@ -51,7 +61,12 @@ const FaqsHelp = () => {
       <CHeader title={CommonString.faqs} LeftIcon={true} type={"E15"} />
       <Image source={images.faqs} style={localStyles.logo} />
       <View style={localStyles.innerview}>
-        <FlatList data={FAQs} renderItem={renderDataQue} />
+        <FlatList
+          data={FAQs}
+          renderItem={renderDataQue}
+          keyExtractor={(item) => item.id.toString()}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     </View>
   );
