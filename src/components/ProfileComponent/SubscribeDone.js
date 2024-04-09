@@ -7,40 +7,13 @@ import CText from "../common/CText";
 import { CommonString } from "../../i18n/String";
 import images from "../../assets/images/index";
 import { moderateScale } from "../../common/constants";
-import Entypo from "react-native-vector-icons/Entypo";
 import CButton from "../common/CButton";
-import { StackNav } from "../../navigation/NavigationKeys";
+import { TabNav } from "../../navigation/NavigationKeys";
+import { CommonFeature } from "./Subscription";
 
-export const CommonFeature = ({ extraview1, extraview2, premmium }) => {
-  return (
-    <View style={[localStyles.mainfeatureview, extraview1]}>
-      <View style={[localStyles.featureview, extraview2]}>
-        {!!premmium && (
-          <CText type={"C22"} color={colors.fonttile}>
-            {CommonString.premiumfeature}
-          </CText>
-        )}
-        <PremiumFeature name={CommonString.scanreal} />
-        <PremiumFeature name={CommonString.unlimitedFav} />
-        <PremiumFeature name={CommonString.unlimitedsearch} />
-      </View>
-    </View>
-  );
-};
-const PremiumFeature = ({ name }) => {
-  return (
-    <View style={localStyles.features}>
-      <Entypo name="check" />
-      <CText type={"E17"} color={colors.fontbody}>
-        {name}
-      </CText>
-    </View>
-  );
-};
-
-const Subscription = ({ navigation }) => {
-  const onPressbuy = () => {
-    navigation.navigate(StackNav.BuyPremium);
+const SubscribeDone = ({ navigation }) => {
+  const onPressCancel = () => {
+    navigation.navigate(TabNav.ProfileTab);
   };
 
   return (
@@ -58,15 +31,20 @@ const Subscription = ({ navigation }) => {
             {CommonString.username}
           </CText>
           <CText type={"E17"} color={colors.fonttile} align={"center"}>
-            {CommonString.notsubscribed}
+            {CommonString.subscribed}
           </CText>
         </View>
-        <CommonFeature premmium={true} />
         <View style={localStyles.btnview}>
-          <CButton name={CommonString.buypremium} onPress={onPressbuy} />
-          <TouchableOpacity>
+          <CommonFeature extraview1={localStyles.extraview1} />
+          <CText type={"K17"} color={colors.shareoff} align={"center"}>
+            {CommonString.shareoffer}
+          </CText>
+        </View>
+        <View style={localStyles.btnview}>
+          <CButton name={CommonString.share} />
+          <TouchableOpacity onPress={onPressCancel}>
             <CText type={"K17"} color={colors.green} align={"center"}>
-              {CommonString.restorepurchase}
+              {CommonString.cancelsub}
             </CText>
           </TouchableOpacity>
         </View>
@@ -75,7 +53,7 @@ const Subscription = ({ navigation }) => {
   );
 };
 
-export default Subscription;
+export default SubscribeDone;
 
 const localStyles = StyleSheet.create({
   main: {
@@ -108,5 +86,8 @@ const localStyles = StyleSheet.create({
   },
   btnview: {
     gap: moderateScale(20),
+  },
+  extraview1: {
+    width: "90%",
   },
 });

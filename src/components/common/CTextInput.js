@@ -48,7 +48,7 @@ const CTextInput = ({
           placeholderTextColor={colors.gray}
           value={value}
           keyboardType={keyboardType}
-          secureTextEntry={!isSecurePass ? !secureTextEntry : secureTextEntry}
+          secureTextEntry={!!isSecurePass ? secureTextEntry : false}
           style={[
             localStyles.textinput,
             {

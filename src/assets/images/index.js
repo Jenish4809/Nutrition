@@ -49,4 +49,13 @@ export default {
   faqs: require("./FAQ.png"),
   arrowup: require("./Arrow up.png"),
   arrowdown: require("./Arrow down.png"),
+  diet1: require("./diet1.png"),
+  diet2: require("./diet2.png"),
+  cupcake: require("./Cupcake.png"),
+  rollercake: require("./Roll Cake.png"),
+  tacco: require("./Taco.png"),
+  breadposter: require("./Bread.png"),
+  saladposter: require("./salad.png"),
+  nugetposter: require("./nugets.png"),
+  omletposter: require("./omlet.png"),
 };

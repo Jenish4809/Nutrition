@@ -24,8 +24,9 @@ import {
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { LoginButton } from "../../components/common/CLoginButton";
+import { StackNav } from "../../navigation/NavigationKeys";
 
-const HomeTab = () => {
+const HomeTab = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedData, setSelectedData] = useState(All);
   const [selectedPoster, setSelectedPoster] = useState(PosterAll);
@@ -37,39 +38,25 @@ const HomeTab = () => {
 
   const renderPizza = ({ item }) => {
     return (
-      <View>
-        <View style={localStyles.cardview}>
-          <View style={localStyles.innerview}>
-            <CText type={"E13"} color={colors.recepie}>
-              {item.title}
+      <View style={localStyles.cardview}>
+        <View style={localStyles.innerview}>
+          <CText type={"E13"} color={colors.recepie}>
+            {item.title}
+          </CText>
+          <CText
+            type={"C17"}
+            color={colors.fontbody}
+            style={localStyles.desctext}
+          >
+            {item.description}
+          </CText>
+          <TouchableOpacity style={localStyles.cardbtn}>
+            <CText type={"K14"} color={colors.textbg}>
+              View Recepie
             </CText>
-            <CText
-              type={"C17"}
-              color={colors.fontbody}
-              style={localStyles.desctext}
-            >
-              {item.description}
-            </CText>
-            <TouchableOpacity style={localStyles.cardbtn}>
-              <CText type={"K14"} color={colors.textbg}>
-                View Recepie
-              </CText>
-            </TouchableOpacity>
-          </View>
-          <Image source={images.pizzaslice} style={localStyles.pizza} />
+          </TouchableOpacity>
         </View>
-        <View style={localStyles.carrotview}>
-          {PizzaCard.map((item, index) => (
-            <View key={index.toString()}>
-              <Image
-                source={
-                  index !== currentIndex ? images.carrot2 : images.carrot1
-                }
-                style={localStyles.carrat}
-              />
-            </View>
-          ))}
-        </View>
+        <Image source={images.pizzaslice} style={localStyles.pizza} />
       </View>
     );
   };
@@ -168,6 +155,10 @@ const HomeTab = () => {
       </View>
     );
   };
+
+  const onPressContact = () => {
+    navigation.navigate(StackNav.ChatWithUs);
+  };
   return (
     <View style={localStyles.main}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -187,6 +178,18 @@ const HomeTab = () => {
           bounces={false}
           keyExtractor={(item) => item.id}
         />
+        <View style={localStyles.carrotview}>
+          {PizzaCard.map((item, index) => (
+            <View key={index.toString()}>
+              <Image
+                source={
+                  index !== currentIndex ? images.carrot2 : images.carrot1
+                }
+                style={localStyles.carrat}
+              />
+            </View>
+          ))}
+        </View>
         <View style={localStyles.weekview}>
           <CText type={"C20"} color={colors.fontbody}>
             {CommonString.trendingrecepie}
@@ -213,6 +216,8 @@ const HomeTab = () => {
           bounces={false}
           scrollEnabled={false}
           keyExtractor={(item) => item.id}
+          contentContainerStyle={localStyles.renderdatasty}
+          columnWrapperStyle={localStyles.rendercolumndata}
         />
         <CommonTitle
           onPress1={() => handleOnPress1(PosterAll)}
@@ -244,7 +249,10 @@ const HomeTab = () => {
             <CText type={"C17"} color={colors.fontbody}>
               {CommonString.chatus}
             </CText>
-            <TouchableOpacity style={localStyles.contactbtn}>
+            <TouchableOpacity
+              style={localStyles.contactbtn}
+              onPress={onPressContact}
+            >
               <CText type={"K14"} color={colors.textbg}>
                 {CommonString.contact}
               </CText>
@@ -267,16 +275,15 @@ const localStyles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   cardview: {
-    height: moderateScale(180),
-    width: moderateScale(360),
     backgroundColor: colors.recepiecard,
     borderRadius: moderateScale(16),
     ...styles.mt15,
     ...styles.flexRow,
-    ...styles.ph10,
+    ...styles.p25,
+    gap: moderateScale(30),
     ...styles.center,
     ...styles.justifyBetween,
-    ...styles.ml20,
+    ...styles.ml10,
   },
   cardbtn: {
     height: moderateScale(36),
@@ -299,7 +306,8 @@ const localStyles = StyleSheet.create({
   },
   carrotview: {
     ...styles.rowCenter,
-    ...styles.mv20,
+    ...styles.mt10,
+    ...styles.mb20,
   },
   carrat: {
     height: moderateScale(16),
@@ -338,7 +346,6 @@ const localStyles = StyleSheet.create({
     width: moderateScale(160),
     backgroundColor: colors.recepiecard,
     borderRadius: moderateScale(16),
-    ...styles.mh20,
     ...styles.justifyEvenly,
     ...styles.mt20,
     borderWidth: moderateScale(1),
@@ -405,5 +412,11 @@ const localStyles = StyleSheet.create({
   },
   contacttext: {
     gap: moderateScale(3),
+  },
+  renderdatasty: {
+    ...styles.ph20,
+  },
+  rendercolumndata: {
+    ...styles.justifyBetween,
   },
 });

@@ -18,10 +18,13 @@ import SearchTab from "../containers/Tab/SearchTab";
 import CameraTab from "../containers/Tab/CameraTab";
 import EditProfile from "../components/ProfileComponent/EditProfile";
 import HelpCenter from "../components/ProfileComponent/HelpCenter";
-import LogOut from "../components/ProfileComponent/LogOut";
 import Settings from "../components/ProfileComponent/Settings";
 import Subscription from "../components/ProfileComponent/Subscription";
 import FaqsHelp from "../components/ProfileComponent/FaqsHelp";
+import ChatWithUs from "../components/ProfileComponent/ChatWithUs";
+import EmailSent from "../components/ProfileComponent/EmailSent";
+import BuyPremium from "../components/ProfileComponent/BuyPremium";
+import SubscribeDone from "../components/ProfileComponent/SubscribeDone";
 
 export const StackRoute = {
   Splash,
@@ -30,10 +33,13 @@ export const StackRoute = {
   TabNavigation,
   EditProfile,
   HelpCenter,
-  LogOut,
   Settings,
   Subscription,
   FaqsHelp,
+  ChatWithUs,
+  EmailSent,
+  BuyPremium,
+  SubscribeDone,
 };
 
 export const AuthRoute = {

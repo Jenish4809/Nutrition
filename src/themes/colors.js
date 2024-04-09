@@ -27,4 +27,9 @@ export const colors = {
   posterborder: "#FCE2B3",
   nexticon: "#CBCDCB",
   allhere: "#565B56",
+  querybtn: "#B2D8AC",
+  premium: "#3E433E",
+  offer: "#595959",
+  subscribedisc: "#808080",
+  shareoff: "#FF9385",
 };

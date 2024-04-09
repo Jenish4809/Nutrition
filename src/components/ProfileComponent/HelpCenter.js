@@ -15,6 +15,10 @@ const HelpCenter = ({ navigation }) => {
   const onPressFaqs = () => {
     navigation.navigate(StackNav.FaqsHelp);
   };
+
+  const onPressChat = () => {
+    navigation.navigate(StackNav.ChatWithUs);
+  };
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -40,6 +44,7 @@ const HelpCenter = ({ navigation }) => {
         Svg={() => <Help />}
         Icon={true}
         title={CommonString.chatus}
+        onPress={onPressChat}
       />
       <CommonSettings
         Svg={() => <Help />}

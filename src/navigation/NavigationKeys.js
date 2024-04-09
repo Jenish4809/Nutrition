@@ -5,10 +5,13 @@ export const StackNav = {
   TabNavigation: "TabNavigation",
   EditProfile: "EditProfile",
   HelpCenter: "HelpCenter",
-  LogOut: "LogOut",
   Settings: "Settings",
   Subscription: "Subscription",
   FaqsHelp: "FaqsHelp",
+  ChatWithUs: "ChatWithUs",
+  EmailSent: "EmailSent",
+  BuyPremium: "BuyPremium",
+  SubscribeDone: "SubscribeDone",
 };
 
 export const AuthNav = {

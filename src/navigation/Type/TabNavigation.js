@@ -5,28 +5,10 @@ import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 
 export default function TabNavigation() {
   const Tab = createBottomTabNavigator();
 
-  const uploadImage = async () => {
-    try {
-      await ImagePicker.requestCameraPermissionsAsync();
-      let result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.front,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-      if (!result.canceled) {
-        setImage(result.assets[0].uri);
-      }
-    } catch (err) {
-      alert(CommonString.erruploadimg + err);
-    }
-    setOpen(false);
-  };
   return (
     <Tab.Navigator
       screenOptions={{
@@ -64,13 +46,10 @@ export default function TabNavigation() {
         component={TabRoute.CameraTab}
         options={{
           tabBarIcon: () => (
-            <TouchableOpacity
-              style={localStyle.imageview}
-              onPress={uploadImage}
-            >
+            <View style={localStyle.imageview}>
               <Image source={images.tab3circle} style={localStyle.circle} />
               <Image source={images.tab3} style={localStyle.imagesty1} />
-            </TouchableOpacity>
+            </View>
           ),
         }}
       />

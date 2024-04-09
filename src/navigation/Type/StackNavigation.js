@@ -39,8 +39,24 @@ export default function StackNavigation() {
         name={StackNav.HelpCenter}
         component={StackRoute.HelpCenter}
       />
-      <Stack.Screen name={StackNav.LogOut} component={StackRoute.LogOut} />
+
       <Stack.Screen name={StackNav.FaqsHelp} component={StackRoute.FaqsHelp} />
+      <Stack.Screen
+        name={StackNav.ChatWithUs}
+        component={StackRoute.ChatWithUs}
+      />
+      <Stack.Screen
+        name={StackNav.EmailSent}
+        component={StackRoute.EmailSent}
+      />
+      <Stack.Screen
+        name={StackNav.BuyPremium}
+        component={StackRoute.BuyPremium}
+      />
+      <Stack.Screen
+        name={StackNav.SubscribeDone}
+        component={StackRoute.SubscribeDone}
+      />
     </Stack.Navigator>
   );
 }

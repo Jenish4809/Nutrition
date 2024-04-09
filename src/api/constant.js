@@ -207,7 +207,7 @@ export const ProfileData = [
     id: 5,
     title: CommonString.logout,
     svg: <LogOut />,
-    route: StackNav.LogOut,
+    route: StackNav.AuthNavigation,
   },
 ];
 
@@ -239,5 +239,72 @@ export const FAQs = [
     desc: CommonString.kcaldesc,
     img1: images.arrowup,
     img2: images.arrowdown,
+  },
+];
+
+export const PremiumData = [
+  {
+    id: 1,
+    title: "Monthly -  $7.99/month",
+    offer: "Try Free For 7 Days Only",
+  },
+  {
+    id: 2,
+    title: "Annual -  $49.99/year",
+    offer: "Try Free For 1 Month",
+    save: "Save 25%",
+  },
+];
+
+export const FavouriteCategory = [
+  { id: 1, title: "Food" },
+  { id: 2, title: "Recepies" },
+];
+
+export const FavouriteFood = [
+  {
+    id: 1,
+    name: "Burger",
+    image: images.burger,
+  },
+  {
+    id: 2,
+    name: "Cake",
+    image: images.cake,
+  },
+  {
+    id: 3,
+    name: "Donut",
+    image: images.donut,
+  },
+  {
+    id: 4,
+    name: "Pizza",
+    image: images.pizzaslice,
+  },
+  {
+    id: 5,
+    name: "Fries",
+    image: images.fries,
+  },
+  {
+    id: 6,
+    name: "Muffin",
+    image: images.cupcake,
+  },
+  {
+    id: 7,
+    name: "Hot Dog",
+    image: images.hotdog,
+  },
+  {
+    id: 8,
+    name: "Roller",
+    image: images.rollercake,
+  },
+  {
+    id: 9,
+    name: "Tacco",
+    image: images.tacco,
   },
 ];
