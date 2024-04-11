@@ -7,7 +7,15 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../../themes/colors";
 
-const CHeader = ({ title, type, color, style, LeftIcon, onPressBack }) => {
+const CHeader = ({
+  title,
+  type,
+  color,
+  style,
+  LeftIcon,
+  onPressBack,
+  RighIcon,
+}) => {
   const navigation = useNavigation();
 
   const goBack = () => navigation.goBack();
@@ -26,6 +34,7 @@ const CHeader = ({ title, type, color, style, LeftIcon, onPressBack }) => {
       <CText type={type} color={color} style={style || localStyles.ctext}>
         {title}
       </CText>
+      {!!RighIcon && <RighIcon />}
     </View>
   );
 };
@@ -40,8 +49,9 @@ const localStyles = StyleSheet.create({
   },
   ctext: {
     textAlign: "center",
-    flex: 1,
-    marginRight: moderateScale(52),
+    width: "65%",
+    marginRight: moderateScale(25),
+    ...styles.ml20,
   },
   backicon: {
     ...styles.ml20,

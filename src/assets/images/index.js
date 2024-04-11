@@ -68,4 +68,7 @@ export default {
   commonPoster: require("./CommonPoster.png"),
   timeicon1: require("./timeicon1.png"),
   usericon1: require("./useicon1.png"),
+  search1: require("./search1.png"),
+  search2: require("./search2.png"),
+  empty: require("./Empty.png"),
 };

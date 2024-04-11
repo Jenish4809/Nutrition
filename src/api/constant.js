@@ -569,3 +569,58 @@ export const FavouriteRecepie = [
     ],
   },
 ];
+
+export const SearchData = [
+  {
+    id: 1,
+    name: "Food Spinners",
+    desc: "Best spinner recipe.",
+    image: images.search1,
+  },
+  {
+    id: 2,
+    name: "Color of Orange",
+    desc: "Do you like oranges?",
+    image: images.search2,
+  },
+  {
+    id: 3,
+    name: "Food Spinners",
+    desc: "Best spinner recipe.",
+    image: images.search1,
+  },
+];
+
+export const TimerData = [
+  {
+    id: 1,
+    time: "15m",
+  },
+  {
+    id: 2,
+    time: "30m",
+  },
+  {
+    id: 3,
+    time: "45m",
+  },
+  {
+    id: 4,
+    time: "60m",
+  },
+];
+
+export const FoodCategory = [
+  {
+    id: 1,
+    food: "Indian",
+  },
+  {
+    id: 2,
+    food: "Chinese",
+  },
+  {
+    id: 3,
+    food: "Italian",
+  },
+];

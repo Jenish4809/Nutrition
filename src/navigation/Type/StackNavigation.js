@@ -65,6 +65,14 @@ export default function StackNavigation() {
         name={StackNav.LikedRecepieDesc}
         component={StackRoute.LikedRecepieDesc}
       />
+      <Stack.Screen
+        name={StackNav.Searchfood}
+        component={StackRoute.Searchfood}
+      />
+      <Stack.Screen
+        name={StackNav.SearchAllRecepie}
+        component={StackRoute.SearchAllRecepie}
+      />
     </Stack.Navigator>
   );
 }

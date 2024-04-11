@@ -14,6 +14,8 @@ export const StackNav = {
   SubscribeDone: "SubscribeDone",
   LikedFoodDesc: "LikedFoodDesc",
   LikedRecepieDesc: "LikedRecepieDesc",
+  Searchfood: "Searchfood",
+  SearchAllRecepie: "SearchAllRecepie",
 };
 
 export const AuthNav = {

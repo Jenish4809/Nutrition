@@ -134,4 +134,18 @@ export const CommonString = {
   recepie: "Recepie",
   ingredient: "Ingredients",
   addtofav: "Add to Favourite",
+  search: "Search food and recepies",
+  hot: "Hot Now",
+  bestvegetable: "best vegetable recipes",
+  coldvegetable: "cold season vegetables",
+  chicken: "chicken recipes with eggs",
+  maggi: "maggie soups",
+  search1: "Search",
+  nosearch: "No Results Found",
+  nosearchdesc:
+    "Try searching for a different keywork or tweek your search a little.",
+  filter: "Filter",
+  cookingtime: "Cooking Time",
+  cuisine: "Cuisine",
+  apply: "Apply",
 };

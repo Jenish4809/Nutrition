@@ -27,6 +27,8 @@ import BuyPremium from "../components/ProfileComponent/BuyPremium";
 import SubscribeDone from "../components/ProfileComponent/SubscribeDone";
 import LikedFoodDesc from "../components/LikeCompomnent/LikedFoodDesc";
 import LikedRecepieDesc from "../components/LikeCompomnent/LikedRecepieDesc";
+import SearchAllRecepie from "../components/SearchComponent/SearchAllRecepie.js";
+import Searchfood from "../components/SearchComponent/Searchfood.js";
 
 export const StackRoute = {
   Splash,
@@ -44,6 +46,8 @@ export const StackRoute = {
   SubscribeDone,
   LikedFoodDesc,
   LikedRecepieDesc,
+  SearchAllRecepie,
+  Searchfood,
 };
 
 export const AuthRoute = {

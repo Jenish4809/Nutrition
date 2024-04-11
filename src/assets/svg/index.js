@@ -7,6 +7,7 @@ import Notification from "./Notification.svg";
 import DarkMode from "./Star Darkmode.svg";
 import Language from "./Language.svg";
 import Location from "./Location.svg";
+import Filter from "./Filters.svg";
 
 export {
   Subscription,
@@ -18,4 +19,5 @@ export {
   DarkMode,
   Language,
   Location,
+  Filter,
 };
