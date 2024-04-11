@@ -25,6 +25,8 @@ import ChatWithUs from "../components/ProfileComponent/ChatWithUs";
 import EmailSent from "../components/ProfileComponent/EmailSent";
 import BuyPremium from "../components/ProfileComponent/BuyPremium";
 import SubscribeDone from "../components/ProfileComponent/SubscribeDone";
+import LikedFoodDesc from "../components/LikeCompomnent/LikedFoodDesc";
+import LikedRecepieDesc from "../components/LikeCompomnent/LikedRecepieDesc";
 
 export const StackRoute = {
   Splash,
@@ -40,6 +42,8 @@ export const StackRoute = {
   EmailSent,
   BuyPremium,
   SubscribeDone,
+  LikedFoodDesc,
+  LikedRecepieDesc,
 };
 
 export const AuthRoute = {

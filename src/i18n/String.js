@@ -129,4 +129,9 @@ export const CommonString = {
   norecepiedesc:
     "You don’t save any recipes. Go ahead, search and save your favorite recipe.",
   search: "Search",
+  food: "Food",
+  gallery: "Gallery",
+  recepie: "Recepie",
+  ingredient: "Ingredients",
+  addtofav: "Add to Favourite",
 };

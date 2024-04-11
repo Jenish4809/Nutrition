@@ -57,6 +57,14 @@ export default function StackNavigation() {
         name={StackNav.SubscribeDone}
         component={StackRoute.SubscribeDone}
       />
+      <Stack.Screen
+        name={StackNav.LikedFoodDesc}
+        component={StackRoute.LikedFoodDesc}
+      />
+      <Stack.Screen
+        name={StackNav.LikedRecepieDesc}
+        component={StackRoute.LikedRecepieDesc}
+      />
     </Stack.Navigator>
   );
 }
