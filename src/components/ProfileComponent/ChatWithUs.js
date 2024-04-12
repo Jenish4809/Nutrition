@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import React from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
@@ -10,7 +13,9 @@ import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// chat with help component
 const ChatWithUs = ({ navigation }) => {
+  // Common component button for query and feedback
   const CommonQueryBtn = ({ extrasty, title, extracolor }) => {
     return (
       <TouchableOpacity style={[localStyles.feedbackbtn, extrasty]}>
@@ -21,6 +26,7 @@ const ChatWithUs = ({ navigation }) => {
     );
   };
 
+  // onPress function for go to the email sent page
   const onPressSent = () => {
     navigation.navigate(StackNav.EmailSent);
   };

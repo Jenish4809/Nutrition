@@ -1,11 +1,16 @@
+// Library Imports
 import {
   View,
   StyleSheet,
   Image,
   KeyboardAvoidingView,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import images from "../../assets/images";
@@ -18,19 +23,25 @@ import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 import { LoginButton } from "../../components/common/CLoginButton";
 
+// SignUp Screen Component
 const SignUpScreen = ({ navigation }) => {
+  // All the States
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [passErr, setPassErr] = useState("");
 
+  // onPress Login For go to the Login Screen
   const onPressLogin = () => {
     navigation.navigate(AuthNav.Login);
   };
+  // onChangeName for the get the name Value
   const onChangeName = (text) => {
     setName(text);
   };
+
+  // onChangeEMail for the get the email Value
   const onCHangeEMail = (text) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!text || emailRegex.test(text)) {
@@ -41,6 +52,7 @@ const SignUpScreen = ({ navigation }) => {
     setEmail(text);
   };
 
+  // onChangePassword for the get the Password Value
   const onChangePassword = (text) => {
     let passRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/;
@@ -52,21 +64,25 @@ const SignUpScreen = ({ navigation }) => {
     setPassword(text);
   };
 
-  // const handleButton = () => {
-  //   if (!name) {
-  //     Alert.alert(CommonString.alertname);
-  //   } else if (!email) {
-  //     Alert.alert(CommonString.alertemail);
-  //   } else if (!password) {
-  //     Alert.alert(CommonString.alertpass);
-  //   } else {
-  //     onPressContinue();
-  //   }
-  // };
-
-  const onPressContinue = () => {
-    return navigation.navigate(AuthNav.OtpVerificationScreen);
+  // Button Handle for the empty data
+  const handleButton = () => {
+    if (!name) {
+      Alert.alert(CommonString.alertname);
+    } else if (!email) {
+      Alert.alert(CommonString.alertemail);
+    } else if (!password) {
+      Alert.alert(CommonString.alertpass);
+    } else {
+      onPressContinue();
+    }
   };
+
+  // onPress continue fot go to the next otp screen
+  const onPressContinue = async () => {
+    await AsyncStorage.setItem("UserName", name);
+    navigation.navigate(AuthNav.OtpVerificationScreen);
+  };
+
   return (
     <View style={localStyles.main}>
       <Image source={images.logotextcolor} style={localStyles.logo} />
@@ -132,7 +148,7 @@ const SignUpScreen = ({ navigation }) => {
         <CButton
           name={CommonString.continue}
           extraSty={localStyles.btn}
-          onPress={onPressContinue}
+          onPress={handleButton}
         />
         <View style={localStyles.logintextview}>
           <CText type={"E17"} color={colors.alreadyAc}>

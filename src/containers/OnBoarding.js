@@ -1,4 +1,8 @@
+// Library Imports
 import { View, Text, StyleSheet, FlatList, Image } from "react-native";
+import { useRef, useCallback, useState } from "react";
+
+// Local Imports
 import { styles } from "../themes";
 import { colors } from "../themes/colors";
 import { OnBoardingData } from "../api/constant";
@@ -10,25 +14,30 @@ import { StackNav } from "../navigation/NavigationKeys";
 import { AuthNav } from "../navigation/NavigationKeys";
 import CText from "../components/common/CText";
 import { CommonString } from "../i18n/String";
-import { useRef, useCallback, useState } from "react";
 import { LoginButton } from "../components/common/CLoginButton";
 import { setOnBoarding } from "../utils/asyncstorage";
 
+// Onboarding component
 export default function OnBoarding({ navigation }) {
+  // All states
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slideRef = useRef(null);
 
+  //  Both for the change the pagination
   const _onViewableItemsChanged = useCallback(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0]?.index);
   }, []);
   const _viewabilityConfig = { itemVisiblePercentThreshold: 50 };
 
+  //  onPress for the go to the Login Page direct
   const loginPage = () => {
     navigation.navigate(AuthNav.AuthNavigation, {
       screen: AuthNav.Login,
     });
   };
+
+  // onPress for the go to the next scren of onboarding
   const OnPressStart = async () => {
     if (currentIndex === 2) {
       await setOnBoarding(true);
@@ -43,6 +52,7 @@ export default function OnBoarding({ navigation }) {
     }
   };
 
+  // render the onBoarding data from the flatlist data
   const renderOnBoardingIterm = ({ item }) => {
     return (
       <View style={localStyles.rendetItemConatiner}>
@@ -82,7 +92,6 @@ export default function OnBoarding({ navigation }) {
         bounces={false}
         pagingEnabled
       />
-
       <View style={localStyles.btnview}>
         <CButton name={"Get Started"} onPress={OnPressStart} />
         <View style={localStyles.loginview}>

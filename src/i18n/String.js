@@ -148,4 +148,9 @@ export const CommonString = {
   cookingtime: "Cooking Time",
   cuisine: "Cuisine",
   apply: "Apply",
+  foodresult: "Scan Food Results",
+  details: "Details",
+  details1:
+    "A hamburger (also burger for short) is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bread.",
+  scan: "Scan Again",
 };

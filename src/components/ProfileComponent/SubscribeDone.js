@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
@@ -11,7 +14,9 @@ import CButton from "../common/CButton";
 import { TabNav } from "../../navigation/NavigationKeys";
 import { CommonFeature } from "./Subscription";
 
+// Subscription done component
 const SubscribeDone = ({ navigation }) => {
+  // onpress function for cancel button
   const onPressCancel = () => {
     navigation.navigate(TabNav.ProfileTab);
   };

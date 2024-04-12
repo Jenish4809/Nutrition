@@ -1,5 +1,8 @@
+// Library Imports
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+
+// Local Imports
 import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
@@ -10,17 +13,31 @@ import CTextInput from "../../components/common/CTextInput";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 
+// ForgotPassword Component
 const ForgotPassword = ({ navigation }) => {
+  // States for the page
+  const [email, setEmail] = useState("");
+
+  // onPress for go to the Login Screen
   const onPressLogin = () => {
     navigation.navigate(AuthNav.Login);
   };
+
+  // onPress for go to the SignUp Screen
   const onPressSignup = () => {
     navigation.navigate(AuthNav.SignUpScreen);
   };
+
+  // onPress for go to the Email Send Screen
   const onPressEmailSent = () => {
     navigation.navigate(AuthNav.EmailSend);
+    // console.warn(email);
   };
 
+  // Onchange state value of the email function
+  const onChangeEmail = (text) => {
+    setEmail(text);
+  };
   return (
     <View style={localStyles.main}>
       <Image source={images.logotextcolor} style={localStyles.logo} />
@@ -38,6 +55,8 @@ const ForgotPassword = ({ navigation }) => {
             LeftIcon={() => (
               <Image source={images.emailicon} style={localStyles.emailsty} />
             )}
+            value={email}
+            onChangeText={onChangeEmail}
           />
           <View style={localStyles.signupac}>
             <CText type={"E17"} color={colors.alreadyAc}>

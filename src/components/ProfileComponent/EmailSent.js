@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image } from "react-native";
 import React from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import { CommonString } from "../../i18n/String";
@@ -10,10 +13,13 @@ import CText from "../common/CText";
 import CButton from "../common/CButton";
 import { TabNav } from "../../navigation/NavigationKeys";
 
+// Email sent Component for query and feedback
 const EmailSent = ({ navigation }) => {
+  // onPress function for go to home
   const onPressHome = () => {
     navigation.navigate(TabNav.HomeTab);
   };
+
   return (
     <View style={localStyles.main}>
       <CHeader

@@ -14,16 +14,21 @@ import { PremiumData } from "../../api/constant";
 import CButton from "../common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// BuyPremium Component
 const BuyPremium = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(1);
 
+  // handleselect for the radio Button fot premium
   const handleSelect = (item) => {
     setSelectedItem(item.id);
   };
 
+  // onpress for go to the next Scereen
   const onPressSubscribe = () => {
     navigation.navigate(StackNav.SubscribeDone);
   };
+
+  // render function for premium package from data
   const renderPremium = ({ item }) => {
     return (
       <TouchableOpacity

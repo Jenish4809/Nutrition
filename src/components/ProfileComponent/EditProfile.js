@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+
+// Local Imports
 import CHeader from "../common/CHeader";
 import { CommonString } from "../../i18n/String";
 import { styles } from "../../themes";
@@ -11,10 +14,32 @@ import images from "../../assets/images";
 import CButton from "../common/CButton";
 import { useNavigation } from "@react-navigation/native";
 
+// Editprofile Component
 const EditProfile = () => {
   const navigation = useNavigation();
+
+  const [enterName, setEnterName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // onPress save go to the back navigation
   const onPressProfile = () => {
     navigation.goBack();
+  };
+
+  // onchange name function to get the enter name value
+  const onCHangeName = (text) => {
+    setEnterName(text);
+  };
+
+  // onchange email function to get the enter email value
+  const onCHangeEmail = (text) => {
+    setEmail(text);
+  };
+
+  // onchange password function to get the enter password value
+  const onCHangePassword = (text) => {
+    setPassword(text);
   };
   return (
     <View style={localStyles.main}>
@@ -36,9 +61,13 @@ const EditProfile = () => {
                 color={colors.gray}
               />
             )}
+            value={enterName}
+            onChangeText={onCHangeName}
             inputview={localStyles.inputview}
           />
           <CTextInput
+            value={email}
+            onChangeText={onCHangeEmail}
             label={CommonString.enteremail}
             placeholder={CommonString.khanemail}
             LeftIcon={() => (
@@ -47,6 +76,8 @@ const EditProfile = () => {
             inputview={localStyles.inputview}
           />
           <CTextInput
+            onChangeText={onCHangePassword}
+            value={password}
             label={CommonString.enterpass}
             placeholder={CommonString.passhash}
             LeftIcon={() => (

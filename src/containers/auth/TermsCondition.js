@@ -1,23 +1,33 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+// Library Imports
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import images from "../../assets/images";
+import ActionSheet from "react-native-actions-sheet";
+
+// Local Imports
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CText from "../../components/common/CText";
 import { CommonString } from "../../i18n/String";
 import CButton from "../../components/common/CButton";
-import ActionSheet from "react-native-actions-sheet";
 import React, { useRef } from "react";
 import { AuthNav } from "../../navigation/NavigationKeys";
 
+// Terms and Condition Component
 const TermsCondition = ({ navigation }) => {
   let ref = useRef(null);
+
+  // OnPress for the show Actionsheet
   const onPress = () => {
     ref.current.show();
   };
+
+  // OnPress for the hide Actionsheet
   const onPressclose = () => {
     ref.current.hide();
   };
+
+  // OnPress for the go to the next screen
   const onPressNext = () => {
     navigation.navigate(AuthNav.AllDone);
   };

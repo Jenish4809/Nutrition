@@ -1,5 +1,4 @@
 // Library Imports
-
 import {
   View,
   FlatList,
@@ -26,12 +25,16 @@ import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// LikeTab component
 const LikeTab = ({ navigation }) => {
   const [selected, setSelected] = useState(1);
 
+  // onPress function for go between food and recepie
   const onPressCategory = (item) => {
     setSelected(item.id);
   };
+
+  // render food and recepie title date
   const renderCategory = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => onPressCategory(item)}>
@@ -55,6 +58,7 @@ const LikeTab = ({ navigation }) => {
     );
   };
 
+  // render favourite food category
   const renderFavFood = ({ item }) => {
     return (
       <TouchableOpacity
@@ -69,6 +73,7 @@ const LikeTab = ({ navigation }) => {
     );
   };
 
+  // render favourite recepie category
   const renderFavRecepie = ({ item }) => {
     return (
       <TouchableOpacity
@@ -104,13 +109,17 @@ const LikeTab = ({ navigation }) => {
     );
   };
 
+  // onPress for go to the fav food description
   const handleOnpress = (item) => {
     navigation.navigate(StackNav.LikedFoodDesc, { item });
   };
 
+  // onPress for go to the fav recepie description
   const handleRecepiePress = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
   };
+
+  // Empty food list component
   const EmptyFavFood = () => {
     return (
       <View>
@@ -133,6 +142,7 @@ const LikeTab = ({ navigation }) => {
     );
   };
 
+  // Empty recepie list component
   const EmptyFaVRecepie = () => {
     return (
       <View>
@@ -162,6 +172,8 @@ const LikeTab = ({ navigation }) => {
           type={"E15"}
           color={colors.fonttile}
         />
+
+        {/* FLalist for the 2 category data */}
         <FlatList
           data={FavouriteCategory}
           renderItem={renderCategory}
@@ -169,6 +181,7 @@ const LikeTab = ({ navigation }) => {
           style={localStyles.flatlist}
         />
       </View>
+      {/* Swithch two category of food and recepie data FlatList */}
       {selected === 1 ? (
         <FlatList
           data={FavouriteFood}

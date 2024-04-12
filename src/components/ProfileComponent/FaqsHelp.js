@@ -4,6 +4,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../../themes";
@@ -59,15 +60,18 @@ const FaqsHelp = () => {
   return (
     <View style={localStyles.main}>
       <CHeader title={CommonString.faqs} LeftIcon={true} type={"E15"} />
-      <Image source={images.faqs} style={localStyles.logo} />
-      <View style={localStyles.innerview}>
-        <FlatList
-          data={FAQs}
-          renderItem={renderDataQue}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
+      <ScrollView>
+        <Image source={images.faqs} style={localStyles.logo} />
+        <View style={localStyles.innerview}>
+          <FlatList
+            data={FAQs}
+            renderItem={renderDataQue}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={false}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };

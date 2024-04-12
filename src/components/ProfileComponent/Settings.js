@@ -1,3 +1,4 @@
+// Library Imports
 import {
   View,
   StyleSheet,
@@ -6,6 +7,9 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
@@ -20,38 +24,21 @@ import {
   LogOut,
   Notification,
 } from "../../assets/svg";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
 
-export const CommonSettings = ({ Svg, title, Icon, onPress, RightIcon }) => {
-  return (
-    <TouchableOpacity style={localStyles.settingview} onPress={onPress}>
-      <View style={localStyles.settingview1}>
-        {!!Svg && <Svg />}
-        <CText type={"E17"} color={colors.fontbody}>
-          {title}
-        </CText>
-      </View>
-      {!!Icon && (
-        <MaterialIcons
-          name="navigate-next"
-          size={moderateScale(30)}
-          color={colors.nexticon}
-        />
-      )}
-      {!!RightIcon && <RightIcon />}
-    </TouchableOpacity>
-  );
-};
+// setting component
 const Settings = ({ navigation }) => {
+  // states for toggle switch
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled1, setIsEnabled1] = useState(false);
   const [isEnabled2, setIsEnabled2] = useState(false);
 
+  // turn on off toggle switch functions
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
   const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
 
+  // onPress log out function for logging out
   const onPressLogOut = () => {
     Alert.alert("Logout", "Are you sure you want to log out?", [
       {
@@ -67,6 +54,11 @@ const Settings = ({ navigation }) => {
         },
       },
     ]);
+  };
+
+  // onPress help function to to redirect the help page
+  const onPressHelp = () => {
+    navigation.navigate(StackNav.HelpCenter);
   };
 
   return (
@@ -88,7 +80,7 @@ const Settings = ({ navigation }) => {
         RightIcon={() => (
           <Switch
             trackColor={{ false: colors.btncolor, true: colors.green }}
-            thumbColor={isEnabled ? colors.primary : colors.btncolor}
+            thumbColor={isEnabled ? colors.btncolor : colors.primary}
             onValueChange={toggleSwitch}
             value={!isEnabled}
             style={localStyles.switch}
@@ -126,6 +118,7 @@ const Settings = ({ navigation }) => {
         Svg={() => <Help />}
         Icon={true}
         title={CommonString.HelpCenter}
+        onPress={onPressHelp}
       />
       <CommonSettings
         Svg={() => <LogOut />}
@@ -169,3 +162,25 @@ const localStyles = StyleSheet.create({
     transform: [{ scaleX: 1.3 }, { scaleY: 1.3 }],
   },
 });
+
+// Common function for all setting category
+export const CommonSettings = ({ Svg, title, Icon, onPress, RightIcon }) => {
+  return (
+    <TouchableOpacity style={localStyles.settingview} onPress={onPress}>
+      <View style={localStyles.settingview1}>
+        {!!Svg && <Svg />}
+        <CText type={"E17"} color={colors.fontbody}>
+          {title}
+        </CText>
+      </View>
+      {!!Icon && (
+        <MaterialIcons
+          name="navigate-next"
+          size={moderateScale(30)}
+          color={colors.nexticon}
+        />
+      )}
+      {!!RightIcon && <RightIcon />}
+    </TouchableOpacity>
+  );
+};

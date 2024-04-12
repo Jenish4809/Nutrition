@@ -1,5 +1,10 @@
+// Library Imports
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import { CommonString } from "../../i18n/String";
@@ -9,16 +14,31 @@ import { moderateScale } from "../../common/constants";
 import CText from "../../components/common/CText";
 import { FlatList } from "react-native";
 import { ProfileData } from "../../api/constant";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
+// Profile Tab Component
 const ProfileTab = ({ navigation }) => {
+  const [imageProfile, setImageProfile] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [newName, setNewName] = useState("");
 
+  // TO get the Profile Image from Async Storage
+  useEffect(() => {
+    const getImage = async () => {
+      const imageUri = await AsyncStorage.getItem("Photos");
+      const name = await AsyncStorage.getItem("UserName");
+      setImageProfile({ uri: imageUri });
+      setNewName(name);
+    };
+    getImage();
+  }, []);
+
+  // onPress item for route the page of their content
   const onPressItem = (item) => {
     navigation.navigate(item.route);
     setSelectedItem(item.id);
   };
 
+  // render item of the profile category data
   const CommonUser = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -52,9 +72,12 @@ const ProfileTab = ({ navigation }) => {
         type={"E15"}
         color={colors.fonttile}
       />
-      <Image source={images.profileimg} style={localStyles.profileimgsty} />
+      <Image
+        source={imageProfile ? imageProfile : images.profileimg}
+        style={localStyles.profileimgsty}
+      />
       <CText type={"C28"} color={colors.fonttile} align={"center"}>
-        {CommonString.username}
+        {newName ? newName : CommonString.username}
       </CText>
       <FlatList
         data={ProfileData}
@@ -77,6 +100,7 @@ const localStyles = StyleSheet.create({
     width: moderateScale(144),
     ...styles.selfCenter,
     ...styles.mv20,
+    borderRadius: moderateScale(70),
   },
   profiledataview: {
     height: moderateScale(48),

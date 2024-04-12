@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image } from "react-native";
 import React from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
@@ -11,11 +14,14 @@ import { CommonSettings } from "./Settings";
 import { Help } from "../../assets/svg";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// Helpcenter Component
 const HelpCenter = ({ navigation }) => {
+  // onpress function for go to the FAQs page
   const onPressFaqs = () => {
     navigation.navigate(StackNav.FaqsHelp);
   };
 
+  // onPress function for go to the chat page
   const onPressChat = () => {
     navigation.navigate(StackNav.ChatWithUs);
   };

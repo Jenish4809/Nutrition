@@ -1,13 +1,32 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { TabNav } from "../NavigationKeys";
+import { StackNav, TabNav } from "../NavigationKeys";
 import { TabRoute } from "../NavigationRoutes";
 import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 
-export default function TabNavigation() {
+export default function TabNavigation({ navigation }) {
   const Tab = createBottomTabNavigator();
+
+  const onPressUploadImg = async () => {
+    try {
+      await ImagePicker.requestCameraPermissionsAsync();
+      let result = await ImagePicker.launchCameraAsync({
+        cameraType: ImagePicker.CameraType.front,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      if (!result.canceled) {
+        // setImage(result.assets[0].uri);
+        navigation.navigate(StackNav.CameraScan);
+      }
+    } catch (err) {
+      alert(CommonString.erruploadimg + err);
+    }
+  };
 
   return (
     <Tab.Navigator
@@ -46,10 +65,13 @@ export default function TabNavigation() {
         component={TabRoute.CameraTab}
         options={{
           tabBarIcon: () => (
-            <View style={localStyle.imageview}>
+            <TouchableOpacity
+              style={localStyle.imageview}
+              onPress={onPressUploadImg}
+            >
               <Image source={images.tab3circle} style={localStyle.circle} />
               <Image source={images.tab3} style={localStyle.imagesty1} />
-            </View>
+            </TouchableOpacity>
           ),
         }}
       />

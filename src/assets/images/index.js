@@ -71,4 +71,9 @@ export default {
   search1: require("./search1.png"),
   search2: require("./search2.png"),
   empty: require("./Empty.png"),
+  burger1: require("./Burger1.png"),
+  ingredient1: require("./ingredient1.png"),
+  ingredient2: require("./ingredient2.png"),
+  ingredient3: require("./ingredient3.png"),
+  ingredient4: require("./ingredient4.png"),
 };

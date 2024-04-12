@@ -1,10 +1,14 @@
+// Library Imports
 import React from "react";
 import { TouchableOpacity, View, StyleSheet } from "react-native";
+
+// Local Imports
 import Ionicons from "react-native-vector-icons/Ionicons"; // Assuming you're using Expo icons
 import { moderateScale } from "../../common/constants";
 import { colors } from "../../themes/colors";
 import { styles } from "../../themes";
 
+// Common checkbox component
 const CCheckbox = ({ checked, onChange }) => {
   return (
     <TouchableOpacity onPress={onChange}>

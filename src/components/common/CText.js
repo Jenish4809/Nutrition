@@ -1,8 +1,12 @@
+// Library Imports
 import React from "react";
+
+// Local Imports
 import { Text } from "react-native";
 import { colors } from "../../themes/colors";
 import Typography from "../../themes/typography";
 
+// Common Text Component
 const CText = ({ type, style, align, color, children, ...props }) => {
   const fontWeights = () => {
     switch (type.charAt(0).toUpperCase()) {

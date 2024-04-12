@@ -1,3 +1,4 @@
+// Library Imports
 import {
   View,
   StyleSheet,
@@ -6,9 +7,9 @@ import {
   TouchableOpacity,
   ImageBackground,
   ScrollView,
-  Text,
 } from "react-native";
 import React, { useState } from "react";
+import AntDesign from "react-native-vector-icons/AntDesign";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -17,7 +18,6 @@ import CHeader from "../../components/common/CHeader";
 import CText from "../../components/common/CText";
 import CTextInput from "../../components/common/CTextInput";
 import { CommonString } from "../../i18n/String";
-import AntDesign from "react-native-vector-icons/AntDesign";
 import typography from "../../themes/typography";
 import {
   FavouriteFood,
@@ -30,14 +30,18 @@ import CDivider from "../../components/common/CDivider";
 import images from "../../assets/images";
 import { StackNav, TabNav } from "../../navigation/NavigationKeys";
 
+// Search tab component
 const SearchTab = ({ navigation }) => {
+  // All states are here
   const [search, setSearch] = useState("");
   const [data, setData] = useState(FavouriteRecepie);
 
+  // handleonPress for go to the recepie description
   const handleRecepiePress = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
   };
 
+  // Statick search tab and render data of this page
   const renderSearch = ({ item }) => {
     return (
       <View style={localStyles.renderhotview}>
@@ -54,6 +58,7 @@ const SearchTab = ({ navigation }) => {
     );
   };
 
+  // Common buttons for static data category
   const CommonButton = ({ name, Divider }) => {
     return (
       <View style={localStyles.trendingview}>
@@ -71,6 +76,7 @@ const SearchTab = ({ navigation }) => {
     );
   };
 
+  // handle the search bar and search bar function for search
   const handleSearch = (text) => {
     setSearch(text);
     const filtered = FavouriteRecepie.filter((item) =>
@@ -79,6 +85,7 @@ const SearchTab = ({ navigation }) => {
     setData(filtered);
   };
 
+  // render the poster recepie function
   const renderRecepie = ({ item }) => {
     return (
       <TouchableOpacity
@@ -114,14 +121,17 @@ const SearchTab = ({ navigation }) => {
     );
   };
 
+  // onPress back and go to the hometab
   const onPressBack = () => {
     navigation.navigate(TabNav.HomeTab);
     setSearch("");
   };
 
+  // onPress for view all of the food
   const onPressViewAll = () => {
     navigation.navigate(StackNav.Searchfood, { FavouriteFood: FavouriteFood });
   };
+  // render the favouite food
   const renderFavFood = ({ item }) => {
     return (
       <TouchableOpacity style={localStyles.allrenderview}>
@@ -133,6 +143,7 @@ const SearchTab = ({ navigation }) => {
     );
   };
 
+  // empty component for not options in data as ur search
   const ListEmpty = () => {
     return (
       <View style={localStyles.innerview1}>
@@ -152,6 +163,7 @@ const SearchTab = ({ navigation }) => {
     );
   };
 
+  // OnPress view all for the all recepie searched by the user
   const onPressViewAll1 = () => {
     navigation.navigate(StackNav.SearchAllRecepie, { data: data });
   };
@@ -188,6 +200,8 @@ const SearchTab = ({ navigation }) => {
               />
             ) : null}
           </View>
+
+          {/* FlatList  for only one searched data show */}
           <FlatList
             data={!!search ? data.slice(0, 1) : SearchData}
             renderItem={search ? renderRecepie : renderSearch}
@@ -196,6 +210,8 @@ const SearchTab = ({ navigation }) => {
             ListEmptyComponent={ListEmpty}
           />
         </View>
+
+        {/* if the use search anything the screen change for food  */}
         {search ? (
           <View>
             <View style={localStyles.foods}>

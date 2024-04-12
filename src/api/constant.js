@@ -624,3 +624,37 @@ export const FoodCategory = [
     food: "Italian",
   },
 ];
+
+export const FoodProtein = [
+  { id: 1, title: "Protein", gram: "45g" },
+  { id: 2, title: "Calories", gram: "220g" },
+  { id: 3, title: "Fat", gram: "46g" },
+  { id: 4, title: "Carb", gram: "105g" },
+];
+
+export const FoodIngridient = [
+  {
+    id: 1,
+    title: "Bread",
+    slices: "2 slices",
+    image: images.ingredient1,
+  },
+  {
+    id: 2,
+    title: "Spinach",
+    slices: "5 gm",
+    image: images.ingredient2,
+  },
+  {
+    id: 3,
+    title: "Meat",
+    slices: "1 patty",
+    image: images.ingredient3,
+  },
+  {
+    id: 4,
+    title: "Cheese",
+    slices: "2 pieces",
+    image: images.ingredient4,
+  },
+];

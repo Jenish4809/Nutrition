@@ -1,12 +1,8 @@
-import {
-  View,
-  Image,
-  StyleSheet,
-  Modal,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+// Library Imports
+import { View, Image, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+
+// Local Imports
 import images from "../../assets/images";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
@@ -17,9 +13,11 @@ import CButton from "../../components/common/CButton";
 import typography from "../../themes/typography";
 import { AuthNav } from "../../navigation/NavigationKeys";
 
+//  Allow notigication Screen component
 const AllowNotification = ({ navigation }) => {
   const [open, setOpen] = useState(false);
 
+  // Common Button For Allow and Don't Allow
   const TouchButton = ({ name, onPress }) => {
     return (
       <TouchableOpacity onPress={onPress}>
@@ -29,6 +27,8 @@ const AllowNotification = ({ navigation }) => {
       </TouchableOpacity>
     );
   };
+
+  // onPress function and change the page
   const allowHandle = () => {
     setOpen(false);
     navigation.navigate(AuthNav.TermsCondition);
@@ -45,6 +45,7 @@ const AllowNotification = ({ navigation }) => {
             {CommonString.notificationdesc}
           </CText>
         </View>
+        {/* Modal for the notigication Permission */}
         <Modal visible={open} transparent={true} animationType="fade">
           <View style={localStyles.centerview}>
             <View style={localStyles.innerview1}>

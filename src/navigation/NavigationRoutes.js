@@ -29,6 +29,7 @@ import LikedFoodDesc from "../components/LikeCompomnent/LikedFoodDesc";
 import LikedRecepieDesc from "../components/LikeCompomnent/LikedRecepieDesc";
 import SearchAllRecepie from "../components/SearchComponent/SearchAllRecepie.js";
 import Searchfood from "../components/SearchComponent/Searchfood.js";
+import CameraScan from "../components/CameraScan/CameraScan.js";
 
 export const StackRoute = {
   Splash,
@@ -48,6 +49,7 @@ export const StackRoute = {
   LikedRecepieDesc,
   SearchAllRecepie,
   Searchfood,
+  CameraScan,
 };
 
 export const AuthRoute = {

@@ -20,10 +20,14 @@ import CButton from "../common/CButton";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import typography from "../../themes/typography";
 
+// Liked Recepie Description
 const LikedRecepieDesc = ({ route }) => {
   const [selected, setSelected] = useState(false);
+
+  // Pass the item with navigation here for use
   const { item } = route.params;
 
+  // Press function for like and unlike
   const onPressLike = () => {
     setSelected(!selected);
   };
@@ -75,7 +79,7 @@ const LikedRecepieDesc = ({ route }) => {
           <CText type={"C17"} color={colors.premium}>
             {CommonString.ingredient}
           </CText>
-
+          // Ingredient data render using map
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {item?.FoodRecepie?.map((item) => (
               <View key={item.id} style={localStyles.recepieview}>

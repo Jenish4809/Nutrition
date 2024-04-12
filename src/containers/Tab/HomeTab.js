@@ -1,3 +1,4 @@
+// Library Imports
 import {
   View,
   Image,
@@ -8,6 +9,8 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useCallback, useState } from "react";
+
+// Local Imports
 import CText from "../../components/common/CText";
 import { CommonString } from "../../i18n/String";
 import { colors } from "../../themes/colors";
@@ -26,16 +29,19 @@ import images from "../../assets/images";
 import { LoginButton } from "../../components/common/CLoginButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// HomeTab Component
 const HomeTab = ({ navigation }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedData, setSelectedData] = useState(All);
   const [selectedPoster, setSelectedPoster] = useState(PosterAll);
 
+  // Components and function for a pizza slice
   const _onViewableItemsChanged = useCallback(({ viewableItems }) => {
     setCurrentIndex(viewableItems[0]?.index);
   }, []);
   const _viewabilityConfig = { itemVisiblePercentThreshold: 50 };
 
+  // render pizza Slice component
   const renderPizza = ({ item }) => {
     return (
       <View style={localStyles.cardview}>
@@ -61,14 +67,18 @@ const HomeTab = ({ navigation }) => {
     );
   };
 
+  // onPress for change the data between 3 categories of food
+  // (All, Trending, Favourite)
   const handleOnPress = (data) => {
     setSelectedData(data);
   };
-
+  // onPress for change the data between 3 categories of recepie
+  // (All, Trending, Favourite)
   const handleOnPress1 = (data) => {
     setSelectedPoster(data);
   };
 
+  // onPress render the food burger category
   const onPressRenderBurger = ({ item }) => {
     return (
       <View style={localStyles.allrenderview}>
@@ -80,6 +90,7 @@ const HomeTab = ({ navigation }) => {
     );
   };
 
+  // Common  componen for 3 categoies (All, Trending, Favourite)
   const CommonTitle = ({
     onPress1,
     onPress2,
@@ -124,6 +135,7 @@ const HomeTab = ({ navigation }) => {
     );
   };
 
+  // onPres render the recepie category
   const PosterRender = ({ item }) => {
     return (
       <View style={localStyles.posterview}>
@@ -156,6 +168,7 @@ const HomeTab = ({ navigation }) => {
     );
   };
 
+  // onPress contact function for the contactus page
   const onPressContact = () => {
     navigation.navigate(StackNav.ChatWithUs);
   };
@@ -168,6 +181,7 @@ const HomeTab = ({ navigation }) => {
         <CText type={"E17"} color={colors.fontbody} align={"center"}>
           {CommonString.homefeed}
         </CText>
+        {/* // Flatlist for the data of slice pizaa */}
         <FlatList
           data={PizzaCard}
           renderItem={renderPizza}
@@ -208,6 +222,7 @@ const HomeTab = ({ navigation }) => {
           color2={selectedData === Favourite ? colors.fontbody : colors.gray}
           color3={selectedData === Treding ? colors.fontbody : colors.gray}
         />
+        {/* // FlatList for the food data */}
         <FlatList
           data={selectedData}
           renderItem={onPressRenderBurger}
@@ -231,6 +246,7 @@ const HomeTab = ({ navigation }) => {
             selectedPoster === PosterTrending ? colors.fontbody : colors.gray
           }
         />
+        {/* // FlatList for the recepie data */}
         <FlatList
           data={selectedPoster}
           renderItem={PosterRender}

@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
@@ -10,7 +13,9 @@ import CText from "../common/CText";
 import { moderateScale } from "../../common/constants";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// Search food  component
 const Searchfood = ({ navigation }) => {
+  // render component for food category
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -25,6 +30,7 @@ const Searchfood = ({ navigation }) => {
     );
   };
 
+  // onPress for go to the description page for fooditem
   const handleOnpress = (item) => {
     navigation.navigate(StackNav.LikedFoodDesc, { item });
   };
@@ -36,6 +42,7 @@ const Searchfood = ({ navigation }) => {
         type={"E15"}
         color={colors.fonttile}
       />
+      // Flatlist for show the category of food
       <FlatList
         data={FavouriteFood}
         renderItem={renderItem}

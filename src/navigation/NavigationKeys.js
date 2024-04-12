@@ -16,6 +16,7 @@ export const StackNav = {
   LikedRecepieDesc: "LikedRecepieDesc",
   Searchfood: "Searchfood",
   SearchAllRecepie: "SearchAllRecepie",
+  CameraScan: "CameraScan",
 };
 
 export const AuthNav = {

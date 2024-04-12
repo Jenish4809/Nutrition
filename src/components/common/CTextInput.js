@@ -1,5 +1,8 @@
+// Library Imports
 import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+
+// Local Imports
 import { moderateScale } from "../../common/constants";
 import { colors } from "../../themes/colors";
 import { styles } from "../../themes";
@@ -7,6 +10,7 @@ import CText from "./CText";
 import typography from "../../themes/typography";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+// Common Textinput component
 const CTextInput = ({
   placeholder,
   value,
@@ -26,6 +30,7 @@ const CTextInput = ({
 }) => {
   const [isSecurePass, setIsSecurePass] = useState(isSecure);
 
+  // To show or hide password function
   const onPressSecureIcon = () => {
     setIsSecurePass(!isSecurePass);
   };

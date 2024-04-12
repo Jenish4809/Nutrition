@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+
+// Local Imports
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
@@ -11,20 +14,39 @@ import CText from "../../components/common/CText";
 import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
 
+// Login COmponent
 const Login = ({ navigation }) => {
+  // States for Login
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // onPress function for go to the SignUp Screen
   const onPressSignup = () => {
     navigation.navigate(AuthNav.SignUpScreen);
   };
+
+  // onPress function for go to the ForgotPassword Screen
   const onPressForgotPass = () => {
     navigation.navigate(AuthNav.ForgotPassword);
   };
 
+  //  onPress Login for set the auth token true and navifate to home
   const onPressLogin = async () => {
     await setAuthToken(true);
     navigation.reset({
       index: 0,
       routes: [{ name: StackNav.TabNavigation }],
     });
+  };
+
+  // onChange function for get value email
+  const onChangeEmail = (text) => {
+    setEmail(text);
+  };
+
+  // onChange function for get value password
+  const onChangePassword = (text) => {
+    setPassword(text);
   };
   return (
     <View style={localStyles.main}>
@@ -60,6 +82,8 @@ const Login = ({ navigation }) => {
             LeftIcon={() => (
               <Image source={images.emailicon} style={localStyles.lefticon} />
             )}
+            value={email}
+            onChangeText={onChangeEmail}
           />
           <CTextInput
             inputview={localStyles.inputview}
@@ -70,6 +94,8 @@ const Login = ({ navigation }) => {
             )}
             secureTextEntry={true}
             isSecure
+            value={password}
+            onChangeText={onChangePassword}
           />
           <TouchableOpacity
             style={localStyles.forgotview}

@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet } from "react-native";
 import React from "react";
+
+// Local Imports
 import CText from "./CText";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";

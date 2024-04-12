@@ -1,5 +1,8 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+// Library Imports
+import { View, StyleSheet, Image } from "react-native";
 import React, { useEffect } from "react";
+
+// Local Imports
 import { styles } from "../themes";
 import { colors } from "../themes/colors";
 import images from "../assets/images";
@@ -7,13 +10,16 @@ import { moderateScale } from "../common/constants";
 import { StackNav } from "../navigation/NavigationKeys";
 import { initialStorageValueGet } from "../utils/asyncstorage";
 
+// Splash Screen Component
 const Splash = ({ navigation }) => {
+  // UseEffect fot the screen show time
   useEffect(() => {
     setTimeout(() => {
       asyncProcess();
     }, 2000);
   }, []);
 
+  // FUnction for the Token valuating for the screen
   const asyncProcess = async () => {
     try {
       let async = await initialStorageValueGet();
@@ -31,6 +37,7 @@ const Splash = ({ navigation }) => {
       console.log("error ", e);
     }
   };
+
   return (
     <View style={localStyles.main}>
       <Image source={images.splashBg} style={localStyles.imageStyle} />

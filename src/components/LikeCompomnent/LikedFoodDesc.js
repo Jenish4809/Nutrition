@@ -11,8 +11,11 @@ import { CommonString } from "../../i18n/String";
 import { moderateScale } from "../../common/constants";
 import { Image } from "react-native";
 
+// Liked Food description Component
 const LikedFoodDesc = ({ route }) => {
+  // Get the item from above page for render
   const { item } = route.params;
+
   return (
     <View style={localStyles.main}>
       <CHeader

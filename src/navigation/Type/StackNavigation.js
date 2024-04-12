@@ -73,6 +73,10 @@ export default function StackNavigation() {
         name={StackNav.SearchAllRecepie}
         component={StackRoute.SearchAllRecepie}
       />
+      <Stack.Screen
+        name={StackNav.CameraScan}
+        component={StackRoute.CameraScan}
+      />
     </Stack.Navigator>
   );
 }

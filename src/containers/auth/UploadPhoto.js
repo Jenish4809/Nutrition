@@ -1,3 +1,4 @@
+// Library Imports
 import {
   View,
   Image,
@@ -6,6 +7,13 @@ import {
   Modal,
   Text,
 } from "react-native";
+import { useState } from "react";
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as ImagePicker from "expo-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import { moderateScale } from "../../common/constants";
@@ -13,24 +21,32 @@ import images from "../../assets/images";
 import CText from "../../components/common/CText";
 import { CommonString } from "../../i18n/String";
 import CButton from "../../components/common/CButton";
-import { useState } from "react";
-import Entypo from "@expo/vector-icons/Entypo";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import typography from "../../themes/typography";
 import { AuthNav } from "../../navigation/NavigationKeys";
-import * as ImagePicker from "expo-image-picker";
 
+// Upload Photo component
 const UploadPhoto = ({ navigation }) => {
+  // All state for the change value
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState(null);
 
-  const imageOpen = () => {
-    !image ? setOpen(true) : navigation.navigate(AuthNav.AllowNotification);
+  // After image set the navigation to the next page
+  const imageOpen = async () => {
+    !image ? setOpen(true) : ImageSave();
   };
 
+  // To save the image In Async Storage
+  const ImageSave = async () => {
+    await AsyncStorage.setItem("Photos", image);
+    navigation.navigate(AuthNav.AllowNotification);
+  };
+
+  // onPress for the next page
   const onSkip = () => {
     navigation.navigate(AuthNav.AllowNotification);
   };
+
+  // onPress function for the Pick image from gallery
   const pickImage = async () => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -48,6 +64,7 @@ const UploadPhoto = ({ navigation }) => {
     setOpen(false);
   };
 
+  // onPress function for the open camera
   const uploadImage = async () => {
     try {
       await ImagePicker.requestCameraPermissionsAsync();

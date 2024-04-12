@@ -1,11 +1,16 @@
+// Library Imports
 import {
   View,
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
   Image,
+  FlatList,
 } from "react-native";
+import ActionSheet from "react-native-actions-sheet";
 import React, { useRef, useState } from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
@@ -15,31 +20,36 @@ import { moderateScale } from "../../common/constants";
 import CText from "../common/CText";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { Filter } from "../../assets/svg";
-import ActionSheet, { FlatList } from "react-native-actions-sheet";
 import { FoodCategory, TimerData } from "../../api/constant";
 import CDivider from "../common/CDivider";
 import CCheckbox from "../common/CCheckBox";
 import CButton from "../common/CButton";
 
+// Search Recepies and Food component
 const SearchAllRecepie = ({ route, navigation }) => {
+  // Get the Search from previous page
   const { data } = route.params;
 
   const [selectedItems, setSelectedItems] = useState([]);
   const [select, setSelect] = useState("");
   let ref = useRef(null);
 
+  // open function for open actionsheet filter
   const onPress = () => {
     ref.current.show();
   };
 
+  // close function for open actionsheet filter
   const onPressclose = () => {
     ref.current.hide();
   };
 
+  // timer change for the different cooking time
   const onPressTimer = (id) => {
     setSelect(id);
   };
 
+  // Toggle funtion for select checkbox
   const toggleItemSelection = (id) => {
     const isSelected = selectedItems.includes(id);
     if (isSelected) {
@@ -48,6 +58,8 @@ const SearchAllRecepie = ({ route, navigation }) => {
       setSelectedItems([...selectedItems, id]);
     }
   };
+
+  // Render component for Category
   const renderCategory = ({ item }) => {
     const isSelected = selectedItems.includes(item.id);
     return (
@@ -65,6 +77,8 @@ const SearchAllRecepie = ({ route, navigation }) => {
       </View>
     );
   };
+
+  // Render component for Timer
   const renderTimer = ({ item }) => {
     const isSelected = select === item.id;
     return (
@@ -82,10 +96,15 @@ const SearchAllRecepie = ({ route, navigation }) => {
     );
   };
 
+  // onPress for recepie Description
   const handleRecepiePress = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
   };
 
+  // onPress function on apply to close sheet
+  const onPressApply = () => {
+    ref.current.hide();
+  };
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -181,7 +200,7 @@ const SearchAllRecepie = ({ route, navigation }) => {
             renderItem={renderCategory}
             keyExtractor={(item) => item.id.toString()}
           />
-          <CButton name={CommonString.apply} />
+          <CButton name={CommonString.apply} onPress={onPressApply} />
         </View>
       </ActionSheet>
     </View>

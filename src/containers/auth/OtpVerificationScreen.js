@@ -1,22 +1,31 @@
+// Library Imports
 import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
 import React, { useState } from "react";
+import OtpTextInput from "react-native-text-input-otp";
+
+// Local Imports
 import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CText from "../../components/common/CText";
 import { CommonString } from "../../i18n/String";
-import OtpTextInput from "react-native-text-input-otp";
 import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 
+// Otp Verification Screen Component
 const OtpVerificationScreen = ({ navigation }) => {
+  // State for otp value
   const [otp, setOtp] = useState("");
 
+  // onPress back for go to the sign up screen
   const onPressBack = () => {
     navigation.navigate(AuthNav.SignUpScreen);
+    // console.warn(otp);
   };
+
+  // on Press value for go the Upload photo Screen
   const onPressContinue = () => {
     navigation.navigate(AuthNav.UploadPhoto);
   };
@@ -33,6 +42,8 @@ const OtpVerificationScreen = ({ navigation }) => {
           </CText>
           <View style={{ gap: moderateScale(40) }}>
             <Image source={images.emaillogo} style={localStyles.emaillogo} />
+
+            {/* OTP TextInput field */}
             <OtpTextInput
               otp={otp}
               setOtp={setOtp}

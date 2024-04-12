@@ -1,10 +1,14 @@
-import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
+// Library Imports
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
+
+// Local Imports
 import { styles } from "../../themes";
 import { moderateScale } from "../../common/constants";
 import { colors } from "../../themes/colors";
 import typography from "../../themes/typography";
 
+// Common Button component
 const CButton = ({ name, extraSty, extratext, onPress, LeftIcon }) => {
   return (
     <TouchableOpacity style={[localStyles.main, extraSty]} onPress={onPress}>

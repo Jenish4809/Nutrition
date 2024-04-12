@@ -1,4 +1,7 @@
+//  Library Imports
 import { View, Image, StyleSheet } from "react-native";
+
+// Local Imports
 import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
@@ -10,7 +13,9 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { setAuthToken } from "../../utils/asyncstorage";
 import { StackNav } from "../../navigation/NavigationKeys";
 
+// All done last signup screen component
 const AllDone = ({ navigation }) => {
+  // onPress button for the login compeleted
   const onPressLogin = async () => {
     await setAuthToken(true);
     navigation.reset({

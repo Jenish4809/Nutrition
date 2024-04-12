@@ -1,5 +1,8 @@
+// Library Imports
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import React from "react";
+
+// Local Imports
 import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { styles } from "../../themes";
@@ -9,7 +12,9 @@ import CText from "../../components/common/CText";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 
+// EMailSend Component
 const EmailSend = ({ navigation }) => {
+  // Navigation onPress for the Login Screen
   const onPressLogin = () => {
     navigation.navigate(AuthNav.Login);
   };
