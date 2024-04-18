@@ -129,7 +129,7 @@ const ProfileTab = ({ navigation }) => {
           source={!!imageProfile?.uri ? imageProfile : images.profileimg}
           style={localStyles.profileimgsty}
         />
-        <CText type={"C28"} color={colors.fonttile} align={"center"}>
+        <CText type={"C22"} color={colors.fonttile} align={"center"}>
           {signUpUser ? signUpUser : loginUser}
         </CText>
         <CommonUser

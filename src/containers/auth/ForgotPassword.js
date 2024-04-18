@@ -12,11 +12,14 @@ import CText from "../../components/common/CText";
 import CTextInput from "../../components/common/CTextInput";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 // ForgotPassword Component
 const ForgotPassword = ({ navigation }) => {
   // States for the page
   const [email, setEmail] = useState("");
+  const auth = FIREBASE_AUTH;
 
   // onPress for go to the Login Screen
   const onPressLogin = () => {
@@ -29,9 +32,14 @@ const ForgotPassword = ({ navigation }) => {
   };
 
   // onPress for go to the Email Send Screen
-  const onPressEmailSent = () => {
-    navigation.navigate(AuthNav.EmailSend);
-    // console.warn(email);
+  const onPressEmailSent = async () => {
+    try {
+      // await sendPasswordResetEmail(auth, email);
+      navigation.navigate(AuthNav.EmailSend, { email: email });
+    } catch (error) {
+      console.log(error);
+    }
+    // navigation.navigate(AuthNav.EmailSend);
   };
 
   // Onchange state value of the email function

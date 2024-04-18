@@ -13,7 +13,9 @@ import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 
 // EMailSend Component
-const EmailSend = ({ navigation }) => {
+const EmailSend = ({ navigation, route }) => {
+  let email = route?.params?.email;
+
   // Navigation onPress for the Login Screen
   const onPressLogin = () => {
     navigation.navigate(AuthNav.Login);
@@ -26,7 +28,7 @@ const EmailSend = ({ navigation }) => {
           {CommonString.emailsend}
         </CText>
         <CText type={"E17"} align={"center"} style={styles.mh25}>
-          {CommonString.emailsentdesc}
+          {`We’ve sent a password reset link to ${email}`}
         </CText>
       </View>
       <View style={localStyles.innerview}>
