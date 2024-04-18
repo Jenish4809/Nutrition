@@ -1,7 +1,13 @@
 // Library Imports
-import { View, Image, StyleSheet, TouchableOpacity, Text } from "react-native";
-import React, { useState } from "react";
-import OtpTextInput from "react-native-text-input-otp";
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Alert,
+} from "react-native";
+import React from "react";
 
 // Local Imports
 import images from "../../assets/images";
@@ -13,12 +19,12 @@ import { CommonString } from "../../i18n/String";
 import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { sendEmailVerification } from "firebase/auth";
 
 // Otp Verification Screen Component
 const OtpVerificationScreen = ({ navigation }) => {
-  // State for otp value
-  const [otp, setOtp] = useState("");
-
+  const auth = FIREBASE_AUTH;
   // onPress back for go to the sign up screen
   const onPressBack = () => {
     navigation.navigate(AuthNav.SignUpScreen);
@@ -26,8 +32,14 @@ const OtpVerificationScreen = ({ navigation }) => {
   };
 
   // on Press value for go the Upload photo Screen
-  const onPressContinue = () => {
-    navigation.navigate(AuthNav.UploadPhoto);
+  const onPressContinue = async () => {
+    try {
+      await sendEmailVerification(auth.currentUser);
+      Alert.alert("We send the verification Email on your registered Email");
+      navigation.navigate(AuthNav.UploadPhoto);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <View style={localStyles.main}>
@@ -40,31 +52,11 @@ const OtpVerificationScreen = ({ navigation }) => {
           <CText type={"S17"} color={colors.fontbody}>
             {CommonString.confirmdesc}
           </CText>
-          <View style={{ gap: moderateScale(40) }}>
-            <Image source={images.emaillogo} style={localStyles.emaillogo} />
-
-            {/* OTP TextInput field */}
-            <OtpTextInput
-              otp={otp}
-              setOtp={setOtp}
-              digits={4}
-              style={localStyles.otpview}
-              fontStyle={localStyles.otpfont}
-              focusedStyle={localStyles.otpfocus}
-            />
-          </View>
-          <View style={localStyles.resendview}>
-            <CText type={"E22"} color={colors.fontbody}>
-              {CommonString.notreceive}
-            </CText>
-            <CText type={"B22"} color={colors.green}>
-              {CommonString.resend}
-            </CText>
-          </View>
+          <Image source={images.emaillogo} style={localStyles.emaillogo} />
         </View>
         <View style={localStyles.buttonview}>
           <CButton
-            name={"Continue"}
+            name={"Verify your Email"}
             extraSty={localStyles.btnsty}
             onPress={onPressContinue}
           />

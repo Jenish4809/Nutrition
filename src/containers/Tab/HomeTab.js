@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  Text,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 
@@ -28,6 +29,7 @@ import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { LoginButton } from "../../components/common/CLoginButton";
 import { StackNav } from "../../navigation/NavigationKeys";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
 
 // HomeTab Component
 const HomeTab = ({ navigation }) => {

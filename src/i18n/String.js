@@ -18,7 +18,7 @@ export const CommonString = {
   errpass: "Please Enter Valid Password",
   confirm: "Confirm",
   confirmdesc:
-    "We have just send 4 magic digits to the given email, please enter those below:",
+    "We have just send verification link to the given email, please verify Yourself to continue",
   notreceive: "Didn’t Receive?",
   resend: "Resend",
   photoupload: "Upload Photo",
@@ -153,4 +153,7 @@ export const CommonString = {
   details1:
     "A hamburger (also burger for short) is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bread.",
   scan: "Scan Again",
+  userexist:
+    "User Already Exist Please go to the Login page and Login Yourself",
+  usernotfound: "User not Found / Email or Password wrong",
 };

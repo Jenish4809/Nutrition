@@ -22,6 +22,9 @@ import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 import { LoginButton } from "../../components/common/CLoginButton";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
+import { addDoc, collection } from "firebase/firestore";
 
 // SignUp Screen Component
 const SignUpScreen = ({ navigation }) => {
@@ -32,6 +35,37 @@ const SignUpScreen = ({ navigation }) => {
   const [emailErr, setEmailErr] = useState("");
   const [passErr, setPassErr] = useState("");
 
+  const auth = FIREBASE_AUTH;
+  const db = FIREBASE_DB;
+
+  // user sign up with firebase
+  const signUpUser = async () => {
+    try {
+      if (email.length > 0 && password.length > 0 && name.length > 0) {
+        const response = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        await AsyncStorage.setItem(
+          "users",
+          JSON.stringify(response._tokenResponse.email)
+        );
+        await addDoc(collection(db, "users"), {
+          name: name,
+          email: email,
+          createAt: new Date(),
+        });
+        if (response) {
+          navigation.navigate(AuthNav.OtpVerificationScreen);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert(CommonString.userexist);
+      navigation.navigate(AuthNav.Login);
+    }
+  };
   // onPress Login For go to the Login Screen
   const onPressLogin = () => {
     navigation.navigate(AuthNav.Login);
@@ -73,14 +107,8 @@ const SignUpScreen = ({ navigation }) => {
     } else if (!password) {
       Alert.alert(CommonString.alertpass);
     } else {
-      onPressContinue();
+      signUpUser();
     }
-  };
-
-  // onPress continue fot go to the next otp screen
-  const onPressContinue = async () => {
-    await AsyncStorage.setItem("UserName", name);
-    navigation.navigate(AuthNav.OtpVerificationScreen);
   };
 
   return (
@@ -148,7 +176,7 @@ const SignUpScreen = ({ navigation }) => {
         <CButton
           name={CommonString.continue}
           extraSty={localStyles.btn}
-          onPress={handleButton}
+          onPress={() => handleButton()}
         />
         <View style={localStyles.logintextview}>
           <CText type={"E17"} color={colors.alreadyAc}>

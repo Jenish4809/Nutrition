@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -24,7 +25,10 @@ import {
   LogOut,
   Notification,
 } from "../../assets/svg";
-import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
+import { StackNav } from "../../navigation/NavigationKeys";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { signOut } from "firebase/auth";
+import { setAuthToken } from "../../utils/asyncstorage";
 
 // setting component
 const Settings = ({ navigation }) => {
@@ -32,6 +36,7 @@ const Settings = ({ navigation }) => {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled1, setIsEnabled1] = useState(false);
   const [isEnabled2, setIsEnabled2] = useState(false);
+  const auth = FIREBASE_AUTH;
 
   // turn on off toggle switch functions
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
@@ -39,21 +44,32 @@ const Settings = ({ navigation }) => {
   const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
 
   // onPress log out function for logging out
-  const onPressLogOut = () => {
-    Alert.alert("Logout", "Are you sure you want to log out?", [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "OK",
-        onPress: () => {
-          navigation.navigate(StackNav.AuthNavigation, {
-            screen: AuthNav.Login,
-          });
+  const onPressLogOut = async () => {
+    try {
+      Alert.alert("Logout", "Are you sure you want to log out?", [
+        {
+          text: "Cancel",
+          style: "cancel",
         },
-      },
-    ]);
+        {
+          text: "OK",
+          onPress: async () => {
+            const response = await signOut(auth);
+            await AsyncStorage.removeItem("user");
+            await AsyncStorage.removeItem("users");
+            if (response === undefined) {
+              await setAuthToken(false);
+              navigation.reset({
+                index: 0,
+                routes: [{ name: StackNav.AuthNavigation }],
+              });
+            }
+          },
+        },
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // onPress help function to to redirect the help page
