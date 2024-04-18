@@ -42,7 +42,7 @@ const Searchfood = ({ navigation }) => {
         type={"E15"}
         color={colors.fonttile}
       />
-      // Flatlist for show the category of food
+      {/* Flatlist for show the category of food */}
       <FlatList
         data={FavouriteFood}
         renderItem={renderItem}

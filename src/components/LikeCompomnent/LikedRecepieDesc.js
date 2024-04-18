@@ -79,7 +79,7 @@ const LikedRecepieDesc = ({ route }) => {
           <CText type={"C17"} color={colors.premium}>
             {CommonString.ingredient}
           </CText>
-          // Ingredient data render using map
+          {/* Ingredient data render using map */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {item?.FoodRecepie?.map((item) => (
               <View key={item.id} style={localStyles.recepieview}>
