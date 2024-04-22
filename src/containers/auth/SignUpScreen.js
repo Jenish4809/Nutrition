@@ -47,14 +47,17 @@ const SignUpScreen = ({ navigation }) => {
           email,
           password
         );
-        await AsyncStorage.setItem(
-          "users",
-          JSON.stringify(response._tokenResponse.email)
-        );
+        const profileData = {
+          name: name,
+          email: response._tokenResponse.email,
+          uid: response.user.uid,
+        };
+        await AsyncStorage.setItem("users", JSON.stringify(profileData));
         await addDoc(collection(db, "users"), {
           name: name,
           email: email,
           createAt: new Date(),
+          uid: response.user.uid,
         });
         if (response) {
           navigation.navigate(AuthNav.OtpVerificationScreen);

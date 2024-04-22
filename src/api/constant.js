@@ -1,13 +1,5 @@
 import images from "../assets/images";
-import {
-  EditProfile,
-  Help,
-  LogOut,
-  Setting,
-  Subscription,
-} from "../assets/svg";
 import { CommonString } from "../i18n/String";
-import { StackNav } from "../navigation/NavigationKeys";
 
 export const OnBoardingData = [
   {

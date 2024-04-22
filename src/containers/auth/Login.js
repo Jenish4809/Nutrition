@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -26,8 +27,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // Login COmponent
 const Login = ({ navigation }) => {
   // States for Login
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("donapaw360@agaseo.com");
+  const [password, setPassword] = useState("Test@123");
+
+  //   Login Function
 
   const auth = FIREBASE_AUTH;
 
@@ -39,11 +42,11 @@ const Login = ({ navigation }) => {
           email,
           password
         );
-        await AsyncStorage.setItem(
-          "user",
-          JSON.stringify(response._tokenResponse.email)
-        );
-
+        const userData = {
+          email: response._tokenResponse.email,
+          uid: response.user.uid,
+        };
+        await AsyncStorage.setItem("user", JSON.stringify(userData));
         if (response) {
           await setAuthToken(true);
           navigation.reset({
@@ -57,6 +60,7 @@ const Login = ({ navigation }) => {
       Alert.alert(CommonString.userexist);
     }
   };
+
   // onPress function for go to the SignUp Screen
   const onPressSignup = () => {
     navigation.navigate(AuthNav.SignUpScreen);

@@ -29,7 +29,6 @@ import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { LoginButton } from "../../components/common/CLoginButton";
 import { StackNav } from "../../navigation/NavigationKeys";
-import { FIREBASE_AUTH } from "../../../firebaseConfig";
 
 // HomeTab Component
 const HomeTab = ({ navigation }) => {
@@ -59,9 +58,11 @@ const HomeTab = ({ navigation }) => {
             {item.description}
           </CText>
           <TouchableOpacity style={localStyles.cardbtn}>
-            <CText type={"K14"} color={colors.textbg}>
-              View Recepie
-            </CText>
+            <CText
+              type={"K14"}
+              color={colors.textbg}
+              children={"View Recepie"}
+            />
           </TouchableOpacity>
         </View>
         <Image source={images.pizzaslice} style={localStyles.pizza} />

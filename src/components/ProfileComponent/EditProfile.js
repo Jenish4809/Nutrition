@@ -1,6 +1,6 @@
 // Library Imports
 import { View, StyleSheet, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Local Imports
 import CHeader from "../common/CHeader";
@@ -13,6 +13,7 @@ import Feather from "react-native-vector-icons/Feather";
 import images from "../../assets/images";
 import CButton from "../common/CButton";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Editprofile Component
 const EditProfile = () => {
@@ -23,7 +24,7 @@ const EditProfile = () => {
   const [password, setPassword] = useState("");
 
   // onPress save go to the back navigation
-  const onPressProfile = () => {
+  const onPressProfile = async () => {
     navigation.goBack();
   };
 

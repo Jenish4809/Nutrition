@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -29,30 +30,45 @@ import {
 } from "../../assets/svg";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
-import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
 
 // Profile Tab Component
 const ProfileTab = ({ navigation }) => {
   const [imageProfile, setImageProfile] = useState(null);
   const [signUpUser, setSignUpUser] = useState("");
-  const [loginUser, setLoginUser] = useState("");
+  const [user1, setUser1] = useState(null);
+  const [userName, setUserName] = useState("");
 
+  const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
+
   // TO get the Profile Image from Async Storage
   useEffect(() => {
-    const getImage = async () => {
-      const imageUri = await AsyncStorage.getItem("Photos");
-      setImageProfile({ uri: imageUri });
-      const name = await AsyncStorage.getItem("users");
-      const newData = JSON.parse(name);
-      setSignUpUser(newData);
-      const login = await AsyncStorage.getItem("user");
-      const newData1 = JSON.parse(login);
-      setLoginUser(newData1);
-    };
     getImage();
+    getUserDetails();
   }, []);
+
+  // TO get the Profile Image from Async Storage
+  const getImage = async () => {
+    const imageUri = await AsyncStorage.getItem("Photos");
+    setImageProfile({ uri: imageUri });
+    const name = await AsyncStorage.getItem("users");
+    const newData = JSON.parse(name);
+    setSignUpUser(newData?.name);
+    const login = await AsyncStorage.getItem("user");
+    const newData1 = JSON.parse(login);
+    setUser1(newData1?.uid);
+  };
+
+  // TO get the User Details from Firebase
+  const getUserDetails = async () => {
+    const q = await query(collection(db, "users"), where("uid", "==", user1));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setUserName(doc.data().name);
+    });
+  };
 
   // render item of the profile category data
   const CommonUser = ({ onPress, RightIcon, text }) => {
@@ -102,6 +118,7 @@ const ProfileTab = ({ navigation }) => {
             const response = await signOut(auth);
             await AsyncStorage.removeItem("user");
             await AsyncStorage.removeItem("users");
+            await AsyncStorage.removeItem("Photos");
             if (response === undefined) {
               await setAuthToken(false);
               navigation.reset({
@@ -116,6 +133,7 @@ const ProfileTab = ({ navigation }) => {
       console.log(error);
     }
   };
+
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -130,7 +148,7 @@ const ProfileTab = ({ navigation }) => {
           style={localStyles.profileimgsty}
         />
         <CText type={"C22"} color={colors.fonttile} align={"center"}>
-          {signUpUser ? signUpUser : loginUser}
+          {userName ? userName : signUpUser}
         </CText>
         <CommonUser
           RightIcon={() => <EditProfile />}
