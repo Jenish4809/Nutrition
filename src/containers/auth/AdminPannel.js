@@ -7,8 +7,8 @@ import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { CommonString } from "../../i18n/String";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
 const AdminPannel = () => {
   return (
     <View style={localStyles.main}>
@@ -29,8 +29,8 @@ const AdminPannel = () => {
           placeholder={CommonString.ingredient}
           label={CommonString.ingredient}
           LeftIcon={() => (
-            <MaterialCommunityIcons
-              name="food-variant"
+            <MaterialIcons
+              name="food-bank"
               size={moderateScale(24)}
               color={colors.gray}
             />
