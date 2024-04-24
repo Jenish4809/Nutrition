@@ -17,6 +17,7 @@ export const StackNav = {
   Searchfood: "Searchfood",
   SearchAllRecepie: "SearchAllRecepie",
   CameraScan: "CameraScan",
+  DrawerNavigation: "DrawerNavigation",
 };
 
 export const AuthNav = {
@@ -39,4 +40,9 @@ export const TabNav = {
   LikeTab: "LikeTab",
   ProfileTab: "ProfileTab",
   SearchTab: "SearchTab",
+};
+
+export const DrawerNav = {
+  AdminPannel: "AdminPannel",
+  FoodData: "FoodData",
 };

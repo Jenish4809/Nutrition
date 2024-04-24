@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";

@@ -31,6 +31,8 @@ import SearchAllRecepie from "../components/SearchComponent/SearchAllRecepie.js"
 import Searchfood from "../components/SearchComponent/Searchfood.js";
 import CameraScan from "../components/CameraScan/CameraScan.js";
 import AdminPannel from "../containers/auth/AdminPannel.js";
+import DrawerNavigation from "./Type/DrawerNavigation.js";
+import FoodData from "../containers/auth/FoodData.js";
 
 export const StackRoute = {
   Splash,
@@ -51,6 +53,7 @@ export const StackRoute = {
   SearchAllRecepie,
   Searchfood,
   CameraScan,
+  DrawerNavigation,
 };
 
 export const AuthRoute = {
@@ -72,4 +75,9 @@ export const TabRoute = {
   ProfileTab,
   SearchTab,
   CameraTab,
+};
+
+export const DrawerRoute = {
+  AdminPannel,
+  FoodData,
 };

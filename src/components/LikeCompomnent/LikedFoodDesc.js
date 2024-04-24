@@ -17,7 +17,7 @@ const LikedFoodDesc = ({ route }) => {
   const { item } = route.params;
 
   return (
-    <View style={localStyles.main}>
+    <View style={localStyles.main} key={(item) => item.id}>
       <CHeader
         title={CommonString.food}
         LeftIcon={true}

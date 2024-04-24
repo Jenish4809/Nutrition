@@ -158,4 +158,10 @@ export const CommonString = {
   usernotfound: "User not Found / Email or Password wrong",
   loginuser: "Login as User",
   loginAdmin: "Login as Admin",
+  addfood: "Add Food Data",
+  addrecepie: "Add Recepie Data",
+  foodname: "Food Name",
+  name: "Name",
+  desc1: "Description 1",
+  desc2: "Description 2",
 };

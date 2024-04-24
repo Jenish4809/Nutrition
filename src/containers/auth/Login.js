@@ -18,7 +18,7 @@ import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import CTextInput from "../../components/common/CTextInput";
 import CText from "../../components/common/CText";
-import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
+import { AuthNav, DrawerNav, StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -109,7 +109,7 @@ const Login = ({ navigation }) => {
     await setAuthToken(true);
     navigation.reset({
       index: 0,
-      routes: [{ name: AuthNav.AdminPannel }],
+      routes: [{ name: DrawerNav.AdminPannel }],
     });
   };
   //  onPress function for go to the User Pannel
@@ -132,7 +132,7 @@ const Login = ({ navigation }) => {
   return (
     <View style={localStyles.main}>
       <View style={localStyles.innerview}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View>
             <Image source={images.logotextcolor} style={localStyles.logo} />
 

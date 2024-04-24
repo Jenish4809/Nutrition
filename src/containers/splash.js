@@ -7,7 +7,7 @@ import { styles } from "../themes";
 import { colors } from "../themes/colors";
 import images from "../assets/images";
 import { moderateScale } from "../common/constants";
-import { AuthNav, DrawerNav, StackNav } from "../navigation/NavigationKeys";
+import { DrawerNav, StackNav } from "../navigation/NavigationKeys";
 import { initialStorageValueGet } from "../utils/asyncstorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -20,7 +20,7 @@ const Splash = ({ navigation }) => {
     }, 2000);
   }, []);
 
-  // FUnction for the Token valuating for the screen
+  // Function for the Token valuating for the screen
   const asyncProcess = async () => {
     try {
       let async = await initialStorageValueGet();
@@ -29,8 +29,8 @@ const Splash = ({ navigation }) => {
         let { onBoardingValue, acessTokenValue } = async;
         if (!!acessTokenValue) {
           if (!!response) {
-            navigation.replace(StackNav.AuthNavigation, {
-              screen: AuthNav.AdminPannel,
+            navigation.replace(StackNav.DrawerNavigation, {
+              screen: DrawerNav.AdminPannel,
             });
           } else {
             navigation.replace(StackNav.TabNavigation);
