@@ -35,6 +35,11 @@ export default function AuthNavigation() {
       <Stack.Screen name={AuthNav.AllDone} component={AuthRoute.AllDone} />
       <Stack.Screen name={AuthNav.Login} component={AuthRoute.Login} />
       <Stack.Screen
+        name={AuthNav.AdminPannel}
+        component={AuthRoute.AdminPannel}
+      />
+
+      <Stack.Screen
         name={AuthNav.ForgotPassword}
         component={AuthRoute.ForgotPassword}
       />

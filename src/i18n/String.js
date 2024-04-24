@@ -156,4 +156,6 @@ export const CommonString = {
   userexist:
     "User Already Exist Please go to the Login page and Login Yourself",
   usernotfound: "User not Found / Email or Password wrong",
+  loginuser: "Login as User",
+  loginAdmin: "Login as Admin",
 };

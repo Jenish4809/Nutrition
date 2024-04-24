@@ -7,7 +7,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 // Local Imports
 import { moderateScale } from "../../common/constants";
@@ -20,40 +20,56 @@ import CTextInput from "../../components/common/CTextInput";
 import CText from "../../components/common/CText";
 import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
-import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import ActionSheet from "react-native-actions-sheet";
 
 // Login COmponent
 const Login = ({ navigation }) => {
   // States for Login
-  const [email, setEmail] = useState("donapaw360@agaseo.com");
-  const [password, setPassword] = useState("Test@123");
-
-  //   Login Function
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  let ref = useRef(null);
 
   const auth = FIREBASE_AUTH;
-
+  const db = FIREBASE_DB;
+  //   Login Function
   const userLogin = async () => {
     try {
       if (email.length > 0 && password.length > 0) {
+        // firebase login
         const response = await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
+
+        // store userlogin data
         const userData = {
           email: response._tokenResponse.email,
           uid: response.user.uid,
         };
         await AsyncStorage.setItem("user", JSON.stringify(userData));
-        if (response) {
-          await setAuthToken(true);
-          navigation.reset({
-            index: 0,
-            routes: [{ name: StackNav.TabNavigation }],
-          });
-        }
+
+        // get data from firestore admin or user
+        const q = await query(
+          collection(db, "users"),
+          where("uid", "==", response.user.uid)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          if (doc.data().isUser === true && doc.data().isAdmin === true) {
+            ref.current.show();
+          } else {
+            setAuthToken(true);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: StackNav.TabNavigation }],
+            });
+          }
+        });
       }
     } catch (error) {
       console.log(error);
@@ -84,6 +100,34 @@ const Login = ({ navigation }) => {
   // onChange function for get value password
   const onChangePassword = (text) => {
     setPassword(text);
+  };
+
+  //  onPress function for go to the Admin Pannel
+  const onPressAdmin = async () => {
+    const adminLogin = { isAdminLogin: true };
+    await AsyncStorage.setItem("AdminLogin", JSON.stringify(adminLogin));
+    await setAuthToken(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: AuthNav.AdminPannel }],
+    });
+  };
+  //  onPress function for go to the User Pannel
+  const onPressUser = async () => {
+    await setAuthToken(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: StackNav.TabNavigation }],
+    });
+  };
+  const CommonActionButton = ({ title, onPress }) => {
+    return (
+      <TouchableOpacity onPress={onPress} style={localStyles.actionBtn}>
+        <CText type={"K22"} color={colors.btncolor}>
+          {title}
+        </CText>
+      </TouchableOpacity>
+    );
   };
   return (
     <View style={localStyles.main}>
@@ -159,6 +203,18 @@ const Login = ({ navigation }) => {
                   {CommonString.signup}
                 </CText>
               </TouchableOpacity>
+              <ActionSheet ref={ref} containerStyle={localStyles.actionsheet}>
+                <View>
+                  <CommonActionButton
+                    title={CommonString.loginAdmin}
+                    onPress={onPressAdmin}
+                  />
+                  <CommonActionButton
+                    title={CommonString.loginuser}
+                    onPress={onPressUser}
+                  />
+                </View>
+              </ActionSheet>
             </View>
           </View>
         </ScrollView>
@@ -230,5 +286,19 @@ const localStyles = StyleSheet.create({
     ...styles.flexRow,
     gap: moderateScale(5),
     ...styles.justifyCenter,
+  },
+  actionsheet: {
+    borderTopLeftRadius: moderateScale(40),
+    borderTopRightRadius: moderateScale(40),
+    ...styles.p30,
+  },
+  actionBtn: {
+    height: moderateScale(72),
+    width: moderateScale(295),
+    backgroundColor: colors.green,
+    borderRadius: moderateScale(20),
+    ...styles.selfCenter,
+    ...styles.center,
+    ...styles.mv15,
   },
 });

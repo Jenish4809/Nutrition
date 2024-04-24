@@ -30,6 +30,7 @@ import LikedRecepieDesc from "../components/LikeCompomnent/LikedRecepieDesc";
 import SearchAllRecepie from "../components/SearchComponent/SearchAllRecepie.js";
 import Searchfood from "../components/SearchComponent/Searchfood.js";
 import CameraScan from "../components/CameraScan/CameraScan.js";
+import AdminPannel from "../containers/auth/AdminPannel.js";
 
 export const StackRoute = {
   Splash,
@@ -62,6 +63,7 @@ export const AuthRoute = {
   Login,
   ForgotPassword,
   EmailSend,
+  AdminPannel,
 };
 
 export const TabRoute = {

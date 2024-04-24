@@ -51,6 +51,8 @@ const SignUpScreen = ({ navigation }) => {
           name: name,
           email: response._tokenResponse.email,
           uid: response.user.uid,
+          isUser: true,
+          isAdmin: false,
         };
         await AsyncStorage.setItem("users", JSON.stringify(profileData));
         await addDoc(collection(db, "users"), {
@@ -58,6 +60,8 @@ const SignUpScreen = ({ navigation }) => {
           email: email,
           createAt: new Date(),
           uid: response.user.uid,
+          isUser: true,
+          isAdmin: false,
         });
         if (response) {
           navigation.navigate(AuthNav.OtpVerificationScreen);

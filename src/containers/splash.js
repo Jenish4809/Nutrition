@@ -7,8 +7,9 @@ import { styles } from "../themes";
 import { colors } from "../themes/colors";
 import images from "../assets/images";
 import { moderateScale } from "../common/constants";
-import { StackNav } from "../navigation/NavigationKeys";
+import { AuthNav, DrawerNav, StackNav } from "../navigation/NavigationKeys";
 import { initialStorageValueGet } from "../utils/asyncstorage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Splash Screen Component
 const Splash = ({ navigation }) => {
@@ -23,10 +24,17 @@ const Splash = ({ navigation }) => {
   const asyncProcess = async () => {
     try {
       let async = await initialStorageValueGet();
+      let response = await AsyncStorage.getItem("AdminLogin");
       if (!!async) {
         let { onBoardingValue, acessTokenValue } = async;
         if (!!acessTokenValue) {
-          navigation.replace(StackNav.TabNavigation);
+          if (!!response) {
+            navigation.replace(StackNav.AuthNavigation, {
+              screen: AuthNav.AdminPannel,
+            });
+          } else {
+            navigation.replace(StackNav.TabNavigation);
+          }
         } else if (!!onBoardingValue) {
           navigation.replace(StackNav.AuthNavigation);
         } else {

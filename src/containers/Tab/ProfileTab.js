@@ -118,6 +118,7 @@ const ProfileTab = ({ navigation }) => {
             const response = await signOut(auth);
             await AsyncStorage.removeItem("user");
             await AsyncStorage.removeItem("users");
+            await AsyncStorage.removeItem("AdminLogin");
             await AsyncStorage.removeItem("Photos");
             if (response === undefined) {
               await setAuthToken(false);

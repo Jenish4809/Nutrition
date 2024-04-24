@@ -30,6 +30,7 @@ export const AuthNav = {
   Login: "Login",
   ForgotPassword: "ForgotPassword",
   EmailSend: "EmailSend",
+  AdminPannel: "AdminPannel",
 };
 
 export const TabNav = {
