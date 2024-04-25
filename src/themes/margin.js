@@ -155,6 +155,9 @@ export default StyleSheet.create({
   mt100: {
     marginTop: moderateScale(100),
   },
+  mv5: {
+    marginVertical: moderateScale(5),
+  },
   mv10: {
     marginVertical: moderateScale(10),
   },

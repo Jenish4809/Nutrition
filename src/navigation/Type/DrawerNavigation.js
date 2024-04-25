@@ -9,7 +9,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Local imports
-import { StackNav } from "../NavigationKeys";
+import { DrawerNav, StackNav } from "../NavigationKeys";
 import { DrawerRoute } from "../NavigationRoutes";
 import { colors } from "../../themes/colors";
 import { moderateScale } from "../../common/constants";
@@ -52,17 +52,6 @@ const DrawerNavigation = () => {
     >
       <Drawer.Screen
         options={{
-          drawerLabel: "Add Recepie",
-          drawerLabelStyle: {
-            ...typography.fontWeights.NunitoBlack,
-            ...typography.fontSizes.f16,
-          },
-        }}
-        name={CommonString.addrecepie}
-        component={DrawerRoute.AdminPannel}
-      />
-      <Drawer.Screen
-        options={{
           drawerLabel: "Add Food",
           drawerLabelStyle: {
             ...typography.fontWeights.NunitoBlack,
@@ -70,6 +59,17 @@ const DrawerNavigation = () => {
           },
         }}
         name={CommonString.addfood}
+        component={DrawerRoute.AdminPannel}
+      />
+      <Drawer.Screen
+        options={{
+          drawerLabel: "Add Recepie",
+          drawerLabelStyle: {
+            ...typography.fontWeights.NunitoBlack,
+            ...typography.fontSizes.f16,
+          },
+        }}
+        name={CommonString.addrecepie}
         component={DrawerRoute.FoodData}
       />
     </Drawer.Navigator>

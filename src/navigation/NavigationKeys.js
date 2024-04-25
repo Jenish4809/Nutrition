@@ -2,6 +2,7 @@ export const StackNav = {
   Splah: "Splash",
   OnBoarding: "OnBoarding",
   AuthNavigation: "AuthNavigation",
+  DrawerNavigation: "DrawerNavigation",
   TabNavigation: "TabNavigation",
   EditProfile: "EditProfile",
   HelpCenter: "HelpCenter",
@@ -17,7 +18,6 @@ export const StackNav = {
   Searchfood: "Searchfood",
   SearchAllRecepie: "SearchAllRecepie",
   CameraScan: "CameraScan",
-  DrawerNavigation: "DrawerNavigation",
 };
 
 export const AuthNav = {

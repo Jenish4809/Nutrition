@@ -23,12 +23,12 @@ export default function StackNavigation() {
         component={StackRoute.AuthNavigation}
       />
       <Stack.Screen
-        name={StackNav.TabNavigation}
-        component={StackRoute.TabNavigation}
-      />
-      <Stack.Screen
         name={StackNav.DrawerNavigation}
         component={StackRoute.DrawerNavigation}
+      />
+      <Stack.Screen
+        name={StackNav.TabNavigation}
+        component={StackRoute.TabNavigation}
       />
       <Stack.Screen
         name={StackNav.EditProfile}

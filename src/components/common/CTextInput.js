@@ -27,6 +27,7 @@ const CTextInput = ({
   errorStyle,
   errorText,
   inputview,
+  textAlignVertical,
 }) => {
   const [isSecurePass, setIsSecurePass] = useState(isSecure);
 
@@ -47,6 +48,7 @@ const CTextInput = ({
       <View style={[localStyles.textview, inputview]}>
         {!!LeftIcon && <LeftIcon />}
         <TextInput
+          textAlignVertical={textAlignVertical}
           maxLength={maxLength}
           onChangeText={onChangeText}
           placeholder={placeholder}
@@ -75,11 +77,7 @@ const CTextInput = ({
       </View>
       {errorText && errorText != "" ? (
         <CText
-          style={{
-            ...localStyles.errorText,
-            ...errorStyle,
-            color: colors.red,
-          }}
+          style={[localStyles.errorText, errorStyle, { color: colors.red }]}
         >
           {errorText}
         </CText>

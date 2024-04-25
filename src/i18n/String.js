@@ -164,4 +164,13 @@ export const CommonString = {
   name: "Name",
   desc1: "Description 1",
   desc2: "Description 2",
+  savedata: "Save Data",
+  recepiename: "Recepie Name",
+  subtitle: "Subtitle",
+  entersubtitle: "Enter subtitle Name",
+  enterrecepie: "Enter Recepie Name",
+  desc: "Description",
+  step1: "Step 1",
+  step2: "Step 2",
+  step3: "Step 3",
 };

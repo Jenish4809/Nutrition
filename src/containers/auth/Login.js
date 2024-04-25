@@ -18,7 +18,7 @@ import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import CTextInput from "../../components/common/CTextInput";
 import CText from "../../components/common/CText";
-import { AuthNav, DrawerNav, StackNav } from "../../navigation/NavigationKeys";
+import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -26,11 +26,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import ActionSheet from "react-native-actions-sheet";
 
-// Login COmponent
+// Login Component
 const Login = ({ navigation }) => {
   // States for Login
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ropet11436@dxice.com");
+  const [password, setPassword] = useState("Test@123");
   let ref = useRef(null);
 
   const auth = FIREBASE_AUTH;
@@ -109,7 +109,7 @@ const Login = ({ navigation }) => {
     await setAuthToken(true);
     navigation.reset({
       index: 0,
-      routes: [{ name: DrawerNav.AdminPannel }],
+      routes: [{ name: StackNav.DrawerNavigation }],
     });
   };
   //  onPress function for go to the User Pannel
@@ -136,7 +136,7 @@ const Login = ({ navigation }) => {
           <View>
             <Image source={images.logotextcolor} style={localStyles.logo} />
 
-            <View style={{ gap: 20 }}>
+            <View style={{ gap: moderateScale(20) }}>
               <CButton
                 LeftIcon={() => (
                   <Image
