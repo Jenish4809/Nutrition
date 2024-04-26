@@ -19,6 +19,7 @@ import CText from "../common/CText";
 import CButton from "../common/CButton";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import typography from "../../themes/typography";
+import { FoodIngredient12 } from "../../api/constant";
 
 // Liked Recepie Description
 const LikedRecepieDesc = ({ route }) => {
@@ -31,6 +32,7 @@ const LikedRecepieDesc = ({ route }) => {
   const onPressLike = () => {
     setSelected(!selected);
   };
+
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -40,7 +42,7 @@ const LikedRecepieDesc = ({ route }) => {
         LeftIcon={true}
       />
       <ScrollView>
-        <Image source={item.regular} style={localStyles.poster} />
+        <Image source={{ uri: item.url }} style={localStyles.poster} />
         <View style={localStyles.innerview}>
           <View style={localStyles.starview}>
             <View style={localStyles.timetext}>
@@ -50,7 +52,7 @@ const LikedRecepieDesc = ({ route }) => {
               </CText>
               <Image source={images.usericon1} style={localStyles.time} />
               <CText type={"E15"} color={colors.fontbody}>
-                {item.serve}
+                {item.serve + " " + "Serve"}
               </CText>
             </View>
             <Image source={images.stars} style={localStyles.stars} />
@@ -79,11 +81,10 @@ const LikedRecepieDesc = ({ route }) => {
           <CText type={"C17"} color={colors.premium}>
             {CommonString.ingredient}
           </CText>
-          {/* Ingredient data render using map */}
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {item?.FoodRecepie?.map((item) => (
-              <View key={item.id} style={localStyles.recepieview}>
-                <Image source={item.img1} style={localStyles.recepieimg} />
+            {FoodIngredient12?.map((item) => (
+              <View key={item?.id} style={localStyles.recepieview}>
+                <Image source={item?.img1} style={localStyles.recepieimg} />
                 <View>
                   <CText type={"E15"} color={colors.allhere}>
                     {item.name}
@@ -101,7 +102,7 @@ const LikedRecepieDesc = ({ route }) => {
             </CText>
             <View style={localStyles.stepdivider1}>
               <CText type={"K17"} color={colors.fontbody}>
-                {item.strstep1}
+                {CommonString.step1}
               </CText>
               <CText type={"E17"} color={colors.allhere}>
                 {item.step1}
@@ -109,7 +110,7 @@ const LikedRecepieDesc = ({ route }) => {
             </View>
             <View>
               <CText type={"K17"} color={colors.fontbody}>
-                {item.strstep2}
+                {CommonString.step2}
               </CText>
               <CText type={"E17"} color={colors.allhere}>
                 {item.step2}
@@ -117,7 +118,7 @@ const LikedRecepieDesc = ({ route }) => {
             </View>
             <View>
               <CText type={"K17"} color={colors.fontbody}>
-                {item.strstep3}
+                {CommonString.step3}
               </CText>
               <CText type={"E17"} color={colors.allhere}>
                 {item.step3}

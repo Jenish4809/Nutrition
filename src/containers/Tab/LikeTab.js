@@ -7,27 +7,45 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../../components/common/CHeader";
 import { CommonString } from "../../i18n/String";
-import {
-  FavouriteCategory,
-  FavouriteFood,
-  FavouriteRecepie,
-} from "../../api/constant";
+import { FavouriteCategory, FavouriteFood } from "../../api/constant";
 import CText from "../../components/common/CText";
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
 
 // LikeTab component
 const LikeTab = ({ navigation }) => {
   const [selected, setSelected] = useState(1);
+  const db = FIREBASE_DB;
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const todoRef = collection(db, "RecepieData");
+    const subscriber = onSnapshot(todoRef, {
+      next: (snapshot) => {
+        const todos = [];
+        snapshot.docs.forEach((doc) => {
+          todos.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setData(todos);
+      },
+    });
+    return () => subscriber();
+  }, []);
 
   // onPress function for go between food and recepie
   const onPressCategory = (item) => {
@@ -81,7 +99,10 @@ const LikeTab = ({ navigation }) => {
         onPress={() => handleRecepiePress(item)}
       >
         <View>
-          <ImageBackground source={item.image} style={localStyles.posterimage}>
+          <ImageBackground
+            source={{ uri: item.url }}
+            style={localStyles.posterimage}
+          >
             <View style={localStyles.bgimagerow}>
               <View style={localStyles.servetext}>
                 <Image source={images.timeicon} style={localStyles.timeicon} />
@@ -90,7 +111,7 @@ const LikeTab = ({ navigation }) => {
                 </CText>
                 <Image source={images.usericon} style={localStyles.timeicon} />
                 <CText type={"E15"} color={colors.textbg}>
-                  {item.serve}
+                  {item.serve + " " + "Serve"}
                 </CText>
               </View>
               <View>
@@ -103,7 +124,7 @@ const LikeTab = ({ navigation }) => {
           {item.name}
         </CText>
         <CText type={"K13"} color={colors.fontbody} align={"center"}>
-          {item.description}
+          {item.subtitle}
         </CText>
       </TouchableOpacity>
     );
@@ -199,7 +220,7 @@ const LikeTab = ({ navigation }) => {
       ) : (
         <FlatList
           key={"#"}
-          data={FavouriteRecepie}
+          data={data}
           renderItem={renderFavRecepie}
           keyExtractor={(item) => "#" + item.id.toString()}
           ListEmptyComponent={EmptyFaVRecepie}

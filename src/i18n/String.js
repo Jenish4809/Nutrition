@@ -173,4 +173,8 @@ export const CommonString = {
   step1: "Step 1",
   step2: "Step 2",
   step3: "Step 3",
+  minutes: "Minutes for Preparing",
+  serve: "Servings",
+  servings: "Enter Serve",
+  uploadImg: "Upload",
 };

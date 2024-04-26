@@ -367,6 +367,13 @@ export const FavouriteFood = [
   },
 ];
 
+export const FoodIngredient12 = [
+  { id: 1, img1: images.meat, name: "Fish", piece: "5 Slices" },
+  { id: 2, img1: images.brocoli, name: "Brocoli", piece: "2 Pcs" },
+  { id: 3, img1: images.tomato, name: "Tomato", piece: "2 Pcs" },
+  { id: 4, img1: images.corn, name: "Corn", piece: "1 Pcs" },
+];
+
 export const FavouriteRecepie = [
   {
     id: 1,
