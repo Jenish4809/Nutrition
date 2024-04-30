@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
@@ -34,157 +34,146 @@ const AdminPannel = () => {
     desc2: "",
     image: null,
     picture: null,
-    downloadUrl: "",
+    profileDownloadUrl: "",
+    foodDownloadUrl: "",
   });
 
   const storage = FIREBASE_STORE;
   const db = FIREBASE_DB;
 
-  // useEffect(() => {
-  //   const uploadImage = async () => {
-  //     // convert image into blob image
+  const uploadImageProfile = async () => {
+    // convert image into blob image
 
-  //     const blobImage = await new Promise((resolve, reject) => {
-  //       const xhr = new XMLHttpRequest();
-  //       xhr.onload = function () {
-  //         resolve(xhr.response);
-  //       };
-  //       xhr.onerror = function () {
-  //         reject(new TypeError("Network request failed"));
-  //       };
-  //       xhr.responseType = "blob";
-  //       xhr.open("GET", adminData.image, true);
-  //       xhr.send(null);
-  //     });
+    const blobImage = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", adminData.picture, true);
+      xhr.send(null);
+    });
 
-  //     // set metadata of image
-  //     /** @type {any} */
-  //     const metadata = {
-  //       contentType: "image/jpeg",
-  //     };
-  //     // upload image on storage
-  //     // Upload file and metadata to the object 'images/mountains.jpg'
-  //     const storageRef = ref(storage, "foodata/" + Date.now());
-  //     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
+    // set metadata of image
+    /** @type {any} */
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+    // upload image on storage
+    // Upload file and metadata to the object 'images/mountains.jpg'
+    const storageRef = ref(storage, "foodProfile/" + Date.now());
+    const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
-  //     // Listen for state changes, errors, and completion of the upload.
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         console.log("Upload is " + progress + "% done");
-  //         switch (snapshot.state) {
-  //           case "paused":
-  //             console.log("Upload is paused");
-  //             break;
-  //           case "running":
-  //             console.log("Upload is running");
-  //             break;
-  //         }
-  //       },
-  //       (error) => {
-  //         // A full list of error codes is available at
-  //         // https://firebase.google.com/docs/storage/web/handle-errors
-  //         switch (error.code) {
-  //           case "storage/unauthorized":
-  //             // User doesn't have permission to access the object
-  //             break;
-  //           case "storage/canceled":
-  //             // User canceled the upload
-  //             break;
-  //           case "storage/unknown":
-  //             // Unknown error occurred, inspect error.serverResponse
-  //             break;
-  //         }
-  //       },
-  //       () => {
-  //         // Upload completed successfully, now we can get the download URL
-  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //           setAdminData({ ...adminData, downloadUrl: downloadURL });
-  //           console.log(adminData.downloadUrl);
-  //         });
-  //       }
-  //     );
-  //   };
-  //   if (adminData.image != null) {
-  //     uploadImage();
-  //   }
-  // }, [adminData.image]);
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setAdminData({ ...adminData, profileDownloadUrl: downloadURL });
+        });
+      }
+    );
+  };
 
-  // useEffect(() => {
-  //   const uploadImage = async () => {
-  //     // convert image into blob image
+  const uploadImageData = async () => {
+    // convert image into blob image
 
-  //     const blobImage = await new Promise((resolve, reject) => {
-  //       const xhr = new XMLHttpRequest();
-  //       xhr.onload = function () {
-  //         resolve(xhr.response);
-  //       };
-  //       xhr.onerror = function () {
-  //         reject(new TypeError("Network request failed"));
-  //       };
-  //       xhr.responseType = "blob";
-  //       xhr.open("GET", adminData.picture, true);
-  //       xhr.send(null);
-  //     });
+    const blobImage = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", adminData.image, true);
+      xhr.send(null);
+    });
 
-  //     // set metadata of image
-  //     /** @type {any} */
-  //     const metadata = {
-  //       contentType: "image/jpeg",
-  //     };
-  //     // upload image on storage
-  //     // Upload file and metadata to the object 'images/mountains.jpg'
-  //     const storageRef = ref(storage, "foodProfile/" + Date.now());
-  //     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
+    // set metadata of image
+    /** @type {any} */
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+    // upload image on storage
+    // Upload file and metadata to the object 'images/mountains.jpg'
+    const storageRef = ref(storage, "foodata/" + Date.now());
+    const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
-  //     // Listen for state changes, errors, and completion of the upload.
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-  //         const progress =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         console.log("Upload is " + progress + "% done");
-  //         switch (snapshot.state) {
-  //           case "paused":
-  //             console.log("Upload is paused");
-  //             break;
-  //           case "running":
-  //             console.log("Upload is running");
-  //             break;
-  //         }
-  //       },
-  //       (error) => {
-  //         // A full list of error codes is available at
-  //         // https://firebase.google.com/docs/storage/web/handle-errors
-  //         switch (error.code) {
-  //           case "storage/unauthorized":
-  //             // User doesn't have permission to access the object
-  //             break;
-  //           case "storage/canceled":
-  //             // User canceled the upload
-  //             break;
-  //           case "storage/unknown":
-  //             // Unknown error occurred, inspect error.serverResponse
-  //             break;
-  //         }
-  //       },
-  //       () => {
-  //         // Upload completed successfully, now we can get the download URL
-  //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //           setAdminData({ ...adminData, downloadUrl: downloadURL });
-  //           console.log(adminData.downloadUrl);
-  //         });
-  //       }
-  //     );
-  //   };
-  //   if (adminData.picture != null) {
-  //     uploadImage();
-  //   }
-  // }, [adminData.picture]);
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setAdminData({ ...adminData, foodDownloadUrl: downloadURL });
+        });
+      }
+    );
+  };
 
   const onChanageName = (item) => {
     setAdminData({ ...adminData, foodName: item });
@@ -200,75 +189,120 @@ const AdminPannel = () => {
   };
 
   const onPressSaveData = async () => {
-    // if (
-    //   !adminData.image &&
-    //   !adminData.foodName &&
-    //   !adminData.ingredient &&
-    //   !adminData.desc1 &&
-    //   !adminData.desc2
-    // ) {
-    //   Alert.alert("Please Feel all the Fields");
-    // } else {
-    //   await addDoc(collection(db, "fooddata"), {
-    //     foodName: adminData.foodName,
-    //     desc1: adminData.desc1,
-    //     desc2: adminData.desc2,
-    //     ingredient: adminData.ingredient,
-    //     FoodImage: adminData.downloadUrl,
-    //   });
-
-    //}
-
+    if (
+      !adminData.image &&
+      !adminData.foodName &&
+      !adminData.ingredient &&
+      !adminData.desc1 &&
+      !adminData.desc2 &&
+      !adminData.profileDownloadUrl &&
+      !adminData.foodDownloadUrl
+    ) {
+      Alert.alert("Please Feel all the Fields");
+    } else {
+      await addDoc(collection(db, "fooddata"), {
+        foodName: adminData.foodName,
+        desc1: adminData.desc1,
+        desc2: adminData.desc2,
+        ingredient: adminData.ingredient,
+        profileImage: adminData.profileDownloadUrl,
+        dataImage: adminData.foodDownloadUrl,
+      });
+      Alert.alert("Data Added Successfully");
+    }
     setAdminData("");
   };
-  const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsMultipleSelection: true,
-        selectionLimit: 3,
-        aspect: [1, 1],
-        quality: 1,
-      });
-      if (!result.canceled) {
-        setAdminData({ ...adminData, image: result.assets });
-      }
-    } catch (err) {
-      alert(CommonString.erruploadimg + err);
-    }
-  };
-
-  const onPressPickFood = async () => {
+  const pickImage = async (aspect) => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [1, 1],
+        aspect: aspect,
         quality: 1,
       });
       if (!result.canceled) {
-        setAdminData({ ...adminData, picture: result.assets[0].uri });
+        return result.assets[0].uri;
       }
     } catch (err) {
       alert(CommonString.erruploadimg + err);
     }
   };
+
+  const onPressPickProfile = async () => {
+    const profile = await pickImage([1, 1]);
+    setAdminData({ ...adminData, picture: profile });
+  };
+
+  const onpressPickImageData = async () => {
+    const FoodData = await pickImage([2, 3]);
+    setAdminData({ ...adminData, image: FoodData });
+  };
+
+  const onPressUploadProfile = async () => {
+    if (adminData.picture) {
+      await uploadImageProfile();
+      Alert.alert("Image Uploaded Don't Upload Twice");
+    } else {
+      alert(CommonString.erruploadimg);
+    }
+  };
+
+  const onPressUploadImageData = async () => {
+    if (adminData.image) {
+      await uploadImageData();
+      Alert.alert("Image Uploaded Don't Upload Twice");
+    } else {
+      alert(CommonString.erruploadimg);
+    }
+  };
+
   return (
     <View style={localStyles.main}>
       <View style={localStyles.innerview}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <Image source={images.logotextcolor} style={localStyles.logo} />
-            <TouchableOpacity onPress={onPressPickFood}>
-              <Image
-                source={
-                  adminData.picture
-                    ? { uri: adminData.picture }
-                    : images.foodprofile
-                }
-                style={localStyles.uploadphoto}
+            <View style={localStyles.profileView}>
+              <TouchableOpacity onPress={onPressPickProfile}>
+                <Image
+                  source={
+                    adminData.picture
+                      ? { uri: adminData.picture }
+                      : images.foodprofile
+                  }
+                  style={localStyles.uploadphoto}
+                />
+              </TouchableOpacity>
+              <CButton
+                name={CommonString.uploadImg}
+                extraSty={localStyles.uploadsty}
+                onPress={onPressUploadProfile}
               />
-            </TouchableOpacity>
+            </View>
+            <View style={localStyles.profileView}>
+              <TouchableOpacity
+                style={localStyles.noimagesty}
+                onPress={onpressPickImageData}
+              >
+                {adminData.image ? (
+                  <Image
+                    source={{ uri: adminData.image }}
+                    style={localStyles.imageSty}
+                  />
+                ) : (
+                  <Ionicons
+                    name="images"
+                    size={moderateScale(30)}
+                    color={colors.gray}
+                  />
+                )}
+              </TouchableOpacity>
+              <CButton
+                name={CommonString.uploadImg}
+                extraSty={localStyles.uploadsty}
+                onPress={onPressUploadImageData}
+              />
+            </View>
             <CTextInput
               placeholder={CommonString.foodname}
               label={CommonString.name}
@@ -329,32 +363,6 @@ const AdminPannel = () => {
               multiline={true}
               textAlignVertical="top"
             />
-            {adminData.image ? (
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {adminData.image &&
-                  adminData.image.map((item, index) => {
-                    return (
-                      <View key={index}>
-                        <Image source={item} style={localStyles.imageSty} />
-                      </View>
-                    );
-                  })}
-              </ScrollView>
-            ) : (
-              <TouchableOpacity
-                style={localStyles.noimagesty}
-                onPress={pickImage}
-              >
-                <Ionicons
-                  name="images"
-                  size={moderateScale(30)}
-                  color={colors.gray}
-                />
-              </TouchableOpacity>
-            )}
 
             <CButton
               name={CommonString.savedata}
@@ -403,14 +411,13 @@ const localStyles = StyleSheet.create({
     ...styles.mv5,
   },
   uploadphoto: {
-    height: moderateScale(100),
-    width: moderateScale(100),
+    height: moderateScale(150),
+    width: moderateScale(150),
     resizeMode: "contain",
-    ...styles.selfCenter,
     borderRadius: 50,
   },
   imageSty: {
-    height: moderateScale(242),
+    height: moderateScale(252),
     width: moderateScale(160),
     resizeMode: "cover",
     ...styles.m10,
@@ -433,5 +440,15 @@ const localStyles = StyleSheet.create({
     },
     shadowOpacity: 0.9,
     elevation: 5,
+  },
+  uploadsty: {
+    width: moderateScale(115),
+    height: moderateScale(35),
+    ...styles.mt10,
+  },
+  profileView: {
+    ...styles.flexcenterrow,
+    ...styles.rowSpaceEvenly,
+    ...styles.mv10,
   },
 });

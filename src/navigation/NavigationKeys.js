@@ -18,6 +18,8 @@ export const StackNav = {
   Searchfood: "Searchfood",
   SearchAllRecepie: "SearchAllRecepie",
   CameraScan: "CameraScan",
+  ViewAllFood: "ViewAllFood",
+  ViewAllRecepie: "ViewAllRecepie",
 };
 
 export const AuthNav = {

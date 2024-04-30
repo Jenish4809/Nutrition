@@ -145,7 +145,7 @@ export default function FoodData() {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [1, 1],
+        aspect: [5, 2],
         quality: 1,
       });
       if (!result.canceled) {

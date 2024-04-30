@@ -177,4 +177,6 @@ export const CommonString = {
   serve: "Servings",
   servings: "Enter Serve",
   uploadImg: "Upload",
+  allfood: "All Food",
+  allRecepie: "All Recepie",
 };

@@ -81,6 +81,14 @@ export default function StackNavigation() {
         name={StackNav.CameraScan}
         component={StackRoute.CameraScan}
       />
+      <Stack.Screen
+        name={StackNav.ViewAllFood}
+        component={StackRoute.ViewAllFood}
+      />
+      <Stack.Screen
+        name={StackNav.ViewAllRecepie}
+        component={StackRoute.ViewAllRecepie}
+      />
     </Stack.Navigator>
   );
 }

@@ -1,5 +1,5 @@
 // Library Imports
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import React from "react";
 
 // Local Imports
@@ -26,13 +26,16 @@ const LikedFoodDesc = ({ route }) => {
       />
       <View style={localStyles.innerView}>
         <View style={localStyles.detailsview}>
-          <Image source={item.image} style={localStyles.foodicon} />
+          <Image
+            source={{ uri: item.profileImage }}
+            style={localStyles.foodicon}
+          />
           <View>
             <CText type={"C22"} color={colors.fonttile}>
-              {item.name}
+              {item.foodName}
             </CText>
             <CText type={"E15"} color={colors.fontbody}>
-              {item.ingridient}
+              {item.ingredient}
             </CText>
           </View>
         </View>
@@ -57,12 +60,8 @@ const LikedFoodDesc = ({ route }) => {
         >
           {CommonString.gallery}
         </CText>
+        <Image source={{ uri: item.dataImage }} style={localStyles.imagesty} />
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {item?.Foodimage?.map((item) => (
-          <Image source={item?.img1} style={localStyles.imagesty} />
-        ))}
-      </ScrollView>
     </View>
   );
 };

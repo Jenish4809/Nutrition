@@ -7,34 +7,146 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
-  Text,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { FIREBASE_DB } from "../../../firebaseConfig";
 
 // Local Imports
 import CText from "../../components/common/CText";
 import { CommonString } from "../../i18n/String";
 import { colors } from "../../themes/colors";
 import { styles } from "../../themes";
-import {
-  All,
-  Favourite,
-  PizzaCard,
-  PosterAll,
-  PosterFavourite,
-  PosterTrending,
-  Treding,
-} from "../../api/constant";
+import { PizzaCard } from "../../api/constant";
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { LoginButton } from "../../components/common/CLoginButton";
 import { StackNav } from "../../navigation/NavigationKeys";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // HomeTab Component
 const HomeTab = ({ navigation }) => {
+  const [userName, setUserName] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedData, setSelectedData] = useState(All);
-  const [selectedPoster, setSelectedPoster] = useState(PosterAll);
+  const [allFood, setAllFood] = useState();
+  const [trendingFood, setTrendingFood] = useState();
+  const [favouriteFood, setFavouriteFood] = useState();
+  const [selectedData, setSelectedData] = useState(allFood);
+  const [allRecepie, setAllRecepie] = useState();
+  const [trendingRecepie, setTrendingRecepie] = useState();
+  const [favouriteRecepie, setFavouriteRecepie] = useState();
+  const [selectedPoster, setSelectedPoster] = useState(allRecepie);
+
+  const db = FIREBASE_DB;
+
+  useEffect(() => {
+    const foodRef = collection(db, "fooddata");
+    const food = onSnapshot(foodRef, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setAllFood(foods);
+      },
+    });
+    const foodRef1 = collection(db, "TrendingFood");
+    const food1 = onSnapshot(foodRef1, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setTrendingFood(foods);
+      },
+    });
+    const foodRef2 = collection(db, "FavouriteFood");
+    const food2 = onSnapshot(foodRef2, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setFavouriteFood(foods);
+      },
+    });
+    const recepieRef = collection(db, "RecepieData");
+    const recepie = onSnapshot(recepieRef, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setAllRecepie(foods);
+      },
+    });
+    const recepieRef1 = collection(db, "Trending Recepie");
+    const recepie1 = onSnapshot(recepieRef1, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setTrendingRecepie(foods);
+      },
+    });
+    const recepieRef2 = collection(db, "FavouriteRecepie");
+    const recepie2 = onSnapshot(recepieRef2, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setFavouriteRecepie(foods);
+      },
+    });
+    const getName = async () => {
+      const login = await AsyncStorage.getItem("user");
+      const newData1 = JSON.parse(login);
+      const q = query(
+        collection(db, "users"),
+        where("uid", "==", newData1?.uid)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setUserName(doc.data()?.name);
+      });
+    };
+
+    return () => {
+      food();
+      food1();
+      food2();
+      recepie();
+      recepie1();
+      recepie2();
+      getName();
+    };
+  }, []);
 
   // Components and function for a pizza slice
   const _onViewableItemsChanged = useCallback(({ viewableItems }) => {
@@ -84,13 +196,24 @@ const HomeTab = ({ navigation }) => {
   // onPress render the food burger category
   const onPressRenderBurger = ({ item }) => {
     return (
-      <View style={localStyles.allrenderview}>
-        <Image source={item.image} style={localStyles.burgerimage} />
+      <TouchableOpacity
+        style={localStyles.allrenderview}
+        onPress={() => handleOnpress12(item)}
+      >
+        <Image
+          source={{ uri: item.profileImage }}
+          style={localStyles.burgerimage}
+        />
         <CText type={"C20"} color={colors.fontbody}>
-          {item.name}
+          {item.foodName}
         </CText>
-      </View>
+      </TouchableOpacity>
     );
+  };
+
+  // onPress for go to information page of foos
+  const handleOnpress12 = (item) => {
+    navigation.navigate(StackNav.LikedFoodDesc, { item });
   };
 
   // Common  componen for 3 categoies (All, Trending, Favourite)
@@ -101,14 +224,16 @@ const HomeTab = ({ navigation }) => {
     color3,
     color2,
     color1,
+    onPress,
+    title,
   }) => {
     return (
       <View>
         <View style={localStyles.foods}>
           <CText type={"C28"} color={colors.fonttile}>
-            {CommonString.foods}
+            {title}
           </CText>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onPress}>
             <CText type={"K17"} color={colors.green}>
               {CommonString.viewall}
             </CText>
@@ -118,19 +243,19 @@ const HomeTab = ({ navigation }) => {
           <LoginButton
             extratext={CommonString.all}
             type={"K17"}
-            color={color1 || colors.fontbody}
+            color={color1}
             onPress={onPress1}
           />
           <LoginButton
             extratext={CommonString.favourite}
             type={"K17"}
-            color={color2 || colors.fontbody}
+            color={color2}
             onPress={onPress2}
           />
           <LoginButton
             extratext={CommonString.trending}
             type={"K17"}
-            color={color3 || colors.fontbody}
+            color={color3}
             onPress={onPress3}
           />
         </View>
@@ -138,12 +263,21 @@ const HomeTab = ({ navigation }) => {
     );
   };
 
+  const handleOnPressRecepie = (item) => {
+    navigation.navigate(StackNav.LikedRecepieDesc, { item });
+  };
   // onPres render the recepie category
   const PosterRender = ({ item }) => {
     return (
-      <View style={localStyles.posterview}>
+      <TouchableOpacity
+        style={localStyles.posterview}
+        onPress={() => handleOnPressRecepie(item)}
+      >
         <View>
-          <ImageBackground source={item.image} style={localStyles.posterimage}>
+          <ImageBackground
+            source={{ uri: item.url }}
+            style={localStyles.posterimage}
+          >
             <View style={localStyles.bgimagerow}>
               <View style={localStyles.servetext}>
                 <Image source={images.timeicon} style={localStyles.timeicon} />
@@ -152,7 +286,7 @@ const HomeTab = ({ navigation }) => {
                 </CText>
                 <Image source={images.usericon} style={localStyles.timeicon} />
                 <CText type={"E15"} color={colors.textbg}>
-                  {item.serve}
+                  {item.serve + " " + "Serve"}
                 </CText>
               </View>
               <View>
@@ -165,9 +299,9 @@ const HomeTab = ({ navigation }) => {
           {item.name}
         </CText>
         <CText type={"K13"} color={colors.fontbody} align={"center"}>
-          {item.description}
+          {item.subtitle}
         </CText>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -175,11 +309,25 @@ const HomeTab = ({ navigation }) => {
   const onPressContact = () => {
     navigation.navigate(StackNav.ChatWithUs);
   };
+
+  // navigate to all food
+  const ViewAllFood = () => {
+    navigation.navigate(StackNav.ViewAllFood);
+  };
+
+  // navigate to all recepie
+  const ViewAllRecepie = () => {
+    navigation.navigate(StackNav.ViewAllRecepie);
+  };
+
+  const onPressWeek = () => {
+    navigation.navigate(StackNav.ViewAllRecepie);
+  };
   return (
     <View style={localStyles.main}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <CText type={"C28"} color={colors.primary} align={"center"}>
-          {CommonString.afreen}
+          {` Hello ${userName}`}
         </CText>
         <CText type={"E17"} color={colors.fontbody} align={"center"}>
           {CommonString.homefeed}
@@ -211,19 +359,23 @@ const HomeTab = ({ navigation }) => {
           <CText type={"C20"} color={colors.fontbody}>
             {CommonString.trendingrecepie}
           </CText>
-          <TouchableOpacity style={localStyles.viewbtn}>
+          <TouchableOpacity style={localStyles.viewbtn} onPress={onPressWeek}>
             <CText type={"K14"} color={colors.fontbody}>
               {CommonString.view}
             </CText>
           </TouchableOpacity>
         </View>
         <CommonTitle
-          onPress1={() => handleOnPress(All)}
-          onPress2={() => handleOnPress(Favourite)}
-          onPress3={() => handleOnPress(Treding)}
-          color1={selectedData === All ? colors.fontbody : colors.gray}
-          color2={selectedData === Favourite ? colors.fontbody : colors.gray}
-          color3={selectedData === Treding ? colors.fontbody : colors.gray}
+          title={CommonString.foods}
+          onPress={() => ViewAllFood()}
+          onPress1={() => handleOnPress(allFood.slice(0, 4))}
+          onPress2={() => handleOnPress(favouriteFood)}
+          onPress3={() => handleOnPress(trendingFood)}
+          color1={selectedData === allFood ? colors.fontbody : colors.gray}
+          color2={
+            selectedData === favouriteFood ? colors.fontbody : colors.gray
+          }
+          color3={selectedData === trendingFood ? colors.fontbody : colors.gray}
         />
         {/* // FlatList for the food data */}
         <FlatList
@@ -238,15 +390,17 @@ const HomeTab = ({ navigation }) => {
           columnWrapperStyle={localStyles.rendercolumndata}
         />
         <CommonTitle
-          onPress1={() => handleOnPress1(PosterAll)}
-          onPress2={() => handleOnPress1(PosterFavourite)}
-          onPress3={() => handleOnPress1(PosterTrending)}
-          color1={selectedPoster === PosterAll ? colors.fontbody : colors.gray}
+          title={CommonString.recepie}
+          onPress={() => ViewAllRecepie()}
+          onPress1={() => handleOnPress1(allRecepie.slice(0, 2))}
+          onPress2={() => handleOnPress1(favouriteRecepie)}
+          onPress3={() => handleOnPress1(trendingRecepie)}
+          color1={selectedPoster === allRecepie ? colors.fontbody : colors.gray}
           color2={
-            selectedPoster === PosterFavourite ? colors.fontbody : colors.gray
+            selectedPoster === favouriteRecepie ? colors.fontbody : colors.gray
           }
           color3={
-            selectedPoster === PosterTrending ? colors.fontbody : colors.gray
+            selectedPoster === trendingRecepie ? colors.fontbody : colors.gray
           }
         />
         {/* // FlatList for the recepie data */}
@@ -302,7 +456,7 @@ const localStyles = StyleSheet.create({
     gap: moderateScale(30),
     ...styles.center,
     ...styles.justifyBetween,
-    ...styles.ml10,
+    ...styles.mh10,
   },
   cardbtn: {
     height: moderateScale(36),

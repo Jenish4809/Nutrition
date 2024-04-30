@@ -29,7 +29,6 @@ import CButton from "../common/CButton";
 const SearchAllRecepie = ({ route, navigation }) => {
   // Get the Search from previous page
   const { data } = route.params;
-
   const [selectedItems, setSelectedItems] = useState([]);
   const [select, setSelect] = useState("");
   let ref = useRef(null);
@@ -126,7 +125,7 @@ const SearchAllRecepie = ({ route, navigation }) => {
           >
             <View>
               <ImageBackground
-                source={item.image}
+                source={{ uri: item.url }}
                 style={localStyles.posterimage}
               >
                 <View style={localStyles.bgimagerow}>
@@ -159,7 +158,7 @@ const SearchAllRecepie = ({ route, navigation }) => {
               {item.name}
             </CText>
             <CText type={"K13"} color={colors.fontbody} align={"center"}>
-              {item.description}
+              {item.subtitle}
             </CText>
           </TouchableOpacity>
         );

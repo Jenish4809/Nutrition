@@ -29,8 +29,8 @@ import ActionSheet from "react-native-actions-sheet";
 // Login Component
 const Login = ({ navigation }) => {
   // States for Login
-  const [email, setEmail] = useState("ropet11436@dxice.com");
-  const [password, setPassword] = useState("Test@123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   let ref = useRef(null);
 
   const auth = FIREBASE_AUTH;
@@ -45,7 +45,6 @@ const Login = ({ navigation }) => {
           email,
           password
         );
-
         // store userlogin data
         const userData = {
           email: response._tokenResponse.email,
@@ -129,6 +128,7 @@ const Login = ({ navigation }) => {
       </TouchableOpacity>
     );
   };
+
   return (
     <View style={localStyles.main}>
       <View style={localStyles.innerview}>

@@ -8,7 +8,7 @@ import {
   ImageBackground,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 // Local Imports
@@ -19,22 +19,39 @@ import CText from "../../components/common/CText";
 import CTextInput from "../../components/common/CTextInput";
 import { CommonString } from "../../i18n/String";
 import typography from "../../themes/typography";
-import {
-  FavouriteFood,
-  FavouriteRecepie,
-  SearchData,
-} from "../../api/constant";
+import { FavouriteFood, SearchData } from "../../api/constant";
 import { moderateScale } from "../../common/constants";
 import { LoginButton } from "../../components/common/CLoginButton";
 import CDivider from "../../components/common/CDivider";
 import images from "../../assets/images";
 import { StackNav, TabNav } from "../../navigation/NavigationKeys";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
 
 // Search tab component
 const SearchTab = ({ navigation }) => {
   // All states are here
   const [search, setSearch] = useState("");
-  const [data, setData] = useState(FavouriteRecepie);
+  const [newData, setNewData] = useState();
+  const [isFilter, setIsFilter] = useState(newData);
+
+  const db = FIREBASE_DB;
+  useEffect(() => {
+    const todoRef = collection(db, "RecepieData");
+    const subscriber = onSnapshot(todoRef, {
+      next: (snapshot) => {
+        const todos = [];
+        snapshot.docs.forEach((doc) => {
+          todos.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setNewData(todos);
+      },
+    });
+    return () => subscriber();
+  }, [search]);
 
   // handleonPress for go to the recepie description
   const handleRecepiePress = (item) => {
@@ -79,10 +96,10 @@ const SearchTab = ({ navigation }) => {
   // handle the search bar and search bar function for search
   const handleSearch = (text) => {
     setSearch(text);
-    const filtered = FavouriteRecepie.filter((item) =>
+    const filtered = newData.filter((item) =>
       item.name.toLowerCase().includes(text.toLowerCase())
     );
-    setData(filtered);
+    setIsFilter(filtered);
   };
 
   // render the poster recepie function
@@ -93,7 +110,10 @@ const SearchTab = ({ navigation }) => {
         onPress={() => handleRecepiePress(item)}
       >
         <View>
-          <ImageBackground source={item.image} style={localStyles.posterimage}>
+          <ImageBackground
+            source={{ uri: item.url }}
+            style={localStyles.posterimage}
+          >
             <View style={localStyles.bgimagerow}>
               <View style={localStyles.servetext}>
                 <Image source={images.timeicon} style={localStyles.timeicon} />
@@ -115,7 +135,7 @@ const SearchTab = ({ navigation }) => {
           {item.name}
         </CText>
         <CText type={"K13"} color={colors.fontbody} align={"center"}>
-          {item.description}
+          {item.subtitle}
         </CText>
       </TouchableOpacity>
     );
@@ -165,8 +185,9 @@ const SearchTab = ({ navigation }) => {
 
   // OnPress view all for the all recepie searched by the user
   const onPressViewAll1 = () => {
-    navigation.navigate(StackNav.SearchAllRecepie, { data: data });
+    navigation.navigate(StackNav.SearchAllRecepie, { data: isFilter });
   };
+
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -203,7 +224,7 @@ const SearchTab = ({ navigation }) => {
 
           {/* FlatList  for only one searched data show */}
           <FlatList
-            data={!!search ? data.slice(0, 1) : SearchData}
+            data={!!search ? isFilter.slice(0, 1) : SearchData}
             renderItem={search ? renderRecepie : renderSearch}
             horizontal={search ? false : true}
             showsHorizontalScrollIndicator={false}

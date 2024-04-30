@@ -14,7 +14,7 @@ import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../../components/common/CHeader";
 import { CommonString } from "../../i18n/String";
-import { FavouriteCategory, FavouriteFood } from "../../api/constant";
+import { FavouriteCategory } from "../../api/constant";
 import CText from "../../components/common/CText";
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
@@ -29,6 +29,7 @@ const LikeTab = ({ navigation }) => {
   const db = FIREBASE_DB;
 
   const [data, setData] = useState([]);
+  const [food, setFood] = useState([]);
 
   useEffect(() => {
     const todoRef = collection(db, "RecepieData");
@@ -44,7 +45,23 @@ const LikeTab = ({ navigation }) => {
         setData(todos);
       },
     });
-    return () => subscriber();
+    const foodRef = collection(db, "fooddata");
+    const food = onSnapshot(foodRef, {
+      next: (snapshot) => {
+        const foods = [];
+        snapshot.docs.forEach((doc) => {
+          foods.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setFood(foods);
+      },
+    });
+    return () => {
+      subscriber();
+      food();
+    };
   }, []);
 
   // onPress function for go between food and recepie
@@ -83,9 +100,12 @@ const LikeTab = ({ navigation }) => {
         style={localStyles.allrenderview}
         onPress={() => handleOnpress(item)}
       >
-        <Image source={item.image} style={localStyles.burgerimage} />
-        <CText type={"C20"} color={colors.fontbody}>
-          {item.name}
+        <Image
+          source={{ uri: item.profileImage }}
+          style={localStyles.burgerimage}
+        />
+        <CText type={"C20"} color={colors.fontbody} align={"center"}>
+          {item.foodName}
         </CText>
       </TouchableOpacity>
     );
@@ -205,7 +225,7 @@ const LikeTab = ({ navigation }) => {
       {/* Swithch two category of food and recepie data FlatList */}
       {selected === 1 ? (
         <FlatList
-          data={FavouriteFood}
+          data={food}
           renderItem={renderFavFood}
           showsHorizontalScrollIndicator={false}
           numColumns={2}

@@ -33,6 +33,8 @@ import CameraScan from "../components/CameraScan/CameraScan.js";
 import AdminPannel from "../containers/auth/AdminPannel.js";
 import DrawerNavigation from "./Type/DrawerNavigation.js";
 import FoodData from "../containers/auth/FoodData.js";
+import ViewAllFood from "../components/ViewAll/ViewAllFood.js";
+import ViewAllRecepie from "../components/ViewAll/ViewAllRecepie.js";
 
 export const StackRoute = {
   Splash,
@@ -54,6 +56,8 @@ export const StackRoute = {
   Searchfood,
   CameraScan,
   DrawerNavigation,
+  ViewAllFood,
+  ViewAllRecepie,
 };
 
 export const AuthRoute = {

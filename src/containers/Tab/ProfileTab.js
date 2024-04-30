@@ -37,7 +37,6 @@ import { signOut } from "firebase/auth";
 const ProfileTab = ({ navigation }) => {
   const [imageProfile, setImageProfile] = useState(null);
   const [signUpUser, setSignUpUser] = useState("");
-  const [user1, setUser1] = useState(null);
   const [userName, setUserName] = useState("");
 
   const db = FIREBASE_DB;
@@ -46,7 +45,6 @@ const ProfileTab = ({ navigation }) => {
   // TO get the Profile Image from Async Storage
   useEffect(() => {
     getImage();
-    getUserDetails();
   }, []);
 
   // TO get the Profile Image from Async Storage
@@ -58,15 +56,10 @@ const ProfileTab = ({ navigation }) => {
     setSignUpUser(newData?.name);
     const login = await AsyncStorage.getItem("user");
     const newData1 = JSON.parse(login);
-    setUser1(newData1?.uid);
-  };
-
-  // TO get the User Details from Firebase
-  const getUserDetails = async () => {
-    const q = await query(collection(db, "users"), where("uid", "==", user1));
+    const q = query(collection(db, "users"), where("uid", "==", newData1?.uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      setUserName(doc.data().name);
+      setUserName(doc.data()?.name);
     });
   };
 
