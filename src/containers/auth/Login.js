@@ -8,6 +8,11 @@ import {
   Alert,
 } from "react-native";
 import React, { useRef, useState } from "react";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import ActionSheet from "react-native-actions-sheet";
 
 // Local Imports
 import { moderateScale } from "../../common/constants";
@@ -20,17 +25,12 @@ import CTextInput from "../../components/common/CTextInput";
 import CText from "../../components/common/CText";
 import { AuthNav, StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
-import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import ActionSheet from "react-native-actions-sheet";
 
 // Login Component
 const Login = ({ navigation }) => {
   // States for Login
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("Test@123");
   let ref = useRef(null);
 
   const auth = FIREBASE_AUTH;
@@ -119,6 +119,7 @@ const Login = ({ navigation }) => {
       routes: [{ name: StackNav.TabNavigation }],
     });
   };
+  // Buttons for the Actionsheet
   const CommonActionButton = ({ title, onPress }) => {
     return (
       <TouchableOpacity onPress={onPress} style={localStyles.actionBtn}>

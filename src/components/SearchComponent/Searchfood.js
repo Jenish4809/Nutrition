@@ -1,5 +1,11 @@
 // Library Imports
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import React from "react";
 
 // Local Imports
@@ -7,14 +13,14 @@ import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
 import { CommonString } from "../../i18n/String";
-import { FlatList } from "react-native";
-import { FavouriteFood } from "../../api/constant";
 import CText from "../common/CText";
 import { moderateScale } from "../../common/constants";
 import { StackNav } from "../../navigation/NavigationKeys";
 
 // Search food  component
-const Searchfood = ({ navigation }) => {
+const Searchfood = ({ navigation, route }) => {
+  const { data } = route.params;
+
   // render component for food category
   const renderItem = ({ item }) => {
     return (
@@ -22,9 +28,12 @@ const Searchfood = ({ navigation }) => {
         style={localStyles.allrenderview}
         onPress={() => handleOnpress(item)}
       >
-        <Image source={item.image} style={localStyles.burgerimage} />
+        <Image
+          source={{ uri: item.profileImage }}
+          style={localStyles.burgerimage}
+        />
         <CText type={"C20"} color={colors.fontbody}>
-          {item.name}
+          {item.foodName}
         </CText>
       </TouchableOpacity>
     );
@@ -44,7 +53,7 @@ const Searchfood = ({ navigation }) => {
       />
       {/* Flatlist for show the category of food */}
       <FlatList
-        data={FavouriteFood}
+        data={data}
         renderItem={renderItem}
         numColumns={2}
         bounces={false}

@@ -21,7 +21,7 @@ export const CommonString = {
     "We have just send verification link to the given email, please verify Yourself to continue",
   notreceive: "Didn’t Receive?",
   resend: "Resend",
-  photoupload: "Upload Photo",
+  photoupload: "Select Photo",
   uploaddesc: "Add a profile photo so that your friends would know its you.",
   skip: "Skip",
   erruploadimg: "Error Uploading Image : ",
@@ -177,6 +177,8 @@ export const CommonString = {
   serve: "Servings",
   servings: "Enter Serve",
   uploadImg: "Upload",
+  upload: "Upload Image",
   allfood: "All Food",
   allRecepie: "All Recepie",
+  wait: "Wait for few Seconds to Upload Image",
 };

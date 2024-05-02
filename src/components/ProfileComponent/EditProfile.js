@@ -1,6 +1,7 @@
 // Library Imports
-import { View, StyleSheet, Image } from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Image, Alert } from "react-native";
+import React, { useState } from "react";
+import { updatePassword } from "firebase/auth";
 
 // Local Imports
 import CHeader from "../common/CHeader";
@@ -14,17 +15,66 @@ import images from "../../assets/images";
 import CButton from "../common/CButton";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 
 // Editprofile Component
 const EditProfile = () => {
   const navigation = useNavigation();
 
   const [enterName, setEnterName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const db = FIREBASE_DB;
+  const auth = FIREBASE_AUTH;
+
+  // change the password of the user
+  const changePassword = async () => {
+    const user = auth.currentUser;
+    await updatePassword(user, password).then(() => {
+      try {
+        Alert.alert("Password Update SuccessFully");
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
+
+  // edit the user name
+  const editUserName = async () => {
+    const userName = await AsyncStorage.getItem("users");
+    const userNameParse = await JSON.parse(userName);
+    const userName1 = await AsyncStorage.getItem("user");
+    const userNameParse1 = await JSON.parse(userName1);
+    const userRef = query(
+      collection(db, "users"),
+      where("uid", "==", userNameParse?.uid || userNameParse1?.uid)
+    );
+    const findUsers = await getDocs(userRef);
+    findUsers.forEach(async (user) => {
+      const getUser = doc(db, "users", user.id);
+      await updateDoc(getUser, {
+        name: enterName,
+      });
+    });
+  };
 
   // onPress save go to the back navigation
   const onPressProfile = async () => {
+    if (enterName) {
+      await editUserName();
+    } else if (password) {
+      await changePassword();
+    } else {
+      Alert.alert(CommonString.enterName);
+    }
     navigation.goBack();
   };
 
@@ -33,15 +83,11 @@ const EditProfile = () => {
     setEnterName(text);
   };
 
-  // onchange email function to get the enter email value
-  const onCHangeEmail = (text) => {
-    setEmail(text);
-  };
-
   // onchange password function to get the enter password value
   const onCHangePassword = (text) => {
     setPassword(text);
   };
+
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -64,16 +110,6 @@ const EditProfile = () => {
             )}
             value={enterName}
             onChangeText={onCHangeName}
-            inputview={localStyles.inputview}
-          />
-          <CTextInput
-            value={email}
-            onChangeText={onCHangeEmail}
-            label={CommonString.enteremail}
-            placeholder={CommonString.khanemail}
-            LeftIcon={() => (
-              <Image source={images.emailicon} style={localStyles.email} />
-            )}
             inputview={localStyles.inputview}
           />
           <CTextInput
@@ -119,9 +155,8 @@ const localStyles = StyleSheet.create({
   inputview1: {
     ...styles.flex,
     ...styles.justifyBetween,
-    ...styles.mt30,
   },
   btnsty: {
-    ...styles.mv50,
+    ...styles.mv20,
   },
 });

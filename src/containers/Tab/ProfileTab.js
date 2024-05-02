@@ -49,17 +49,19 @@ const ProfileTab = ({ navigation }) => {
 
   // TO get the Profile Image from Async Storage
   const getImage = async () => {
-    const imageUri = await AsyncStorage.getItem("Photos");
-    setImageProfile({ uri: imageUri });
     const name = await AsyncStorage.getItem("users");
     const newData = JSON.parse(name);
     setSignUpUser(newData?.name);
     const login = await AsyncStorage.getItem("user");
     const newData1 = JSON.parse(login);
-    const q = query(collection(db, "users"), where("uid", "==", newData1?.uid));
+    const q = query(
+      collection(db, "users"),
+      where("uid", "==", newData1?.uid || newData?.uid)
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       setUserName(doc.data()?.name);
+      setImageProfile(doc.data()?.image);
     });
   };
 
@@ -84,15 +86,19 @@ const ProfileTab = ({ navigation }) => {
     );
   };
 
+  // for go to the edit profile page
   const eidtProfile = () => {
     navigation.navigate(StackNav.EditProfile);
   };
+  // for go to the subscription page
   const subscriptions = () => {
     navigation.navigate(StackNav.Subscription);
   };
+  // for go to the setting page
   const settings = () => {
     navigation.navigate(StackNav.Settings);
   };
+  // for go to the helpcenter page
   const helpCenter = () => {
     navigation.navigate(StackNav.HelpCenter);
   };
@@ -137,7 +143,7 @@ const ProfileTab = ({ navigation }) => {
       />
       <ScrollView>
         <Image
-          source={!!imageProfile?.uri ? imageProfile : images.profileimg}
+          source={imageProfile ? { uri: imageProfile } : images.profileimg}
           style={localStyles.profileimgsty}
         />
         <CText type={"C22"} color={colors.fonttile} align={"center"}>

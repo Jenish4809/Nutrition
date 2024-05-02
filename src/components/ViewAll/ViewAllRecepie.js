@@ -1,26 +1,30 @@
+// Library imports
 import {
   View,
   StyleSheet,
   FlatList,
   TouchableOpacity,
   ImageBackground,
+  Image,
 } from "react-native";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
+
+// Local Imports
 import React, { useEffect, useState } from "react";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CText from "../common/CText";
 import { CommonString } from "../../i18n/String";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
 import { moderateScale } from "../../common/constants";
-import { Image } from "react-native";
 import { StackNav } from "../../navigation/NavigationKeys";
 import images from "../../assets/images";
 
 const ViewAllFood = ({ navigation }) => {
   const [allRecepie, setAllRecepie] = useState();
-
   const db = FIREBASE_DB;
+
+  //  useeffect for get recepie all data from firebase
   useEffect(() => {
     const foodRef1 = collection(db, "RecepieData");
     const food1 = onSnapshot(foodRef1, {
@@ -38,10 +42,12 @@ const ViewAllFood = ({ navigation }) => {
     return () => food1();
   }, []);
 
+  // press for the recepie data
   const handleOnPressRecepie = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
   };
 
+  // render the recepie
   const renderRecepie = ({ item }) => {
     return (
       <TouchableOpacity

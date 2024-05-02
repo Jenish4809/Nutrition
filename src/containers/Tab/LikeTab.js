@@ -213,7 +213,6 @@ const LikeTab = ({ navigation }) => {
           type={"E15"}
           color={colors.fonttile}
         />
-
         {/* FLalist for the 2 category data */}
         <FlatList
           data={FavouriteCategory}
@@ -301,7 +300,7 @@ const localStyles = StyleSheet.create({
     resizeMode: "contain",
   },
   renderdatasty: {
-    ...styles.ph30,
+    ...styles.ph20,
   },
   rendercolumndata: {
     ...styles.justifyBetween,

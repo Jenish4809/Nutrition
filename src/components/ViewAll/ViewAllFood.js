@@ -1,11 +1,14 @@
+// Library Imports
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CText from "../common/CText";
 import { CommonString } from "../../i18n/String";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
 import { moderateScale } from "../../common/constants";
 import { Image } from "react-native";
 import { StackNav } from "../../navigation/NavigationKeys";
@@ -14,6 +17,8 @@ const ViewAllFood = ({ navigation }) => {
   const [allFood, setAllFood] = useState();
 
   const db = FIREBASE_DB;
+
+  // useeffct for get the food data from firebase
   useEffect(() => {
     const foodRef1 = collection(db, "fooddata");
     const food1 = onSnapshot(foodRef1, {
@@ -31,10 +36,12 @@ const ViewAllFood = ({ navigation }) => {
     return () => food1();
   }, []);
 
+  // onPress for go to the detail of food
   const handleOnpress12 = (item) => {
     navigation.navigate(StackNav.LikedFoodDesc, { item });
   };
 
+  // render food items on ui
   const renderFood = ({ item }) => {
     return (
       <TouchableOpacity
@@ -77,7 +84,6 @@ const localStyles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   innerview: {
-    ...styles.mh15,
     ...styles.mt20,
   },
   allrenderview: {

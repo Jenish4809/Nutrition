@@ -9,6 +9,9 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
+import { addDoc, collection } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -22,9 +25,6 @@ import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { AuthNav } from "../../navigation/NavigationKeys";
 import { LoginButton } from "../../components/common/CLoginButton";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
-import { addDoc, collection } from "firebase/firestore";
 
 // SignUp Screen Component
 const SignUpScreen = ({ navigation }) => {
@@ -62,6 +62,7 @@ const SignUpScreen = ({ navigation }) => {
           uid: response.user.uid,
           isUser: true,
           isAdmin: false,
+          image: "",
         });
         if (response) {
           navigation.navigate(AuthNav.OtpVerificationScreen);
@@ -183,7 +184,7 @@ const SignUpScreen = ({ navigation }) => {
         <CButton
           name={CommonString.continue}
           extraSty={localStyles.btn}
-          onPress={() => handleButton()}
+          onPress={handleButton}
         />
         <View style={localStyles.logintextview}>
           <CText type={"E17"} color={colors.alreadyAc}>

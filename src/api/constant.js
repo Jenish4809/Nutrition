@@ -170,6 +170,12 @@ export const PosterTrending = [
   },
 ];
 
+export const FoodCategoryTypes = [
+  { id: 1, name: CommonString.all },
+  { id: 2, name: CommonString.favourite },
+  { id: 3, name: CommonString.trending },
+];
+
 export const FAQs = [
   {
     id: 1,

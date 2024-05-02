@@ -1,3 +1,4 @@
+// Library Imports
 import {
   View,
   StyleSheet,
@@ -10,21 +11,23 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { FIREBASE_DB, FIREBASE_STORE } from "../../../firebaseConfig";
+import { addDoc, collection } from "firebase/firestore";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
+// Local Imports
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CTextInput from "../../components/common/CTextInput";
 import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { CommonString } from "../../i18n/String";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import typography from "../../themes/typography";
 import CText from "../../components/common/CText";
 import CButton from "../../components/common/CButton";
-import { FIREBASE_DB, FIREBASE_STORE } from "../../../firebaseConfig";
-import { addDoc, collection } from "firebase/firestore";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const AdminPannel = () => {
   const [adminData, setAdminData] = useState({
@@ -41,6 +44,7 @@ const AdminPannel = () => {
   const storage = FIREBASE_STORE;
   const db = FIREBASE_DB;
 
+  // Upload the Profile Image
   const uploadImageProfile = async () => {
     // convert image into blob image
 
@@ -107,7 +111,7 @@ const AdminPannel = () => {
       }
     );
   };
-
+  // Upload data image function
   const uploadImageData = async () => {
     // convert image into blob image
 
@@ -175,19 +179,24 @@ const AdminPannel = () => {
     );
   };
 
+  // onchange food name
   const onChanageName = (item) => {
     setAdminData({ ...adminData, foodName: item });
   };
+  // onchange food ingredient
   const onChanageIngredient = (item) => {
     setAdminData({ ...adminData, ingredient: item });
   };
+  // onchange desc1
   const onChanageDesc1 = (item) => {
     setAdminData({ ...adminData, desc1: item });
   };
+  // onchange desc2
   const onChanageDesc2 = (item) => {
     setAdminData({ ...adminData, desc2: item });
   };
 
+  // onPress for the data upload to the firebase
   const onPressSaveData = async () => {
     if (
       !adminData.image &&
@@ -212,6 +221,8 @@ const AdminPannel = () => {
     }
     setAdminData("");
   };
+
+  // onPress for the pick image
   const pickImage = async (aspect) => {
     try {
       let result = await ImagePicker.launchImageLibraryAsync({
@@ -228,16 +239,18 @@ const AdminPannel = () => {
     }
   };
 
+  //   onPress for the pick and set profile image in state
   const onPressPickProfile = async () => {
     const profile = await pickImage([1, 1]);
     setAdminData({ ...adminData, picture: profile });
   };
-
+  //   onPress for the pick and set image data in state
   const onpressPickImageData = async () => {
     const FoodData = await pickImage([2, 3]);
     setAdminData({ ...adminData, image: FoodData });
   };
 
+  //   onPress for the upload image
   const onPressUploadProfile = async () => {
     if (adminData.picture) {
       await uploadImageProfile();
@@ -247,6 +260,7 @@ const AdminPannel = () => {
     }
   };
 
+  //   onPress for the upload data image
   const onPressUploadImageData = async () => {
     if (adminData.image) {
       await uploadImageData();

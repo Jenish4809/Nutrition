@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -19,14 +21,12 @@ import CText from "../../components/common/CText";
 import CTextInput from "../../components/common/CTextInput";
 import { CommonString } from "../../i18n/String";
 import typography from "../../themes/typography";
-import { FavouriteFood, SearchData } from "../../api/constant";
+import { SearchData } from "../../api/constant";
 import { moderateScale } from "../../common/constants";
 import { LoginButton } from "../../components/common/CLoginButton";
 import CDivider from "../../components/common/CDivider";
 import images from "../../assets/images";
 import { StackNav, TabNav } from "../../navigation/NavigationKeys";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
 
 // Search tab component
 const SearchTab = ({ navigation }) => {
@@ -34,8 +34,12 @@ const SearchTab = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [newData, setNewData] = useState();
   const [isFilter, setIsFilter] = useState(newData);
+  const [newFood, setNewFood] = useState();
+  const [isFilterFood, setIsFilterFood] = useState(newFood);
 
   const db = FIREBASE_DB;
+
+  // useefect for search the data
   useEffect(() => {
     const todoRef = collection(db, "RecepieData");
     const subscriber = onSnapshot(todoRef, {
@@ -50,12 +54,32 @@ const SearchTab = ({ navigation }) => {
         setNewData(todos);
       },
     });
-    return () => subscriber();
+    const todoRef1 = collection(db, "fooddata");
+    const subscriber1 = onSnapshot(todoRef1, {
+      next: (snapshot) => {
+        const todos = [];
+        snapshot.docs.forEach((doc) => {
+          todos.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setNewFood(todos);
+      },
+    });
+    return () => {
+      subscriber();
+      subscriber1();
+    };
   }, [search]);
 
   // handleonPress for go to the recepie description
   const handleRecepiePress = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
+  };
+
+  const handleFoodPress = (item) => {
+    navigation.navigate(StackNav.LikedFoodDesc, { item });
   };
 
   // Statick search tab and render data of this page
@@ -100,6 +124,10 @@ const SearchTab = ({ navigation }) => {
       item.name.toLowerCase().includes(text.toLowerCase())
     );
     setIsFilter(filtered);
+    const filteredFood = newFood.filter((item) =>
+      item.foodName.toLowerCase().includes(text.toLowerCase())
+    );
+    setIsFilterFood(filteredFood);
   };
 
   // render the poster recepie function
@@ -148,16 +176,22 @@ const SearchTab = ({ navigation }) => {
   };
 
   // onPress for view all of the food
-  const onPressViewAll = () => {
-    navigation.navigate(StackNav.Searchfood, { FavouriteFood: FavouriteFood });
+  const onPressViewFood = () => {
+    navigation.navigate(StackNav.Searchfood, { data: isFilterFood });
   };
   // render the favouite food
   const renderFavFood = ({ item }) => {
     return (
-      <TouchableOpacity style={localStyles.allrenderview}>
-        <Image source={item.image} style={localStyles.burgerimage} />
+      <TouchableOpacity
+        style={localStyles.allrenderview}
+        onPress={() => handleFoodPress(item)}
+      >
+        <Image
+          source={{ uri: item.profileImage }}
+          style={localStyles.burgerimage}
+        />
         <CText type={"C20"} color={colors.fontbody}>
-          {item.name}
+          {item.foodName}
         </CText>
       </TouchableOpacity>
     );
@@ -228,6 +262,7 @@ const SearchTab = ({ navigation }) => {
             renderItem={search ? renderRecepie : renderSearch}
             horizontal={search ? false : true}
             showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
             ListEmptyComponent={ListEmpty}
           />
         </View>
@@ -239,15 +274,15 @@ const SearchTab = ({ navigation }) => {
               <CText type={"C28"} color={colors.fonttile}>
                 {CommonString.foods}
               </CText>
-              <TouchableOpacity onPress={onPressViewAll}>
+              <TouchableOpacity onPress={onPressViewFood}>
                 <CText type={"K17"} color={colors.green}>
                   {CommonString.viewall}
                 </CText>
               </TouchableOpacity>
             </View>
             <FlatList
-              data={FavouriteFood.slice(0, 4)}
-              renderItem={renderFavFood}
+              data={!!search ? isFilterFood : SearchData}
+              renderItem={search ? renderFavFood : renderSearch}
               numColumns={2}
               bounces={false}
               key={"_"}
@@ -255,6 +290,7 @@ const SearchTab = ({ navigation }) => {
               keyExtractor={(item) => "_" + item.id.toString()}
               contentContainerStyle={localStyles.renderdatasty}
               columnWrapperStyle={localStyles.rendercolumndata}
+              ListEmptyComponent={ListEmpty}
             />
           </View>
         ) : (
@@ -356,7 +392,7 @@ const localStyles = StyleSheet.create({
     gap: moderateScale(6),
   },
   allrenderview: {
-    ...styles.mt25,
+    ...styles.mv25,
     ...styles.flexcenterrow,
     height: moderateScale(72),
     width: moderateScale(160),
@@ -387,7 +423,7 @@ const localStyles = StyleSheet.create({
     ...styles.mh15,
     gap: moderateScale(10),
     ...styles.justifyCenter,
-    height: moderateScale(520),
+    height: moderateScale(400),
   },
   dietimg: {
     height: moderateScale(160),
