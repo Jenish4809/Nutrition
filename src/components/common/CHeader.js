@@ -47,7 +47,7 @@ export default CHeader;
 const localStyles = StyleSheet.create({
   main: {
     height: moderateScale(60),
-    width: "100%",
+    width: "93%",
     ...styles.flexcenterrow,
   },
   ctext: {

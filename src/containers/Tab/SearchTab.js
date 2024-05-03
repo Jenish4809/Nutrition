@@ -227,6 +227,7 @@ const SearchTab = ({ navigation }) => {
       <CHeader
         onPressBack={onPressBack}
         LeftIcon={true}
+        type={"E15"}
         title={CommonString.search1}
       />
       <ScrollView>
