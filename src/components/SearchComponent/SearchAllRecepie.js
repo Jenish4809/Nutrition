@@ -31,6 +31,7 @@ const SearchAllRecepie = ({ route, navigation }) => {
   const { data } = route.params;
   const [selectedItems, setSelectedItems] = useState([]);
   const [select, setSelect] = useState("");
+  const [timer, setTimer] = useState("");
   let ref = useRef(null);
 
   // open function for open actionsheet filter
@@ -44,13 +45,17 @@ const SearchAllRecepie = ({ route, navigation }) => {
   };
 
   // timer change for the different cooking time
-  const onPressTimer = (id) => {
+  const onPressTimer = (id, time) => {
     setSelect(id);
+    setTimer(time);
   };
+  // convert minutes into int for match data
+  const minutes = parseInt(timer);
 
   // Toggle funtion for select checkbox
   const toggleItemSelection = (id) => {
     const isSelected = selectedItems.includes(id);
+
     if (isSelected) {
       setSelectedItems(selectedItems.filter((item) => item !== id));
     } else {
@@ -77,16 +82,66 @@ const SearchAllRecepie = ({ route, navigation }) => {
     );
   };
 
+  // render the recepie
+  const renderFoodReccepie = ({ item }) => {
+    const timeString = item.minutes;
+    const minutes1 = parseInt(timeString);
+    if (minutes1 <= minutes) {
+      return (
+        <TouchableOpacity
+          style={localStyles.posterview}
+          onPress={() => handleRecepiePress(item)}
+        >
+          <View>
+            <ImageBackground
+              source={{ uri: item.url }}
+              style={localStyles.posterimage}
+            >
+              <View style={localStyles.bgimagerow}>
+                <View style={localStyles.servetext}>
+                  <Image
+                    source={images.timeicon}
+                    style={localStyles.timeicon}
+                  />
+                  <CText type={"E15"} color={colors.textbg}>
+                    {item.minutes}
+                  </CText>
+                  <Image
+                    source={images.usericon}
+                    style={localStyles.timeicon}
+                  />
+                  <CText type={"E15"} color={colors.textbg}>
+                    {item.serve}
+                  </CText>
+                </View>
+                <View>
+                  <Image source={images.stars} style={localStyles.starsicon} />
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+          <CText type={"C20"} color={colors.fonttile} align={"center"}>
+            {item.name}
+          </CText>
+          <CText type={"K13"} color={colors.fontbody} align={"center"}>
+            {item.subtitle}
+          </CText>
+        </TouchableOpacity>
+      );
+    }
+  };
   // Render component for Timer
   const renderTimer = ({ item }) => {
-    const isSelected = select === item.id;
     return (
       <TouchableOpacity
         style={[
           localStyles.timerview,
-          { backgroundColor: isSelected ? colors.querybtn : colors.pwhite },
+          {
+            backgroundColor:
+              select === item.id ? colors.querybtn : colors.pwhite,
+          },
         ]}
-        onPress={() => onPressTimer(item.id)}
+        onPress={() => onPressTimer(item.id, item.time)}
       >
         <CText type={"E17"} color={colors.fonttile}>
           {item.time}
@@ -117,52 +172,7 @@ const SearchAllRecepie = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       />
-      {data?.map((item) => {
-        return (
-          <TouchableOpacity
-            style={localStyles.posterview}
-            onPress={() => handleRecepiePress(item)}
-          >
-            <View>
-              <ImageBackground
-                source={{ uri: item.url }}
-                style={localStyles.posterimage}
-              >
-                <View style={localStyles.bgimagerow}>
-                  <View style={localStyles.servetext}>
-                    <Image
-                      source={images.timeicon}
-                      style={localStyles.timeicon}
-                    />
-                    <CText type={"E15"} color={colors.textbg}>
-                      {item.minutes}
-                    </CText>
-                    <Image
-                      source={images.usericon}
-                      style={localStyles.timeicon}
-                    />
-                    <CText type={"E15"} color={colors.textbg}>
-                      {item.serve}
-                    </CText>
-                  </View>
-                  <View>
-                    <Image
-                      source={images.stars}
-                      style={localStyles.starsicon}
-                    />
-                  </View>
-                </View>
-              </ImageBackground>
-            </View>
-            <CText type={"C20"} color={colors.fonttile} align={"center"}>
-              {item.name}
-            </CText>
-            <CText type={"K13"} color={colors.fontbody} align={"center"}>
-              {item.subtitle}
-            </CText>
-          </TouchableOpacity>
-        );
-      })}
+      <FlatList data={data} renderItem={renderFoodReccepie} />
       <ActionSheet ref={ref} containerStyle={localStyles.action}>
         <View style={localStyles.actionview}>
           <View style={localStyles.actiontitle}>

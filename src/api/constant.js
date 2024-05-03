@@ -566,19 +566,19 @@ export const SearchData = [
 export const TimerData = [
   {
     id: 1,
-    time: "15m",
+    time: "15 min",
   },
   {
     id: 2,
-    time: "30m",
+    time: "30 min",
   },
   {
     id: 3,
-    time: "45m",
+    time: "45 min",
   },
   {
     id: 4,
-    time: "60m",
+    time: "60 min",
   },
 ];
 
