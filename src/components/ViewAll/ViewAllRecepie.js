@@ -19,9 +19,11 @@ import { CommonString } from "../../i18n/String";
 import { moderateScale } from "../../common/constants";
 import { StackNav } from "../../navigation/NavigationKeys";
 import images from "../../assets/images";
+import { CLoader } from "../../components/common/CLoader";
 
 const ViewAllFood = ({ navigation }) => {
   const [allRecepie, setAllRecepie] = useState();
+  const [loading, setLoading] = useState(true);
   const db = FIREBASE_DB;
 
   //  useeffect for get recepie all data from firebase
@@ -37,11 +39,15 @@ const ViewAllFood = ({ navigation }) => {
           });
         });
         setAllRecepie(foods);
+        setLoading(false);
       },
     });
     return () => food1();
   }, []);
 
+  if (!!loading) {
+    return <CLoader />;
+  }
   // press for the recepie data
   const handleOnPressRecepie = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });

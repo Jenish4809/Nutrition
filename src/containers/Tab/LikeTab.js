@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
@@ -21,48 +22,44 @@ import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import { CLoader } from "../../components/common/CLoader";
 
 // LikeTab component
 const LikeTab = ({ navigation }) => {
   const [selected, setSelected] = useState(1);
   const db = FIREBASE_DB;
 
-  const [data, setData] = useState([]);
-  const [food, setFood] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [food, setFood] = useState();
+  const [recepie, setRecepie] = useState();
 
   useEffect(() => {
-    const todoRef = collection(db, "RecepieData");
-    const subscriber = onSnapshot(todoRef, {
-      next: (snapshot) => {
-        const todos = [];
-        snapshot.docs.forEach((doc) => {
-          todos.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setData(todos);
-      },
-    });
-    const foodRef = collection(db, "fooddata");
-    const food = onSnapshot(foodRef, {
-      next: (snapshot) => {
-        const foods = [];
-        snapshot.docs.forEach((doc) => {
-          foods.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setFood(foods);
-      },
-    });
-    return () => {
-      subscriber();
-      food();
+    const newData = async () => {
+      const foodData = await newDataHere("fooddata");
+      setFood(foodData);
+      const recepieData = await newDataHere("RecepieData");
+      setRecepie(recepieData);
+      setLoading(false);
     };
+    newData();
   }, []);
+
+  const newDataHere = async (dbname) => {
+    const querySnapshot = await getDocs(collection(db, dbname));
+    const docs = querySnapshot.docs;
+    const foods = docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    return foods;
+  };
+
+  if (loading) {
+    return <CLoader />;
+  }
 
   // onPress function for go between food and recepie
   const onPressCategory = (item) => {
@@ -239,7 +236,7 @@ const LikeTab = ({ navigation }) => {
       ) : (
         <FlatList
           key={"#"}
-          data={data}
+          data={recepie}
           renderItem={renderFavRecepie}
           keyExtractor={(item) => "#" + item.id.toString()}
           ListEmptyComponent={EmptyFaVRecepie}

@@ -34,12 +34,11 @@ const ForgotPassword = ({ navigation }) => {
   // onPress for go to the Email Send Screen
   const onPressEmailSent = async () => {
     try {
-      // await sendPasswordResetEmail(auth, email);
+      await sendPasswordResetEmail(auth, email);
       navigation.navigate(AuthNav.EmailSend, { email: email });
     } catch (error) {
       console.log(error);
     }
-    // navigation.navigate(AuthNav.EmailSend);
   };
 
   // Onchange state value of the email function

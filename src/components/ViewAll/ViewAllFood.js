@@ -12,9 +12,11 @@ import { CommonString } from "../../i18n/String";
 import { moderateScale } from "../../common/constants";
 import { Image } from "react-native";
 import { StackNav } from "../../navigation/NavigationKeys";
+import { CLoader } from "../../components/common/CLoader";
 
 const ViewAllFood = ({ navigation }) => {
   const [allFood, setAllFood] = useState();
+  const [loading, setLoading] = useState(true);
 
   const db = FIREBASE_DB;
 
@@ -31,11 +33,16 @@ const ViewAllFood = ({ navigation }) => {
           });
         });
         setAllFood(foods);
+        setLoading(false);
       },
     });
     return () => food1();
   }, []);
 
+  // loader for data
+  if (!!loading) {
+    return <CLoader />;
+  }
   // onPress for go to the detail of food
   const handleOnpress12 = (item) => {
     navigation.navigate(StackNav.LikedFoodDesc, { item });

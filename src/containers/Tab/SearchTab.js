@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -41,37 +41,26 @@ const SearchTab = ({ navigation }) => {
 
   // useefect for search the data
   useEffect(() => {
-    const todoRef = collection(db, "RecepieData");
-    const subscriber = onSnapshot(todoRef, {
-      next: (snapshot) => {
-        const todos = [];
-        snapshot.docs.forEach((doc) => {
-          todos.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setNewData(todos);
-      },
-    });
-    const todoRef1 = collection(db, "fooddata");
-    const subscriber1 = onSnapshot(todoRef1, {
-      next: (snapshot) => {
-        const todos = [];
-        snapshot.docs.forEach((doc) => {
-          todos.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setNewFood(todos);
-      },
-    });
-    return () => {
-      subscriber();
-      subscriber1();
+    const FirebaseData = async () => {
+      const food = await newDataHere("foodata");
+      setNewFood(food);
+      const recepie = await newDataHere("RecepieData");
+      setNewData(recepie);
     };
+    FirebaseData();
   }, [search]);
+
+  const newDataHere = async (dbname) => {
+    const querySnapshot = await getDocs(collection(db, dbname));
+    const docs = querySnapshot.docs;
+    const foods = docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      };
+    });
+    return foods;
+  };
 
   // handleonPress for go to the recepie description
   const handleRecepiePress = (item) => {
