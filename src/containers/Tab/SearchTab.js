@@ -42,7 +42,7 @@ const SearchTab = ({ navigation }) => {
   // useefect for search the data
   useEffect(() => {
     const FirebaseData = async () => {
-      const food = await newDataHere("foodata");
+      const food = await newDataHere("fooddata");
       setNewFood(food);
       const recepie = await newDataHere("RecepieData");
       setNewData(recepie);
@@ -50,6 +50,7 @@ const SearchTab = ({ navigation }) => {
     FirebaseData();
   }, [search]);
 
+  // newdata for call the data from databse common
   const newDataHere = async (dbname) => {
     const querySnapshot = await getDocs(collection(db, dbname));
     const docs = querySnapshot.docs;
