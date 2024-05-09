@@ -52,6 +52,10 @@ const Login = ({ navigation }) => {
         };
         await AsyncStorage.setItem("user", JSON.stringify(userData));
 
+        // store login user auth detail
+        const user = auth.currentUser;
+        await AsyncStorage.setItem("UserAuthDetail", JSON.stringify(user));
+
         // get data from firestore admin or user
         const q = await query(
           collection(db, "users"),
@@ -72,7 +76,7 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       console.log(error);
-      Alert.alert(CommonString.userexist);
+      Alert.alert(CommonString.validId);
     }
   };
 

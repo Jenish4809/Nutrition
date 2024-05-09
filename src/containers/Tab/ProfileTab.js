@@ -32,12 +32,14 @@ import { StackNav } from "../../navigation/NavigationKeys";
 import { setAuthToken } from "../../utils/asyncstorage";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 import { signOut } from "firebase/auth";
+import { CLoader } from "../../components/common/CLoader";
 
 // Profile Tab Component
 const ProfileTab = ({ navigation }) => {
   const [imageProfile, setImageProfile] = useState(null);
   const [signUpUser, setSignUpUser] = useState("");
   const [userName, setUserName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const db = FIREBASE_DB;
   const auth = FIREBASE_AUTH;
@@ -62,8 +64,13 @@ const ProfileTab = ({ navigation }) => {
     querySnapshot.forEach((doc) => {
       setUserName(doc.data()?.name);
       setImageProfile(doc.data()?.image);
+      setIsLoading(false);
     });
   };
+
+  if (!!isLoading) {
+    return <CLoader />;
+  }
 
   // render item of the profile category data
   const CommonUser = ({ onPress, RightIcon, text }) => {
@@ -118,6 +125,7 @@ const ProfileTab = ({ navigation }) => {
             await AsyncStorage.removeItem("user");
             await AsyncStorage.removeItem("users");
             await AsyncStorage.removeItem("Photos");
+            await AsyncStorage.removeItem("UserAuthDetail");
             if (response === undefined) {
               await setAuthToken(false);
               navigation.reset({

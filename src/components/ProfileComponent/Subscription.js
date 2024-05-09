@@ -1,7 +1,9 @@
 // Library Imoorts
 import { View, StyleSheet, Image } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { FIREBASE_DB } from "../../../firebaseConfig";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -14,9 +16,45 @@ import { moderateScale } from "../../common/constants";
 import CButton from "../common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { LoginButton } from "../common/CLoginButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CLoader } from "../../components/common/CLoader";
 
 // Subscription Screen Component
 const Subscription = ({ navigation }) => {
+  const [userName, setUserName] = useState("");
+  const [imageProfile, setImageProfile] = useState(null);
+  const [signUpUser, setSignUpUser] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const db = FIREBASE_DB;
+
+  // TO get the Profile Image from Async Storage
+  useEffect(() => {
+    getImage();
+  }, []);
+
+  // TO get the Profile Image from Async Storage
+  const getImage = async () => {
+    const name = await AsyncStorage.getItem("users");
+    const newData = JSON.parse(name);
+    setSignUpUser(newData?.name);
+    const login = await AsyncStorage.getItem("user");
+    const newData1 = JSON.parse(login);
+    const q = query(
+      collection(db, "users"),
+      where("uid", "==", newData1?.uid || newData?.uid)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setUserName(doc.data()?.name);
+      setImageProfile(doc.data()?.image);
+      setIsLoading(false);
+    });
+  };
+
+  if (!!isLoading) {
+    return <CLoader />;
+  }
   // onPress function for go to the next premium page
   const onPressbuy = () => {
     navigation.navigate(StackNav.BuyPremium);
@@ -32,9 +70,12 @@ const Subscription = ({ navigation }) => {
       />
       <View style={localStyles.innerview}>
         <View>
-          <Image source={images.profileimg} style={localStyles.imagesty} />
+          <Image
+            source={imageProfile ? { uri: imageProfile } : images.profileimg}
+            style={localStyles.imagesty}
+          />
           <CText type={"C28"} color={colors.fonttile} align={"center"}>
-            {CommonString.username}
+            {userName ? userName : signUpUser}
           </CText>
           <CText type={"E17"} color={colors.fonttile} align={"center"}>
             {CommonString.notsubscribed}
@@ -68,6 +109,7 @@ const localStyles = StyleSheet.create({
   imagesty: {
     height: moderateScale(144),
     width: moderateScale(144),
+    borderRadius: moderateScale(80),
     resizeMode: "contain",
     ...styles.selfCenter,
   },

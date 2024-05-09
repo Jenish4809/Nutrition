@@ -10,23 +10,22 @@ import * as ImagePicker from "expo-image-picker";
 export default function TabNavigation({ navigation }) {
   const Tab = createBottomTabNavigator();
 
-  const onPressUploadImg = async () => {
-    try {
-      await ImagePicker.requestCameraPermissionsAsync();
-      let result = await ImagePicker.launchCameraAsync({
-        cameraType: ImagePicker.CameraType.front,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 1,
-      });
-      if (!result.canceled) {
-        // setImage(result.assets[0].uri);
-        navigation.navigate(StackNav.CameraScan);
-      }
-    } catch (err) {
-      alert(CommonString.erruploadimg + err);
-    }
-  };
+  // const onPressUploadImg = async () => {
+  //   try {
+  //     await ImagePicker.requestCameraPermissionsAsync();
+  //     let result = await ImagePicker.launchCameraAsync({
+  //       cameraType: ImagePicker.CameraType.front,
+  //       allowsEditing: true,
+  //       aspect: [1, 1],
+  //       quality: 1,
+  //     });
+  //     if (!result.canceled) {
+  //       navigation.navigate(StackNav.CameraScan);
+  //     }
+  //   } catch (err) {
+  //     alert(CommonString.erruploadimg + err);
+  //   }
+  // };
 
   return (
     <Tab.Navigator
@@ -60,7 +59,7 @@ export default function TabNavigation({ navigation }) {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={TabNav.CameraTab}
         component={TabRoute.CameraTab}
         options={{
@@ -74,7 +73,7 @@ export default function TabNavigation({ navigation }) {
             </TouchableOpacity>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name={TabNav.LikeTab}
         component={TabRoute.LikeTab}

@@ -9,6 +9,8 @@ import {
 import React, { useState } from "react";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FIREBASE_AUTH } from "../../../firebaseConfig";
+import { signOut } from "firebase/auth";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -18,7 +20,6 @@ import { CommonString } from "../../i18n/String";
 import CText from "../common/CText";
 import { moderateScale } from "../../common/constants";
 import {
-  DarkMode,
   Help,
   Language,
   Location,
@@ -26,20 +27,22 @@ import {
   Notification,
 } from "../../assets/svg";
 import { StackNav } from "../../navigation/NavigationKeys";
-import { FIREBASE_AUTH } from "../../../firebaseConfig";
-import { signOut } from "firebase/auth";
 import { setAuthToken } from "../../utils/asyncstorage";
+import { Dropdown } from "react-native-element-dropdown";
+import typography from "../../themes/typography";
+import { IndianLanguages } from "../../api/constant";
 
 // setting component
 const Settings = ({ navigation }) => {
   // states for toggle switch
-  const [isEnabled, setIsEnabled] = useState(false);
+  // const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled1, setIsEnabled1] = useState(false);
   const [isEnabled2, setIsEnabled2] = useState(false);
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
   const auth = FIREBASE_AUTH;
 
   // turn on off toggle switch functions
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
   const toggleSwitch2 = () => setIsEnabled2((previousState) => !previousState);
 
@@ -77,6 +80,21 @@ const Settings = ({ navigation }) => {
     navigation.navigate(StackNav.HelpCenter);
   };
 
+  const renderLabel = () => {
+    if (value || isFocus) {
+      return (
+        <CText
+          style={[localStyles.label, isFocus && { color: colors.gray }]}
+          type={"E17"}
+          color={colors.fontbody}
+        >
+          Select Language
+        </CText>
+      );
+    }
+    return null;
+  };
+
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -85,12 +103,35 @@ const Settings = ({ navigation }) => {
         type={"E15"}
         color={colors.fonttile}
       />
-      <CommonSettings
-        Svg={() => <Language />}
-        Icon={true}
-        title={CommonString.language}
-      />
-      <CommonSettings
+      <View style={localStyles.container}>
+        {renderLabel()}
+        <Dropdown
+          style={[
+            localStyles.dropdown,
+            isFocus && { borderColor: colors.green },
+          ]}
+          placeholderStyle={localStyles.placeholderStyle}
+          selectedTextStyle={localStyles.selectedTextStyle}
+          inputSearchStyle={localStyles.inputSearchStyle}
+          data={IndianLanguages}
+          search
+          placeholder={!isFocus ? "Select Language" : "..."}
+          maxHeight={300}
+          labelField="label"
+          valueField="label"
+          searchPlaceholder="Search..."
+          value={value}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={(item) => {
+            setValue(item.label);
+            setIsFocus(false);
+          }}
+          renderLeftIcon={() => <Language />}
+        />
+      </View>
+
+      {/* <CommonSettings
         Svg={() => <DarkMode />}
         title={CommonString.darkmode}
         RightIcon={() => (
@@ -102,7 +143,7 @@ const Settings = ({ navigation }) => {
             style={localStyles.switch}
           />
         )}
-      />
+      /> */}
       <CommonSettings
         Svg={() => <Location />}
         title={CommonString.location}
@@ -176,6 +217,33 @@ const localStyles = StyleSheet.create({
   },
   switch: {
     transform: [{ scaleX: 1.3 }, { scaleY: 1.3 }],
+  },
+  container: {
+    backgroundColor: colors.white,
+    marginHorizontal: moderateScale(45),
+  },
+  dropdown: {
+    height: moderateScale(50),
+  },
+  label: {
+    ...styles.mb10,
+    ...styles.mh10,
+  },
+  placeholderStyle: {
+    ...typography.fontSizes.f14,
+    ...typography.fontWeights.ExtraBold,
+    color: colors.fontbody,
+    ...styles.ml10,
+  },
+  selectedTextStyle: {
+    ...typography.fontSizes.f14,
+    ...typography.fontWeights.ExtraBold,
+    color: colors.fontbody,
+    ...styles.ml10,
+  },
+  inputSearchStyle: {
+    height: moderateScale(40),
+    ...typography.fontSizes.f16,
   },
 });
 

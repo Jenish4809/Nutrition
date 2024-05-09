@@ -9,7 +9,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Local imports
-import { DrawerNav, StackNav } from "../NavigationKeys";
+import { StackNav } from "../NavigationKeys";
 import { DrawerRoute } from "../NavigationRoutes";
 import { colors } from "../../themes/colors";
 import { moderateScale } from "../../common/constants";

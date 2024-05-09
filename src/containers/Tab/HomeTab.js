@@ -9,7 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { FIREBASE_DB } from "../../../firebaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { collection, getDocs, query, where } from "firebase/firestore";
 

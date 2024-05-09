@@ -1,6 +1,9 @@
 // Library Imports
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -13,9 +16,44 @@ import { moderateScale } from "../../common/constants";
 import CButton from "../common/CButton";
 import { TabNav } from "../../navigation/NavigationKeys";
 import { CommonFeature } from "./Subscription";
+import { CLoader } from "../common/CLoader";
 
 // Subscription done component
 const SubscribeDone = ({ navigation }) => {
+  const db = FIREBASE_DB;
+
+  const [userName, setUserName] = useState("");
+  const [imageProfile, setImageProfile] = useState(null);
+  const [signUpUser, setSignUpUser] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  // TO get the Profile Image from Async Storage
+  useEffect(() => {
+    getImage();
+  }, []);
+
+  // TO get the Profile Image from Async Storage
+  const getImage = async () => {
+    const name = await AsyncStorage.getItem("users");
+    const newData = JSON.parse(name);
+    setSignUpUser(newData?.name);
+    const login = await AsyncStorage.getItem("user");
+    const newData1 = JSON.parse(login);
+    const q = query(
+      collection(db, "users"),
+      where("uid", "==", newData1?.uid || newData?.uid)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setUserName(doc.data()?.name);
+      setImageProfile(doc.data()?.image);
+      setIsLoading(false);
+    });
+  };
+
+  if (isLoading) {
+    return <CLoader />;
+  }
   // onpress function for cancel button
   const onPressCancel = () => {
     navigation.navigate(TabNav.ProfileTab);
@@ -31,9 +69,12 @@ const SubscribeDone = ({ navigation }) => {
       />
       <View style={localStyles.innerview}>
         <View>
-          <Image source={images.profileimg} style={localStyles.imagesty} />
+          <Image
+            source={imageProfile ? { uri: imageProfile } : images.profileimg}
+            style={localStyles.imagesty}
+          />
           <CText type={"C28"} color={colors.fonttile} align={"center"}>
-            {CommonString.username}
+            {userName ? userName : signUpUser}
           </CText>
           <CText type={"E17"} color={colors.fonttile} align={"center"}>
             {CommonString.subscribed}
@@ -73,6 +114,7 @@ const localStyles = StyleSheet.create({
   imagesty: {
     height: moderateScale(144),
     width: moderateScale(144),
+    borderRadius: moderateScale(80),
     resizeMode: "contain",
     ...styles.selfCenter,
   },

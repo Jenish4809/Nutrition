@@ -32,8 +32,10 @@ export default function OnBoarding({ navigation }) {
 
   //  onPress for the go to the Login Page direct
   const loginPage = () => {
-    navigation.navigate(AuthNav.AuthNavigation, {
-      screen: AuthNav.Login,
+    setOnBoarding(true);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: StackNav.AuthNavigation, screen: AuthNav.Login }],
     });
   };
 

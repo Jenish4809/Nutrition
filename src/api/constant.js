@@ -630,3 +630,36 @@ export const FoodIngridient = [
     image: images.ingredient4,
   },
 ];
+
+export const QueryBtn = [
+  {
+    id: 1,
+    title: "Query",
+  },
+  {
+    id: 2,
+    title: "Feedback",
+  },
+];
+
+export const IndianLanguages = [
+  { id: 1, label: "English" },
+  { id: 2, label: "Hindi" },
+  { id: 3, label: "Bengali" },
+  { id: 4, label: "Telugu" },
+  { id: 5, label: "Marathi" },
+  { id: 6, label: "Tamil" },
+  { id: 7, label: "Urdu" },
+  { id: 8, label: "Gujarati" },
+  { id: 9, label: "Kannada" },
+  { id: 10, label: "Odia" },
+  { id: 11, label: "Malayalam" },
+  { id: 12, label: "Punjabi" },
+  { id: 13, label: "Assamese" },
+  { id: 14, label: "Maithili" },
+  { id: 15, label: "Santali" },
+  { id: 16, label: "Kashmiri" },
+  { id: 17, label: "Nepali" },
+  { id: 18, label: "Konkani" },
+  { id: 19, label: "Sindhi" },
+];

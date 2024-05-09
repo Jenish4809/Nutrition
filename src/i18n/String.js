@@ -98,7 +98,6 @@ export const CommonString = {
   shootus: "Shoot Us An Email",
   writemail:
     "Write us an email about anything and we’ll get back to you within three days.",
-  mailtext: "Enter your Feedback or Query",
   feedback: "Feedback",
   query: "Query",
   send: "Send",
@@ -181,4 +180,8 @@ export const CommonString = {
   allfood: "All Food",
   allRecepie: "All Recepie",
   wait: "Wait for few Seconds to Upload Image",
+  validId: "Enter valid Email and correct Password",
+  feedback: "Enter your Feedback or Query",
+  sendquery: "Query has been Send",
+  sendFeedback: "Feedback has been send",
 };

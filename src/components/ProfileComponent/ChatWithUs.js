@@ -1,6 +1,15 @@
 // Library Imports
-import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { FIREBASE_DB } from "../../../firebaseConfig";
+import { addDoc, collection } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -12,24 +21,95 @@ import { moderateScale } from "../../common/constants";
 import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
+import { QueryBtn } from "../../api/constant";
 
 // chat with help component
 const ChatWithUs = ({ navigation }) => {
-  // Common component button for query and feedback
-  const CommonQueryBtn = ({ extrasty, title, extracolor }) => {
+  const [select, setSelect] = useState(1);
+  const [input, setInput] = useState("");
+  const [loginUser, setLoginUser] = useState("");
+  const [signUpUser, setSignUpUser] = useState("");
+
+  const db = FIREBASE_DB;
+
+  // onPress function for go to the email sent page and send query or feedback
+  const onPressSent = () => {
+    if (select === 1) {
+      onPressSendQuery();
+      setInput("");
+    } else {
+      onPressSendFeedback();
+      setInput("");
+    }
+    navigation.navigate(StackNav.EmailSent);
+  };
+
+  // function for select query or feedback
+  const onPressQuery = (id) => {
+    setSelect(id);
+  };
+
+  // onChange text for the input field
+  const onChangeInput = (text) => {
+    setInput(text);
+  };
+
+  // useefect for get user details
+  useEffect(() => {
+    getUserDetail();
+  }, []);
+
+  // function for get userdetail for async storage
+  const getUserDetail = async () => {
+    const name = await AsyncStorage.getItem("users");
+    const newData = JSON.parse(name);
+    setSignUpUser(newData?.email);
+    const login = await AsyncStorage.getItem("user");
+    const newData1 = JSON.parse(login);
+    setLoginUser(newData1?.email);
+  };
+
+  // onPress function for send query to the firestore database
+  const onPressSendQuery = async () => {
+    if (select === 1) {
+      await addDoc(collection(db, "Query"), {
+        Query: input,
+        UserEmail: loginUser ? loginUser : signUpUser,
+      });
+    }
+  };
+
+  // onPress function fot send feedback to the firestore database
+  const onPressSendFeedback = async () => {
+    if (select === 2) {
+      await addDoc(collection(db, "Feedback"), {
+        Query: input,
+        UserEmail: loginUser ? loginUser : signUpUser,
+      });
+    }
+  };
+
+  // render function for query button
+  const renderBtn = ({ item }) => {
     return (
-      <TouchableOpacity style={[localStyles.feedbackbtn, extrasty]}>
-        <CText type={"E17"} color={extracolor || colors.fonttile}>
-          {title || CommonString.feedback}
+      <TouchableOpacity
+        style={[
+          localStyles.feedbackbtn,
+          {
+            backgroundColor:
+              select === item.id ? colors.querybtn : colors.pwhite,
+            borderColor: colors.querybtn,
+          },
+        ]}
+        onPress={() => onPressQuery(item.id)}
+      >
+        <CText type={"E17"} color={colors.fontbody}>
+          {item?.title}
         </CText>
       </TouchableOpacity>
     );
   };
 
-  // onPress function for go to the email sent page
-  const onPressSent = () => {
-    navigation.navigate(StackNav.EmailSent);
-  };
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -47,21 +127,22 @@ const ChatWithUs = ({ navigation }) => {
             {CommonString.writemail}
           </CText>
           <TextInput
-            placeholder={CommonString.mailtext}
+            placeholder={CommonString.feedback}
             style={localStyles.inputsty}
             placeholderTextColor={colors.fontbody}
+            value={input}
+            onChangeText={onChangeInput}
             multiline={true}
             textAlignVertical="top"
           />
-          <View style={localStyles.querybtnview}>
-            <CommonQueryBtn />
-            <CommonQueryBtn
-              title={CommonString.query}
-              extrasty={localStyles.querybtn}
-              extracolor={colors.fontbody}
-            />
-          </View>
         </View>
+        <FlatList
+          data={QueryBtn}
+          renderItem={renderBtn}
+          horizontal
+          extraData={select}
+          keyExtractor={(item) => item.id.toString()}
+        />
       </View>
       <CButton
         name={CommonString.send}
@@ -83,7 +164,7 @@ const localStyles = StyleSheet.create({
     ...styles.mh20,
     ...styles.mt20,
     ...styles.flex,
-    ...styles.justifyBetween,
+    ...styles.itemsCenter,
   },
   inputsty: {
     height: moderateScale(316),
@@ -99,9 +180,10 @@ const localStyles = StyleSheet.create({
   feedbackbtn: {
     height: moderateScale(44),
     width: moderateScale(108),
-    backgroundColor: colors.querybtn,
     borderRadius: moderateScale(12),
+    borderWidth: moderateScale(2),
     ...styles.nonFlexCenter,
+    ...styles.m10,
   },
   querybtn: {
     backgroundColor: colors.textbg,

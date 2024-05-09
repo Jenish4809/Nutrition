@@ -1,6 +1,5 @@
 // Library Imports
 import { View, StyleSheet, Image, FlatList, ScrollView } from "react-native";
-import React from "react";
 import * as ImagePicker from "expo-image-picker";
 
 // Local Imports
@@ -8,13 +7,13 @@ import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
 import CHeader from "../common/CHeader";
 import { CommonString } from "../../i18n/String";
-import images from "../../assets/images";
 import { moderateScale } from "../../common/constants";
 import { FoodIngridient, FoodProtein } from "../../api/constant";
 import CText from "../common/CText";
 import CButton from "../common/CButton";
 import { LoginButton } from "../common/CLoginButton";
 import { StackNav, TabNav } from "../../navigation/NavigationKeys";
+import images from "../../assets/images";
 
 const CameraScan = ({ navigation }) => {
   // Render Protein function
@@ -70,6 +69,7 @@ const CameraScan = ({ navigation }) => {
   const onPressBackgo = () => {
     navigation.navigate(TabNav.HomeTab);
   };
+
   return (
     <View style={localStyles.main}>
       <ScrollView>

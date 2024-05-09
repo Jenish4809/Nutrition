@@ -23,15 +23,14 @@ import { Filter } from "../../assets/svg";
 import { FoodCategory, TimerData } from "../../api/constant";
 import CDivider from "../common/CDivider";
 import CCheckbox from "../common/CCheckBox";
-import CButton from "../common/CButton";
 
 // Search Recepies and Food component
 const SearchAllRecepie = ({ route, navigation }) => {
   // Get the Search from previous page
   const { data } = route.params;
   const [selectedItems, setSelectedItems] = useState([]);
-  const [select, setSelect] = useState("");
-  const [timer, setTimer] = useState("");
+  const [select, setSelect] = useState();
+  const [filtered, setFiltered] = useState("");
   let ref = useRef(null);
 
   // open function for open actionsheet filter
@@ -44,13 +43,18 @@ const SearchAllRecepie = ({ route, navigation }) => {
     ref.current.hide();
   };
 
-  // timer change for the different cooking time
-  const onPressTimer = (id, time) => {
+  // timer change for the different cooking time and filter new data
+  const onPressTimer = async (id, time) => {
     setSelect(id);
-    setTimer(time);
+    const minutes = parseInt(time);
+    const filteredData = await data.filter((item) => {
+      const minutes1 = parseInt(item.minutes);
+      if (minutes1 < minutes) {
+        return item;
+      }
+    });
+    setFiltered(filteredData);
   };
-  // convert minutes into int for match data
-  const minutes = parseInt(timer);
 
   // Toggle funtion for select checkbox
   const toggleItemSelection = (id) => {
@@ -84,52 +88,43 @@ const SearchAllRecepie = ({ route, navigation }) => {
 
   // render the recepie
   const renderFoodReccepie = ({ item }) => {
-    const timeString = item.minutes;
-    const minutes1 = parseInt(timeString);
-    if (minutes1 <= minutes) {
-      return (
-        <TouchableOpacity
-          style={localStyles.posterview}
-          onPress={() => handleRecepiePress(item)}
-        >
-          <View>
-            <ImageBackground
-              source={{ uri: item.url }}
-              style={localStyles.posterimage}
-            >
-              <View style={localStyles.bgimagerow}>
-                <View style={localStyles.servetext}>
-                  <Image
-                    source={images.timeicon}
-                    style={localStyles.timeicon}
-                  />
-                  <CText type={"E15"} color={colors.textbg}>
-                    {item.minutes}
-                  </CText>
-                  <Image
-                    source={images.usericon}
-                    style={localStyles.timeicon}
-                  />
-                  <CText type={"E15"} color={colors.textbg}>
-                    {item.serve}
-                  </CText>
-                </View>
-                <View>
-                  <Image source={images.stars} style={localStyles.starsicon} />
-                </View>
+    return (
+      <TouchableOpacity
+        style={localStyles.posterview}
+        onPress={() => handleRecepiePress(item)}
+      >
+        <View>
+          <ImageBackground
+            source={{ uri: item.url }}
+            style={localStyles.posterimage}
+          >
+            <View style={localStyles.bgimagerow}>
+              <View style={localStyles.servetext}>
+                <Image source={images.timeicon} style={localStyles.timeicon} />
+                <CText type={"E15"} color={colors.textbg}>
+                  {item.minutes}
+                </CText>
+                <Image source={images.usericon} style={localStyles.timeicon} />
+                <CText type={"E15"} color={colors.textbg}>
+                  {item.serve}
+                </CText>
               </View>
-            </ImageBackground>
-          </View>
-          <CText type={"C20"} color={colors.fonttile} align={"center"}>
-            {item.name}
-          </CText>
-          <CText type={"K13"} color={colors.fontbody} align={"center"}>
-            {item.subtitle}
-          </CText>
-        </TouchableOpacity>
-      );
-    }
+              <View>
+                <Image source={images.stars} style={localStyles.starsicon} />
+              </View>
+            </View>
+          </ImageBackground>
+        </View>
+        <CText type={"C20"} color={colors.fonttile} align={"center"}>
+          {item.name}
+        </CText>
+        <CText type={"K13"} color={colors.fontbody} align={"center"}>
+          {item.subtitle}
+        </CText>
+      </TouchableOpacity>
+    );
   };
+
   // Render component for Timer
   const renderTimer = ({ item }) => {
     return (
@@ -155,10 +150,6 @@ const SearchAllRecepie = ({ route, navigation }) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
   };
 
-  // onPress function on apply to close sheet
-  const onPressApply = () => {
-    ref.current.hide();
-  };
   return (
     <View style={localStyles.main}>
       <CHeader
@@ -172,7 +163,11 @@ const SearchAllRecepie = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
       />
-      <FlatList data={data} renderItem={renderFoodReccepie} />
+      <FlatList
+        data={!!select ? filtered : data}
+        renderItem={renderFoodReccepie}
+      />
+
       <ActionSheet ref={ref} containerStyle={localStyles.action}>
         <View style={localStyles.actionview}>
           <View style={localStyles.actiontitle}>
@@ -194,6 +189,7 @@ const SearchAllRecepie = ({ route, navigation }) => {
             data={TimerData}
             renderItem={renderTimer}
             horizontal
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id.toString()}
             extraData={select}
           />
@@ -209,7 +205,6 @@ const SearchAllRecepie = ({ route, navigation }) => {
             renderItem={renderCategory}
             keyExtractor={(item) => item.id.toString()}
           />
-          <CButton name={CommonString.apply} onPress={onPressApply} />
         </View>
       </ActionSheet>
     </View>
@@ -229,7 +224,7 @@ const localStyles = StyleSheet.create({
     backgroundColor: colors.recepiecard,
     borderRadius: moderateScale(20),
     ...styles.selfCenter,
-    ...styles.mt20,
+    ...styles.m10,
     borderWidth: moderateScale(1),
     borderColor: colors.posterborder,
   },

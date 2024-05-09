@@ -249,11 +249,10 @@ const SearchTab = ({ navigation }) => {
 
           {/* FlatList  for only one searched data show */}
           <FlatList
-            data={!!search ? isFilter.slice(0, 1) : SearchData}
+            data={!!search ? isFilter?.slice(0, 1) : SearchData}
             renderItem={search ? renderRecepie : renderSearch}
             horizontal={search ? false : true}
             showsHorizontalScrollIndicator={false}
-            scrollEnabled={false}
             ListEmptyComponent={ListEmpty}
           />
         </View>
