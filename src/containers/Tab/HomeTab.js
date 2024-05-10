@@ -22,6 +22,7 @@ import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { FoodCategoryTypes } from "../../api/constant";
+import { newDataHere } from "../../components/common/CDataGetFirebase";
 
 // HomeTab Component
 const HomeTab = ({ navigation }) => {
@@ -67,19 +68,6 @@ const HomeTab = ({ navigation }) => {
     getFoodCatgoryData();
     getRecepieCategoryData();
   }, [selectedFoodCategory, selectedRecepieCategory]);
-
-  // get the food category data from the firebase
-  const newDataHere = async (dbname) => {
-    const querySnapshot = await getDocs(collection(db, dbname));
-    const docs = querySnapshot.docs;
-    const foods = docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-    return foods;
-  };
 
   // get the userName from the Firebasde
   const getUserName = async () => {

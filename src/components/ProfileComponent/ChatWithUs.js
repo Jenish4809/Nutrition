@@ -22,6 +22,7 @@ import typography from "../../themes/typography";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { QueryBtn } from "../../api/constant";
+import moment from "moment/moment";
 
 // chat with help component
 const ChatWithUs = ({ navigation }) => {
@@ -69,12 +70,15 @@ const ChatWithUs = ({ navigation }) => {
     setLoginUser(newData1?.email);
   };
 
+  let date = moment().format("DD/MM/YYYY");
+
   // onPress function for send query to the firestore database
   const onPressSendQuery = async () => {
     if (select === 1) {
       await addDoc(collection(db, "Query"), {
         Query: input,
         UserEmail: loginUser ? loginUser : signUpUser,
+        CreatedAT: date,
       });
     }
   };
@@ -85,6 +89,7 @@ const ChatWithUs = ({ navigation }) => {
       await addDoc(collection(db, "Feedback"), {
         Query: input,
         UserEmail: loginUser ? loginUser : signUpUser,
+        CreatedAT: date,
       });
     }
   };

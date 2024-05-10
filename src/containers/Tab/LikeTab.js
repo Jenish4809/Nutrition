@@ -21,15 +21,12 @@ import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import CButton from "../../components/common/CButton";
 import { StackNav } from "../../navigation/NavigationKeys";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
 import { CLoader } from "../../components/common/CLoader";
+import { newDataHere } from "../../components/common/CDataGetFirebase";
 
 // LikeTab component
 const LikeTab = ({ navigation }) => {
   const [selected, setSelected] = useState(1);
-  const db = FIREBASE_DB;
-
   const [loading, setLoading] = useState(true);
   const [food, setFood] = useState();
   const [recepie, setRecepie] = useState();
@@ -44,18 +41,6 @@ const LikeTab = ({ navigation }) => {
     };
     newData();
   }, []);
-
-  const newDataHere = async (dbname) => {
-    const querySnapshot = await getDocs(collection(db, dbname));
-    const docs = querySnapshot.docs;
-    const foods = docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-    return foods;
-  };
 
   if (loading) {
     return <CLoader />;

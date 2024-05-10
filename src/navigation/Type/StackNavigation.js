@@ -27,6 +27,10 @@ export default function StackNavigation() {
         component={StackRoute.DrawerNavigation}
       />
       <Stack.Screen
+        name={StackNav.TopTabNavigation}
+        component={StackRoute.TopTabNavigation}
+      />
+      <Stack.Screen
         name={StackNav.TabNavigation}
         component={StackRoute.TabNavigation}
       />

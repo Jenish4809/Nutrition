@@ -10,8 +10,6 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -27,6 +25,7 @@ import { LoginButton } from "../../components/common/CLoginButton";
 import CDivider from "../../components/common/CDivider";
 import images from "../../assets/images";
 import { StackNav, TabNav } from "../../navigation/NavigationKeys";
+import { newDataHere } from "../../components/common/CDataGetFirebase";
 
 // Search tab component
 const SearchTab = ({ navigation }) => {
@@ -36,8 +35,6 @@ const SearchTab = ({ navigation }) => {
   const [isFilter, setIsFilter] = useState(newData);
   const [newFood, setNewFood] = useState();
   const [isFilterFood, setIsFilterFood] = useState(newFood);
-
-  const db = FIREBASE_DB;
 
   // useefect for search the data
   useEffect(() => {
@@ -49,19 +46,6 @@ const SearchTab = ({ navigation }) => {
     };
     FirebaseData();
   }, [search]);
-
-  // newdata for call the data from databse common
-  const newDataHere = async (dbname) => {
-    const querySnapshot = await getDocs(collection(db, dbname));
-    const docs = querySnapshot.docs;
-    const foods = docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      };
-    });
-    return foods;
-  };
 
   // handleonPress for go to the recepie description
   const handleRecepiePress = (item) => {

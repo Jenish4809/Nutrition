@@ -7,8 +7,6 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
 
 // Local Imports
 import React, { useEffect, useState } from "react";
@@ -20,29 +18,20 @@ import { moderateScale } from "../../common/constants";
 import { StackNav } from "../../navigation/NavigationKeys";
 import images from "../../assets/images";
 import { CLoader } from "../../components/common/CLoader";
+import { newDataHere } from "../common/CDataGetFirebase";
 
 const ViewAllFood = ({ navigation }) => {
   const [allRecepie, setAllRecepie] = useState();
   const [loading, setLoading] = useState(true);
-  const db = FIREBASE_DB;
 
   //  useeffect for get recepie all data from firebase
   useEffect(() => {
-    const foodRef1 = collection(db, "RecepieData");
-    const food1 = onSnapshot(foodRef1, {
-      next: (snapshot) => {
-        const foods = [];
-        snapshot.docs.forEach((doc) => {
-          foods.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setAllRecepie(foods);
-        setLoading(false);
-      },
-    });
-    return () => food1();
+    const getAllRecepieData = async () => {
+      const allRecepieGet = await newDataHere("RecepieData");
+      setAllRecepie(allRecepieGet);
+      setLoading(false);
+    };
+    getAllRecepieData();
   }, []);
 
   if (!!loading) {

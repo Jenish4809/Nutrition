@@ -4,6 +4,7 @@ export const StackNav = {
   AuthNavigation: "AuthNavigation",
   DrawerNavigation: "DrawerNavigation",
   TabNavigation: "TabNavigation",
+  TopTabNavigation: "TopTabNavigation",
   EditProfile: "EditProfile",
   HelpCenter: "HelpCenter",
   Settings: "Settings",
@@ -47,4 +48,9 @@ export const TabNav = {
 export const DrawerNav = {
   AdminPannel: "AdminPannel",
   FoodData: "FoodData",
+};
+
+export const TopTabNav = {
+  Query: "Query",
+  Feedback: "Feedback",
 };

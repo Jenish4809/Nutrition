@@ -35,12 +35,16 @@ import DrawerNavigation from "./Type/DrawerNavigation.js";
 import FoodData from "../containers/auth/FoodData.js";
 import ViewAllFood from "../components/ViewAll/ViewAllFood.js";
 import ViewAllRecepie from "../components/ViewAll/ViewAllRecepie.js";
+import TopTabNavigation from "./Type/TopTabNavigation.js";
+import Query from "../containers/auth/Query/Query.js";
+import Feedback from "../containers/auth/Query/Feedback.js";
 
 export const StackRoute = {
   Splash,
   OnBoarding,
   AuthNavigation,
   TabNavigation,
+  TopTabNavigation,
   EditProfile,
   HelpCenter,
   Settings,
@@ -84,4 +88,9 @@ export const TabRoute = {
 export const DrawerRoute = {
   AdminPannel,
   FoodData,
+};
+
+export const TopTabRoute = {
+  Query,
+  Feedback,
 };

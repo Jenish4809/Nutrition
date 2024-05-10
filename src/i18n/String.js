@@ -184,4 +184,6 @@ export const CommonString = {
   feedback: "Enter your Feedback or Query",
   sendquery: "Query has been Send",
   sendFeedback: "Feedback has been send",
+  deleteqry: "Delete Query",
+  deletefeed: "Delete Feedback",
 };

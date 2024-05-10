@@ -220,7 +220,7 @@ const localStyles = StyleSheet.create({
   },
   container: {
     backgroundColor: colors.white,
-    marginHorizontal: moderateScale(45),
+    ...styles.mh30,
   },
   dropdown: {
     height: moderateScale(50),
@@ -233,7 +233,6 @@ const localStyles = StyleSheet.create({
     ...typography.fontSizes.f14,
     ...typography.fontWeights.ExtraBold,
     color: colors.fontbody,
-    ...styles.ml10,
   },
   selectedTextStyle: {
     ...typography.fontSizes.f14,

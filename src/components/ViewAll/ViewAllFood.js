@@ -1,8 +1,6 @@
 // Library Imports
 import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FIREBASE_DB } from "../../../firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
 
 // Local Imports
 import { styles } from "../../themes";
@@ -13,30 +11,20 @@ import { moderateScale } from "../../common/constants";
 import { Image } from "react-native";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { CLoader } from "../../components/common/CLoader";
+import { newDataHere } from "../common/CDataGetFirebase";
 
 const ViewAllFood = ({ navigation }) => {
   const [allFood, setAllFood] = useState();
   const [loading, setLoading] = useState(true);
 
-  const db = FIREBASE_DB;
-
   // useeffct for get the food data from firebase
   useEffect(() => {
-    const foodRef1 = collection(db, "fooddata");
-    const food1 = onSnapshot(foodRef1, {
-      next: (snapshot) => {
-        const foods = [];
-        snapshot.docs.forEach((doc) => {
-          foods.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setAllFood(foods);
-        setLoading(false);
-      },
-    });
-    return () => food1();
+    const getAllRecepieData = async () => {
+      const allRecepieGet = await newDataHere("fooddata");
+      setAllFood(allRecepieGet);
+      setLoading(false);
+    };
+    getAllRecepieData();
   }, []);
 
   // loader for data

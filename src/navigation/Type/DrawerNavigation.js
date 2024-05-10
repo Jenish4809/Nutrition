@@ -9,7 +9,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Local imports
-import { StackNav } from "../NavigationKeys";
+import { StackNav, TopTabNav } from "../NavigationKeys";
 import { DrawerRoute } from "../NavigationRoutes";
 import { colors } from "../../themes/colors";
 import { moderateScale } from "../../common/constants";
@@ -93,9 +93,20 @@ function CustomDrawerContent(props) {
       });
     }
   };
+
+  const onPressTopTab = () => {
+    props.navigation.navigate(StackNav.TopTabNavigation);
+  };
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
+      <DrawerItem
+        label="Query/Feedback"
+        labelStyle={localStyle.label1}
+        style={localStyle.main1}
+        onPress={onPressTopTab}
+      />
       <DrawerItem
         label="LogOut"
         labelStyle={localStyle.label}
@@ -114,5 +125,13 @@ const localStyle = StyleSheet.create({
     color: colors.pwhite,
     ...typography.fontSizes.f18,
     ...typography.fontWeights.CoiniRegular,
+  },
+  label1: {
+    ...typography.fontSizes.f16,
+    color: colors.black,
+    ...typography.fontWeights.NunitoBlack,
+  },
+  main1: {
+    backgroundColor: colors.white,
   },
 });
