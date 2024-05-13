@@ -93,6 +93,10 @@ export default function StackNavigation() {
         name={StackNav.ViewAllRecepie}
         component={StackRoute.ViewAllRecepie}
       />
+      <Stack.Screen
+        name={StackNav.TrendingRecepie}
+        component={StackRoute.TrendingRecepie}
+      />
     </Stack.Navigator>
   );
 }

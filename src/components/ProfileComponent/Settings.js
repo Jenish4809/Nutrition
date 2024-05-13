@@ -114,7 +114,7 @@ const Settings = ({ navigation }) => {
           selectedTextStyle={localStyles.selectedTextStyle}
           inputSearchStyle={localStyles.inputSearchStyle}
           data={IndianLanguages}
-          search
+          search={true}
           placeholder={!isFocus ? "Select Language" : "..."}
           maxHeight={300}
           labelField="label"
@@ -220,7 +220,7 @@ const localStyles = StyleSheet.create({
   },
   container: {
     backgroundColor: colors.white,
-    ...styles.mh30,
+    ...styles.mh35,
   },
   dropdown: {
     height: moderateScale(50),
@@ -233,6 +233,7 @@ const localStyles = StyleSheet.create({
     ...typography.fontSizes.f14,
     ...typography.fontWeights.ExtraBold,
     color: colors.fontbody,
+    ...styles.ml10,
   },
   selectedTextStyle: {
     ...typography.fontSizes.f14,

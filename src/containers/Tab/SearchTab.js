@@ -32,9 +32,10 @@ const SearchTab = ({ navigation }) => {
   // All states are here
   const [search, setSearch] = useState("");
   const [newData, setNewData] = useState();
-  const [isFilter, setIsFilter] = useState(newData);
+  const [isFilter, setIsFilter] = useState();
   const [newFood, setNewFood] = useState();
-  const [isFilterFood, setIsFilterFood] = useState(newFood);
+  const [isFilterFood, setIsFilterFood] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   // useefect for search the data
   useEffect(() => {
@@ -47,6 +48,16 @@ const SearchTab = ({ navigation }) => {
     FirebaseData();
   }, [search]);
 
+  if (search && isLoading) {
+    return (
+      <View style={localStyles.searchview}>
+        <Image source={images.loadingspinner} style={localStyles.searchimage} />
+        <CText type={"E17"} color={colors.fontbody} align={"center"}>
+          {CommonString.pleaseWait}
+        </CText>
+      </View>
+    );
+  }
   // handleonPress for go to the recepie description
   const handleRecepiePress = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
@@ -98,10 +109,12 @@ const SearchTab = ({ navigation }) => {
       item.name.toLowerCase().includes(text.toLowerCase())
     );
     setIsFilter(filtered);
+    setIsLoading(false);
     const filteredFood = newFood.filter((item) =>
       item.foodName.toLowerCase().includes(text.toLowerCase())
     );
     setIsFilterFood(filteredFood);
+    setIsLoading(false);
   };
 
   // render the poster recepie function
@@ -124,7 +137,7 @@ const SearchTab = ({ navigation }) => {
                 </CText>
                 <Image source={images.usericon} style={localStyles.timeicon} />
                 <CText type={"E15"} color={colors.textbg}>
-                  {item.serve}
+                  {`${item.serve} Serve`}
                 </CText>
               </View>
               <View>
@@ -415,5 +428,15 @@ const localStyles = StyleSheet.create({
   },
   vieall2: {
     ...styles.mt20,
+  },
+  searchimage: {
+    height: moderateScale(156),
+    width: moderateScale(156),
+    resizeMode: "contain",
+  },
+  searchview: {
+    ...styles.flexCenter,
+    backgroundColor: colors.white,
+    gap: moderateScale(20),
   },
 });

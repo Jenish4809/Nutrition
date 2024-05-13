@@ -38,6 +38,7 @@ import ViewAllRecepie from "../components/ViewAll/ViewAllRecepie.js";
 import TopTabNavigation from "./Type/TopTabNavigation.js";
 import Query from "../containers/auth/Query/Query.js";
 import Feedback from "../containers/auth/Query/Feedback.js";
+import TrendingRecepie from "../components/TrendingRecepie/TrendingRecepie.js";
 
 export const StackRoute = {
   Splash,
@@ -62,6 +63,7 @@ export const StackRoute = {
   DrawerNavigation,
   ViewAllFood,
   ViewAllRecepie,
+  TrendingRecepie,
 };
 
 export const AuthRoute = {

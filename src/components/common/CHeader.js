@@ -18,23 +18,31 @@ const CHeader = ({
   LeftIcon,
   onPressBack,
   RighIcon,
+  align,
+  extraSty,
+  back,
 }) => {
   const navigation = useNavigation();
 
   const goBack = () => navigation.goBack();
   return (
-    <View style={localStyles.main}>
+    <View style={extraSty || localStyles.main}>
       {!!LeftIcon ? (
         <Ionicons
           onPress={onPressBack || goBack}
           name="chevron-back"
           size={moderateScale(32)}
-          style={localStyles.backicon}
+          style={back || localStyles.backicon}
         />
       ) : (
         <View style={localStyles.icon2}></View>
       )}
-      <CText type={type} color={color} style={style || localStyles.ctext}>
+      <CText
+        type={type}
+        color={color}
+        style={style || localStyles.ctext}
+        align={align}
+      >
         {title}
       </CText>
       {!!RighIcon && <RighIcon />}

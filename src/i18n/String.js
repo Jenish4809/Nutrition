@@ -133,7 +133,6 @@ export const CommonString = {
   recepie: "Recepie",
   ingredient: "Ingredients",
   addtofav: "Add to Favourite",
-  search: "Search food and recepies",
   hot: "Hot Now",
   bestvegetable: "best vegetable recipes",
   coldvegetable: "cold season vegetables",
@@ -189,4 +188,6 @@ export const CommonString = {
   all1: "All",
   favourite1: "Favourite",
   trending1: "Trending",
+  trendingRec: "Trending Recepie",
+  pleaseWait: "Please wait a moment.\n We are processing your search request.",
 };

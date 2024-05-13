@@ -39,6 +39,7 @@ const HomeTab = ({ navigation }) => {
 
   const db = FIREBASE_DB;
 
+  // useeffect for get all the food and recepie data
   useEffect(() => {
     const NewUi = async () => {
       const data = await newDataHere("fooddata");
@@ -58,14 +59,17 @@ const HomeTab = ({ navigation }) => {
     getUserName();
   }, []);
 
+  // onPress for handle the food as per categoryPress
   const handleFoodPress = (categoryId) => {
     setActiveCategory(categoryId);
   };
 
+  // onPress for handle the recepie as per categoryPress
   const handleRecepiePress = (categoryId) => {
     setActiveRecepie(categoryId);
   };
 
+  // case for set the food data
   let displayedFoods;
   switch (activecategoty) {
     case 1:
@@ -82,6 +86,7 @@ const HomeTab = ({ navigation }) => {
       break;
   }
 
+  // case for set the recepie data
   let displayRecepie;
   switch (activeRecepie) {
     case 1:
@@ -260,7 +265,7 @@ const HomeTab = ({ navigation }) => {
 
   // onPress contact function for the contactus page
   const onPressContact = () => {
-    navigation.navigate(StackNav.ChatWithUs);
+    navigation.navigate(StackNav.HelpCenter);
   };
 
   // navigate to all food
@@ -275,7 +280,7 @@ const HomeTab = ({ navigation }) => {
 
   // onPress week to view recepies trending
   const onPressWeek = () => {
-    navigation.navigate(StackNav.ViewAllRecepie);
+    navigation.navigate(StackNav.TrendingRecepie);
   };
 
   return (

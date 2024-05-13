@@ -12,6 +12,7 @@ import { Image } from "react-native";
 import { StackNav } from "../../navigation/NavigationKeys";
 import { CLoader } from "../../components/common/CLoader";
 import { newDataHere } from "../common/CDataGetFirebase";
+import CHeader from "../common/CHeader";
 
 const ViewAllFood = ({ navigation }) => {
   const [allFood, setAllFood] = useState();
@@ -56,9 +57,13 @@ const ViewAllFood = ({ navigation }) => {
   return (
     <View style={localStyles.main}>
       <View style={localStyles.innerview}>
-        <CText align={"center"} type={"C30"} color={colors.green}>
-          {CommonString.allfood}
-        </CText>
+        <CHeader
+          align={"center"}
+          type={"C30"}
+          color={colors.green}
+          title={CommonString.allfood}
+          LeftIcon={true}
+        />
         <FlatList
           data={allFood}
           renderItem={renderFood}

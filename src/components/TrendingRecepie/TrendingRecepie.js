@@ -1,48 +1,50 @@
-// Library imports
+// Library Imports
 import {
   View,
+  TouchableOpacity,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
   ImageBackground,
   Image,
 } from "react-native";
+import React, { useEffect, useState } from "react";
 
 // Local Imports
-import React, { useEffect, useState } from "react";
 import { styles } from "../../themes";
 import { colors } from "../../themes/colors";
+import { newDataHere } from "../common/CDataGetFirebase";
 import CText from "../common/CText";
 import { CommonString } from "../../i18n/String";
 import { moderateScale } from "../../common/constants";
-import { StackNav } from "../../navigation/NavigationKeys";
 import images from "../../assets/images";
-import { CLoader } from "../../components/common/CLoader";
-import { newDataHere } from "../common/CDataGetFirebase";
+import { StackNav } from "../../navigation/NavigationKeys";
+import { CLoader } from "../common/CLoader";
 import CHeader from "../common/CHeader";
 
-const ViewAllFood = ({ navigation }) => {
-  const [allRecepie, setAllRecepie] = useState();
-  const [loading, setLoading] = useState(true);
+const TrendingRecepie = ({ navigation }) => {
+  const [trendingRecepie, setTrendingRecepie] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-  //  useeffect for get recepie all data from firebase
   useEffect(() => {
-    const getAllRecepieData = async () => {
-      const allRecepieGet = await newDataHere("RecepieData");
-      setAllRecepie(allRecepieGet);
-      setLoading(false);
-    };
-    getAllRecepieData();
+    trendingRecepieGet();
   }, []);
 
-  if (!!loading) {
-    return <CLoader />;
-  }
+  // get the trending recepie data
+  const trendingRecepieGet = async () => {
+    const getRecepie = await newDataHere("Trending Recepie");
+    setTrendingRecepie(getRecepie);
+    setIsLoading(false);
+  };
+
   // press for the recepie data
   const handleOnPressRecepie = (item) => {
     navigation.navigate(StackNav.LikedRecepieDesc, { item });
   };
 
+  // loader for waiting to get data
+  if (isLoading) {
+    return <CLoader />;
+  }
   // render the recepie
   const renderRecepie = ({ item }) => {
     return (
@@ -83,16 +85,19 @@ const ViewAllFood = ({ navigation }) => {
   };
   return (
     <View style={localStyles.main}>
-      <View style={localStyles.innerview}>
+      <View style={localStyles.innerView}>
         <CHeader
+          title={CommonString.trendingRec}
+          LeftIcon={true}
           align={"center"}
           type={"C30"}
           color={colors.green}
-          title={CommonString.allRecepie}
-          LeftIcon={true}
+          extraSty={localStyles.headerview}
+          style={localStyles.headertext}
+          back={localStyles.backicon}
         />
         <FlatList
-          data={allRecepie}
+          data={trendingRecepie}
           renderItem={renderRecepie}
           showsVerticalScrollIndicator={false}
         />
@@ -101,17 +106,16 @@ const ViewAllFood = ({ navigation }) => {
   );
 };
 
-export default ViewAllFood;
+export default TrendingRecepie;
 
 const localStyles = StyleSheet.create({
   main: {
     ...styles.flex,
     backgroundColor: colors.white,
   },
-  innerview: {
-    flex: 1,
-    ...styles.mh15,
-    ...styles.mt20,
+  innerView: {
+    ...styles.mh20,
+    ...styles.mt10,
   },
   posterview: {
     height: moderateScale(237),
@@ -145,5 +149,14 @@ const localStyles = StyleSheet.create({
   servetext: {
     ...styles.flexRow,
     gap: moderateScale(6),
+  },
+  headerview: {
+    ...styles.flexcenterrow,
+  },
+  headertext: {
+    ...styles.ml30,
+  },
+  backicon: {
+    marginLeft: moderateScale(0),
   },
 });

@@ -78,4 +78,5 @@ export default {
   ingredient4: require("./ingredient4.png"),
   foodprofile: require("./Food/FoodProfile.jpeg"),
   recepieprofile: require("./Food/RecepieProfile .jpeg"),
+  loadingspinner: require("./loadingspinner.png"),
 };
