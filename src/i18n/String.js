@@ -186,4 +186,7 @@ export const CommonString = {
   sendFeedback: "Feedback has been send",
   deleteqry: "Delete Query",
   deletefeed: "Delete Feedback",
+  all1: "All",
+  favourite1: "Favourite",
+  trending1: "Trending",
 };

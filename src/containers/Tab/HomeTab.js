@@ -9,7 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { FIREBASE_AUTH, FIREBASE_DB } from "../../../firebaseConfig";
+import { FIREBASE_DB } from "../../../firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
@@ -21,7 +21,7 @@ import { styles } from "../../themes";
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import { StackNav } from "../../navigation/NavigationKeys";
-import { FoodCategoryTypes } from "../../api/constant";
+import { FoodCategoryTypes, RecepieCategoryTypes } from "../../api/constant";
 import { newDataHere } from "../../components/common/CDataGetFirebase";
 
 // HomeTab Component
@@ -31,17 +31,11 @@ const HomeTab = ({ navigation }) => {
   const [allFood, setAllFood] = useState();
   const [trendingFood, setTrendingFood] = useState();
   const [favouriteFood, setFavouriteFood] = useState();
-  const [selectedData, setSelectedData] = useState(allFood);
   const [allRecepie, setAllRecepie] = useState();
   const [trendingRecepie, setTrendingRecepie] = useState();
   const [favouriteRecepie, setFavouriteRecepie] = useState();
-  const [selectedPoster, setSelectedPoster] = useState(allRecepie);
-  const [selectedFoodCategory, setSelectedFoodCategory] = useState(
-    CommonString.all
-  );
-  const [selectedRecepieCategory, setSelectedRecepieCategory] = useState(
-    CommonString.all
-  );
+  const [activecategoty, setActiveCategory] = useState(1);
+  const [activeRecepie, setActiveRecepie] = useState(1);
 
   const db = FIREBASE_DB;
 
@@ -64,10 +58,45 @@ const HomeTab = ({ navigation }) => {
     getUserName();
   }, []);
 
-  useEffect(() => {
-    getFoodCatgoryData();
-    getRecepieCategoryData();
-  }, [selectedFoodCategory, selectedRecepieCategory]);
+  const handleFoodPress = (categoryId) => {
+    setActiveCategory(categoryId);
+  };
+
+  const handleRecepiePress = (categoryId) => {
+    setActiveRecepie(categoryId);
+  };
+
+  let displayedFoods;
+  switch (activecategoty) {
+    case 1:
+      displayedFoods = allFood;
+      break;
+    case 2:
+      displayedFoods = favouriteFood;
+      break;
+    case 3:
+      displayedFoods = trendingFood;
+      break;
+    default:
+      displayedFoods = allFood;
+      break;
+  }
+
+  let displayRecepie;
+  switch (activeRecepie) {
+    case 1:
+      displayRecepie = allRecepie;
+      break;
+    case 2:
+      displayRecepie = favouriteRecepie;
+      break;
+    case 3:
+      displayRecepie = trendingRecepie;
+      break;
+    default:
+      displayRecepie = allRecepie;
+      break;
+  }
 
   // get the userName from the Firebasde
   const getUserName = async () => {
@@ -126,36 +155,6 @@ const HomeTab = ({ navigation }) => {
     );
   };
 
-  // onPress for change the data between 3 categories of food
-  // (All, Trending, Favourite)
-  const getFoodCatgoryData = () => {
-    switch (selectedFoodCategory) {
-      case CommonString.all:
-        return setSelectedData(allFood);
-      case CommonString.favourite:
-        return setSelectedData(favouriteFood);
-      case CommonString.trending:
-        return setSelectedData(trendingFood);
-      default:
-        return setSelectedData(allFood);
-    }
-  };
-
-  // onPress for change the data between 3 categories of recepie
-  // (All, Trending, Favourite)
-  const getRecepieCategoryData = () => {
-    switch (selectedRecepieCategory) {
-      case CommonString.all:
-        return setSelectedPoster(allRecepie);
-      case CommonString.favourite:
-        return setSelectedPoster(favouriteRecepie);
-      case CommonString.trending:
-        return setSelectedPoster(trendingRecepie);
-      default:
-        return setSelectedPoster(allRecepie);
-    }
-  };
-
   // onPress render the food burger category
   const onPressRenderBurger = ({ item }) => {
     return (
@@ -196,19 +195,17 @@ const HomeTab = ({ navigation }) => {
   };
 
   // Common button for the category of food and recepie
-  const CommonTypes = ({ setState }) => {
+  const CommonTypes = ({ dataTypes, handleCategoryPress, active }) => {
     return (
       <View style={localStyles.allView}>
-        {FoodCategoryTypes.map((item) => (
-          <TouchableOpacity onPress={() => setState(item.name)} key={item.id}>
+        {dataTypes.map((item) => (
+          <TouchableOpacity
+            onPress={() => handleCategoryPress(item.id)}
+            key={item.id}
+          >
             <CText
               type={"E17"}
-              color={
-                selectedFoodCategory === item.name ||
-                selectedRecepieCategory === item.name
-                  ? colors.fontbody
-                  : colors.gray
-              }
+              color={active === item.id ? colors.fontbody : colors.gray}
             >
               {item.name}
             </CText>
@@ -324,10 +321,14 @@ const HomeTab = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         <CommonTitle title={CommonString.foods} onPress={ViewAllFood} />
-        <CommonTypes setState={setSelectedFoodCategory} />
+        <CommonTypes
+          dataTypes={FoodCategoryTypes}
+          handleCategoryPress={handleFoodPress}
+          active={activecategoty}
+        />
         {/* // FlatList for the food data */}
         <FlatList
-          data={selectedData?.slice(0, 4)}
+          data={displayedFoods?.slice(0, 4)}
           renderItem={onPressRenderBurger}
           showsHorizontalScrollIndicator={false}
           numColumns={2}
@@ -338,10 +339,14 @@ const HomeTab = ({ navigation }) => {
           columnWrapperStyle={localStyles.rendercolumndata}
         />
         <CommonTitle title={CommonString.recepie} onPress={ViewAllRecepie} />
-        <CommonTypes setState={setSelectedRecepieCategory} />
+        <CommonTypes
+          dataTypes={RecepieCategoryTypes}
+          handleCategoryPress={handleRecepiePress}
+          active={activeRecepie}
+        />
         {/* // FlatList for the recepie data */}
         <FlatList
-          data={selectedPoster?.slice(0, 2)}
+          data={displayRecepie?.slice(0, 2)}
           renderItem={PosterRender}
           scrollEnabled={false}
           bounces={false}

@@ -176,6 +176,12 @@ export const FoodCategoryTypes = [
   { id: 3, name: CommonString.trending },
 ];
 
+export const RecepieCategoryTypes = [
+  { id: 1, name: CommonString.all1 },
+  { id: 2, name: CommonString.favourite1 },
+  { id: 3, name: CommonString.trending1 },
+];
+
 export const FAQs = [
   {
     id: 1,
