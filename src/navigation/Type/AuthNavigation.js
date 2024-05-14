@@ -10,7 +10,7 @@ export default function AuthNavigation() {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={AuthNav.SignUpScreen}
+      initialRouteName={AuthNav.Login}
     >
       <Stack.Screen
         name={AuthNav.SignUpScreen}

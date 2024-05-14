@@ -11,7 +11,6 @@ import { moderateScale, screenHeight, screenWidth } from "../common/constants";
 import typography from "../themes/typography";
 import CButton from "../components/common/CButton";
 import { StackNav } from "../navigation/NavigationKeys";
-import { AuthNav } from "../navigation/NavigationKeys";
 import CText from "../components/common/CText";
 import { CommonString } from "../i18n/String";
 import { LoginButton } from "../components/common/CLoginButton";
@@ -35,7 +34,7 @@ export default function OnBoarding({ navigation }) {
     setOnBoarding(true);
     navigation.reset({
       index: 0,
-      routes: [{ name: StackNav.AuthNavigation, screen: AuthNav.Login }],
+      routes: [{ name: StackNav.AuthNavigation }],
     });
   };
 

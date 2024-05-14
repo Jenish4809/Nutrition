@@ -16,7 +16,6 @@ import { CommonString } from "../../i18n/String";
 import { moderateScale } from "../../common/constants";
 import images from "../../assets/images";
 import CText from "../common/CText";
-import CButton from "../common/CButton";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import typography from "../../themes/typography";
 import { FoodIngredient12 } from "../../api/constant";
@@ -41,7 +40,7 @@ const LikedRecepieDesc = ({ route }) => {
         color={colors.fonttile}
         LeftIcon={true}
       />
-      <ScrollView>
+      <ScrollView style={localStyles.scroll} bounces={false}>
         <Image source={{ uri: item.url }} style={localStyles.poster} />
         <View style={localStyles.innerview}>
           <View style={localStyles.starview}>
@@ -125,7 +124,6 @@ const LikedRecepieDesc = ({ route }) => {
               </CText>
             </View>
           </View>
-          <CButton name={CommonString.addtofav} extraSty={localStyles.btnsty} />
         </View>
       </ScrollView>
     </View>
@@ -190,9 +188,6 @@ const localStyles = StyleSheet.create({
     ...styles.p20,
     ...styles.m10,
   },
-  btnsty: {
-    ...styles.mv20,
-  },
   heartview: {
     backgroundColor: colors.btncolor,
     ...styles.p10,
@@ -206,8 +201,7 @@ const localStyles = StyleSheet.create({
     ...typography.fontSizes.f20,
     color: colors.green,
   },
-  likeicon: {
-    ...typography.fontSizes.f20,
-    color: colors.green,
+  scroll: {
+    ...styles.mb15,
   },
 });

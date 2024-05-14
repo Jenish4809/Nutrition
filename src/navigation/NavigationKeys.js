@@ -25,7 +25,6 @@ export const StackNav = {
 };
 
 export const AuthNav = {
-  AuthNavigation: "AuthNavigation",
   SignUpScreen: "SignUpScreen",
   OtpVerificationScreen: "OtpVerificationScreen",
   UploadPhoto: "UploadPhoto",
