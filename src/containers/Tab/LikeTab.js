@@ -24,8 +24,6 @@ import { StackNav, TabNav } from "../../navigation/NavigationKeys";
 import { CLoader } from "../../components/common/CLoader";
 import { newDataHere } from "../../components/common/CDataGetFirebase";
 import { Filter } from "../../assets/svg";
-import CCheckbox from "../../components/common/CCheckBox";
-import CDivider from "../../components/common/CDivider";
 
 // LikeTab component
 const LikeTab = ({ navigation }) => {
@@ -34,7 +32,6 @@ const LikeTab = ({ navigation }) => {
   const [food, setFood] = useState();
   const [recepie, setRecepie] = useState();
   const [select, setSelect] = useState();
-  const [selectedItems, setSelectedItems] = useState([]);
   const [filtered, setFiltered] = useState("");
 
   let ref = useRef(null);
@@ -182,35 +179,6 @@ const LikeTab = ({ navigation }) => {
     setFiltered(filteredData);
   };
 
-  // Toggle funtion for select checkbox
-  const toggleItemSelection = (id) => {
-    const isSelected = selectedItems.includes(id);
-
-    if (isSelected) {
-      setSelectedItems(selectedItems.filter((item) => item !== id));
-    } else {
-      setSelectedItems([...selectedItems, id]);
-    }
-  };
-
-  // Render component for Category
-  const renderCategorycousine = ({ item }) => {
-    const isSelected = selectedItems.includes(item.id);
-    return (
-      <View>
-        <View style={localStyles.category}>
-          <CText type={"E17"} color={colors.fontbody}>
-            {item.food}
-          </CText>
-          <CCheckbox
-            checked={isSelected}
-            onChange={() => toggleItemSelection(item.id)}
-          />
-        </View>
-        <CDivider />
-      </View>
-    );
-  };
   // onPress for go to the fav food description
   const handleOnpress = (item) => {
     navigation.navigate(StackNav.LikedFoodDesc, { item });
@@ -340,18 +308,6 @@ const LikeTab = ({ navigation }) => {
             keyExtractor={(item) => item.id.toString()}
             extraData={select}
           />
-          <CText
-            type={"C20"}
-            color={colors.fonttile}
-            style={localStyles.termstext}
-          >
-            {CommonString.cuisine}
-          </CText>
-          <FlatList
-            data={FoodCategory}
-            renderItem={renderCategorycousine}
-            keyExtractor={(item) => item.id.toString()}
-          />
         </View>
       </ActionSheet>
     </View>
@@ -463,9 +419,6 @@ const localStyles = StyleSheet.create({
     height: moderateScale(32),
     width: moderateScale(32),
   },
-  termstext: {
-    lineHeight: 22,
-  },
   timerview: {
     ...styles.m10,
     height: moderateScale(44),
@@ -474,10 +427,5 @@ const localStyles = StyleSheet.create({
     borderRadius: moderateScale(12),
     borderColor: colors.borders,
     borderWidth: moderateScale(2),
-  },
-  category: {
-    ...styles.m20,
-    ...styles.flexcenterrow,
-    ...styles.justifyBetween,
   },
 });

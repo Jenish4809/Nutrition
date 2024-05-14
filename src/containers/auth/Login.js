@@ -30,7 +30,7 @@ import { setAuthToken } from "../../utils/asyncstorage";
 const Login = ({ navigation }) => {
   // States for Login
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("Test@123");
+  const [password, setPassword] = useState("");
   let ref = useRef(null);
 
   const auth = FIREBASE_AUTH;
